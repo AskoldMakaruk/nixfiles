@@ -7,6 +7,12 @@ options = {
   };
 
   config = lib.mkIf config.batat.console.enable {
+
+   environment.systemPackages = with pkgs; [
+      zsh
+      tilda
+  ];
+
     programs.zsh = {
       enable = true;
 
