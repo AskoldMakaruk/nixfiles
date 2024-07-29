@@ -5,7 +5,12 @@
     [
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
+      ./parts
     ];
+
+    batat = {
+      console.enable = true;
+    }
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
