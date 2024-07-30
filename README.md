@@ -1,8 +1,14 @@
 This repository contains nix config for my system. 
+
 Stated goals are:
 - beautifuly napierdolena systema
 - easy to use work machine all custom perdoling should be justified
 - maximally confined to reasonable default where there is such 
+- minimazing specific knowledge I need to remebmer to work
+
+non-goals: 
+- performance optimizations (meh I use KDE not because it is fast but because it is not so slow)
+- saving time (maybe it'll payoff in a longrun)
 
 Config is split into parts.
 
@@ -46,4 +52,4 @@ Shell: zsh
 
 ## Honorable mentions of unjustified perdoling:
 - [alt] found alternative: custom alacritty fork with smooth scrooling https://github.com/alacritty/alacritty/pull/6705/files
-
+- [crazy]: term-roulette: open random terminal emulator each time (candidates wezterm, kitty, alacritty, tilda, cool-retro-term etc.)
