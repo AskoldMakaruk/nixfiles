@@ -140,8 +140,10 @@ programs.steam = {
         pkgs.dotnetCorePackages.sdk_8_0_3xx
 	pkgs.telegram-desktop
 	pkgs.git
-	vim
+	neovim
         pkgs.vimPlugins.LazyVim
+	nix-output-monitor # nom. for build logs
+
   ];
 
   # Enable the OpenSSH daemon.
