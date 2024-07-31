@@ -10,6 +10,7 @@
 
     batat = {
       console.enable = true;
+      editor.enable = true;
     };
 
   # Bootloader.
@@ -140,8 +141,6 @@ programs.steam = {
         pkgs.dotnetCorePackages.sdk_8_0_3xx
 	pkgs.telegram-desktop
 	pkgs.git
-	neovim
-        pkgs.vimPlugins.LazyVim
 	nix-output-monitor # nom. for build logs
 
   ];
@@ -149,7 +148,7 @@ programs.steam = {
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  system.stateVersion = "24.05";
+  system.stateVersion = "24.05"; # don't change
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 

@@ -33,6 +33,9 @@ Shell: zsh
 - [ ] todo: add rust, c# as optinal dependencies 
 - [ ] todo: setup dev postgres
 
+## Shortcuts
+- [ ] todo configure KWin maximaze window meta+shift+up shortcut
+
 ## Core utils
 - [ ] todo additional utils
  - usbutils
