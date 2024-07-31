@@ -20,6 +20,7 @@ Terminal emulator: tilda (for smoothscroll)
 Shell: zsh
 - [ ] todo: zsh plugins
 - [ ] todo: getting to know tilda and it's various configurations capabilities
+- [ ] todo: use direnv + nix-direnv for new package managment 
 
 ## Editors
 - [ ] todo: setup neovim

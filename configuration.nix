@@ -5,6 +5,7 @@
     [
       ./hardware-configuration.nix
       inputs.home-manager.nixosModules.home-manager
+      inputs.nixvim.nixosModules.nixvim
       ./parts
     ];
 

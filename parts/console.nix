@@ -1,4 +1,4 @@
-{ inputs, config, lib, pkgs, ...}:
+{ inputs, config, lib, pkgs, users, ...}:
 
 {
 options = {
@@ -11,19 +11,21 @@ options = {
    environment.systemPackages = with pkgs; [
       zsh
       tilda
+      nerdfonts
   ];
 
     programs.zsh = {
       enable = true;
 
       shellAliases = {
+        batat-test-c = "sudo echo -e '\\c';sudo nixos-rebuild test --option eval-cache false --flake $HOME/.dotfiles/flake.nix |& nom";
         batat-test = "sudo echo -e '\\c';sudo nixos-rebuild test --flake $HOME/.dotfiles/flake.nix |& nom";
         batat-roll = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/flake.nix |& nom";
         batat-edit = "nvim $HOME/.dotfiles/flake.nix";
         batat-gc = "nix-collect-garbage --delete-older-than 7d";
         grep = "grep --color=auto";
 
-	v = "nvim";
+	      v = "nvim";
       };
       autosuggestions.enable = true;
       histFile = "$HOME/.config/zsh_history";
