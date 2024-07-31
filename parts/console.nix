@@ -18,9 +18,9 @@ options = {
       enable = true;
 
       shellAliases = {
-        batat-test-c = "sudo echo -e '\\c';sudo nixos-rebuild test --option eval-cache false --flake $HOME/.dotfiles/flake.nix |& nom";
-        batat-test = "sudo echo -e '\\c';sudo nixos-rebuild test --flake $HOME/.dotfiles/flake.nix |& nom";
-        batat-roll = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/flake.nix |& nom";
+        batat-test-c = "sudo echo -e '\\c';sudo nixos-rebuild test --option eval-cache false --flake $HOME/.dotfiles/ |& nom";
+        batat-test = "sudo echo -e '\\c';sudo nixos-rebuild test --flake $HOME/.dotfiles/ |& nom";
+        batat-roll = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/ |& nom";
         batat-edit = "nvim $HOME/.dotfiles/flake.nix";
         batat-gc = "nix-collect-garbage --delete-older-than 7d";
         grep = "grep --color=auto";
