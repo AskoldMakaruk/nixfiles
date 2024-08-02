@@ -8,18 +8,24 @@
     programs.nixvim = {
       enable = true;
       extraPackages = with pkgs; [
-        luarocks
-        lua-language-server
         stylua
         ripgrep
         lazygit
         fd
+
         cmake
         gcc
-        shfmt # shell formatter
+        luarocks
 
-        rust-analyzer
+        wl-clipboard
+
         tree-sitter
+        shfmt # shell formatter
+        rust-analyzer
+        lua-language-server
+
+        nixfmt
+        rustfmt
       ];
 
       colorschemes.gruvbox.enable = true;
@@ -86,17 +92,12 @@
               },
               })
       '';
+      plugins.conform-nvim.enable = true;
+      plugins.conform-nvim.formattersByFt = {
+        rust = [ "rustfmt" ];
+        nix = [ "nixfmt" ];
+      };
     };
-    #  let
-    #    nixvim' = nivxim.legacyPackages."${system}";
-    #    nvim = nixvim'.makeNixvim config;
-    #  in
-    #  {
-    #    packages = {
-    #      inherit nvim;
-    #      default = nvim;
-    #    };
-    #  };
   };
 }
 
