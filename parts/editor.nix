@@ -16,7 +16,11 @@ config = lib.mkIf config.batat.editor.enable {
       lazygit
       fd
       cmake
+      gcc
       shfmt #shell formatter
+
+      rust-analyzer
+      tree-sitter
     ];
 
     colorschemes.gruvbox.enable = true;

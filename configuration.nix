@@ -143,6 +143,7 @@ programs.steam = {
 	pkgs.telegram-desktop
 	pkgs.git
 	nix-output-monitor # nom. for build logs
+  lazygit
 
   ];
 
