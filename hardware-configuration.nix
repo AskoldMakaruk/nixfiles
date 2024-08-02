@@ -4,31 +4,30 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" ];
+  boot.initrd.availableKernelModules =
+    [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/91fadd52-297e-4edd-91df-c0861bd49749";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/91fadd52-297e-4edd-91df-c0861bd49749";
+    fsType = "ext4";
+  };
 
-  boot.initrd.luks.devices."luks-48db38b7-ef55-4e46-95d1-cccdb00bc09b".device = "/dev/disk/by-uuid/48db38b7-ef55-4e46-95d1-cccdb00bc09b";
+  boot.initrd.luks.devices."luks-48db38b7-ef55-4e46-95d1-cccdb00bc09b".device =
+    "/dev/disk/by-uuid/48db38b7-ef55-4e46-95d1-cccdb00bc09b";
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4408-4D74";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/4408-4D74";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/90de3e65-5fc3-47e0-9da4-ce916918d13c"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/90de3e65-5fc3-47e0-9da4-ce916918d13c"; }];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
@@ -38,5 +37,6 @@
   # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

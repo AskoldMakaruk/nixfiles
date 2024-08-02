@@ -2,7 +2,7 @@
 
 {
   home = {
-    username ="askold";
+    username = "askold";
     homeDirectory = "/home/askold";
     stateVersion = "24.05";
   };
@@ -14,12 +14,12 @@
     NIXPKGS_ALLOW_UNFREE = "1";
     NIX_SHELL_INIT = "zsh";
   };
-  
+
   programs.git = {
     enable = true;
     userName = "Askold Makaruk";
     userEmail = "askoldmakaruk@gmail.com";
   };
-  
+
   programs.home-manager.enable = true;
 }

@@ -1,25 +1,25 @@
 { inputs, config, pkgs, ... }:
 
 {
-  imports =
-    [
-      ./hardware-configuration.nix
-      inputs.home-manager.nixosModules.home-manager
-      inputs.nixvim.nixosModules.nixvim
-      ./parts
-    ];
+  imports = [
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+    inputs.nixvim.nixosModules.nixvim
+    ./parts
+  ];
 
-    batat = {
-      console.enable = true;
-      editor.enable = true;
-    };
+  batat = {
+    console.enable = true;
+    editor.enable = true;
+  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-eaf71e1a-d918-465d-952b-dccb8ec90fe1".device = "/dev/disk/by-uuid/eaf71e1a-d918-465d-952b-dccb8ec90fe1";
-# boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.initrd.luks.devices."luks-eaf71e1a-d918-465d-952b-dccb8ec90fe1".device =
+    "/dev/disk/by-uuid/eaf71e1a-d918-465d-952b-dccb8ec90fe1";
+  # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -81,20 +81,18 @@
     #media-session.enable = true;
   };
 
-systemd.services.fprintd = {
-  wantedBy = [ "multi-user.target" ];
-  serviceConfig.Type = "simple";
-};
+  systemd.services.fprintd = {
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig.Type = "simple";
+  };
 
-services.fprintd.enable = true;
-services.fprintd.tod.enable = true;
-services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
+  services.fprintd.enable = true;
+  services.fprintd.tod.enable = true;
+  services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; }; 
-    users = {
-      askold = import ./home.nix;
-    };
+    extraSpecialArgs = { inherit inputs; };
+    users = { askold = import ./home.nix; };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -105,33 +103,32 @@ services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
     isNormalUser = true;
     description = "Askold";
     extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-      kdePackages.kate
-    ];
+    packages = with pkgs; [ kdePackages.kate ];
   };
 
   # Install firefox.
   programs.firefox.enable = true;
 
-# git
- # programs.git = {
+  # git
+  # programs.git = {
   #  enable = true;
   #  extraConfig = {
   #    user.name = "Askold Makaruk";
- #     user.email = "askoldmakaruk@gmail.com";
- #   };
- # };
+  #     user.email = "askoldmakaruk@gmail.com";
+  #   };
+  # };
 
   # Steam
-programs.steam = {
-  enable = true;
- extraCompatPackages = [
-        pkgs.proton-ge-bin
-      ];
-  remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-  dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-};
+  programs.steam = {
+    enable = true;
+    extraCompatPackages = [ pkgs.proton-ge-bin ];
+    remotePlay.openFirewall =
+      true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall =
+      true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall =
+      true; # Open ports in the firewall for Steam Local Network Game Transfers
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
@@ -139,11 +136,11 @@ programs.steam = {
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-        pkgs.dotnetCorePackages.sdk_8_0_3xx
-	pkgs.telegram-desktop
-	pkgs.git
-	nix-output-monitor # nom. for build logs
-  lazygit
+    pkgs.dotnetCorePackages.sdk_8_0_3xx
+    pkgs.telegram-desktop
+    pkgs.git
+    nix-output-monitor # nom. for build logs
+    lazygit
 
   ];
 
