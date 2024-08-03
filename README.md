@@ -13,7 +13,7 @@ non-goals:
 Config is split into parts.
 
 ## System managment
-- [ ] partly done: bash aliases for easier nix life (batat stack)
+- [x] done: bash aliases for easier nix life (batat stack)
 
 ## Console
 Terminal emulator: tilda (for smoothscroll)
@@ -23,7 +23,7 @@ Shell: zsh
 - [ ] todo: use direnv + nix-direnv for new package managment 
 
 ## Editors
-- [ ] todo: setup neovim
+- [x] done: setup neovim
 - [ ] todo: setup jetbrains tools
 
 ## Desktop enviroment
@@ -32,7 +32,7 @@ Shell: zsh
 
 ## Development
 - [ ] todo: add rust, c# as optinal dependencies 
-- [ ] todo: setup dev postgres
+- [a] active: setup dev postgres (nix-shell)
 
 ## Shortcuts
 - [ ] todo configure KWin maximaze window meta+shift+up shortcut

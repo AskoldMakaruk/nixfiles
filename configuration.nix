@@ -11,6 +11,7 @@
   batat = {
     console.enable = true;
     editor.enable = true;
+    database.enable = false;
   };
 
   # Bootloader.
