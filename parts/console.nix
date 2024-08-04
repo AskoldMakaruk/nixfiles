@@ -30,6 +30,8 @@
       fortune
       # strfile
       neo-cowsay
+
+      oh-my-posh
     ];
 
     programs.zsh = {
@@ -83,6 +85,7 @@
 
           "extract" # get files from archives
           "hitchhiker" # hh hhc
+          "oh-my-posh"
         ];
         theme = "robbyrussell";
       };
