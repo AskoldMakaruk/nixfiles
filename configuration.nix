@@ -1,4 +1,9 @@
-{ inputs, config, pkgs, ... }:
+{
+  inputs,
+  config,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -18,8 +23,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.initrd.luks.devices."luks-eaf71e1a-d918-465d-952b-dccb8ec90fe1".device =
-    "/dev/disk/by-uuid/eaf71e1a-d918-465d-952b-dccb8ec90fe1";
+  boot.initrd.luks.devices."luks-eaf71e1a-d918-465d-952b-dccb8ec90fe1".device = "/dev/disk/by-uuid/eaf71e1a-d918-465d-952b-dccb8ec90fe1";
   # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -92,8 +96,12 @@
   services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    users = { askold = import ./home.nix; };
+    extraSpecialArgs = {
+      inherit inputs;
+    };
+    users = {
+      askold = import ./home.nix;
+    };
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -103,7 +111,10 @@
   users.users.askold = {
     isNormalUser = true;
     description = "Askold";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [ kdePackages.kate ];
   };
 
@@ -123,12 +134,9 @@
   programs.steam = {
     enable = true;
     extraCompatPackages = [ pkgs.proton-ge-bin ];
-    remotePlay.openFirewall =
-      true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall =
-      true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall =
-      true; # Open ports in the firewall for Steam Local Network Game Transfers
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
   # Allow unfree packages
@@ -156,6 +164,9 @@
 
   system.stateVersion = "24.05"; # don't change
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
 }
