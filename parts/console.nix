@@ -76,7 +76,10 @@
           # <context> <query> where context is google youtube github or other search engine
           "web-search"
 
+          "rust"
+
           # "colorize" todo i think bat is a viable alternative
+          "theme" # change zsh theme
 
           "extract" # get files from archives
           "hitchhiker" # hh hhc
