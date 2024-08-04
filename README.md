@@ -21,6 +21,7 @@ Shell: zsh
 - [ ] todo: zsh plugins
 - [ ] todo: getting to know tilda and it's various configurations capabilities
 - [ ] todo: use direnv + nix-direnv for new package managment 
+- [ ] todo: .ssh/config file from nixos repo 
 
 ## Editors
 - [x] done: setup neovim

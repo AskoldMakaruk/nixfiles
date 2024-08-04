@@ -24,7 +24,7 @@
         rust-analyzer
         lua-language-server
 
-        nixfmt
+        nixfmt-rfc-style # todo later rename nixfmt
         rustfmt
       ];
 
