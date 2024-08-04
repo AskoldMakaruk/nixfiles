@@ -25,6 +25,11 @@
 
       # syntax highlighter for colorize plugin
       # chroma
+
+      # hitchhiker
+      fortune
+      # strfile
+      neo-cowsay
     ];
 
     programs.zsh = {
@@ -43,6 +48,9 @@
 
         v = "nvim";
         wb = "web-search";
+
+        hh = "hitchhiker";
+        hhc = "hitchhiker_cow";
       };
       enableCompletion = true;
       autosuggestions.enable = true;
@@ -71,7 +79,7 @@
           # "colorize" todo i think bat is a viable alternative
 
           "extract" # get files from archives
-
+          "hitchhiker" # hh hhc
         ];
         theme = "robbyrussell";
       };
