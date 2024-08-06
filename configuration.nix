@@ -100,8 +100,17 @@
       inherit inputs;
     };
     users = {
-      askold = import ./home.nix;
+      askold =
+        { ... }:
+        {
+          imports = [ ./home.nix ];
+        };
     };
+    backupFileExtension =
+      "backup-"
+      + pkgs.lib.readFile "${pkgs.runCommand "timestamp" { } "echo -n `date '+%Y%m%d%H%M%S'` > $out"}";
+
+    useGlobalPkgs = false;
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -158,7 +167,6 @@
     usbutils
 
   ];
-
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 

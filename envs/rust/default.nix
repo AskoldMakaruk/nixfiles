@@ -1,9 +1,12 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     rustc
     cargo
     gcc
+    lldb
     rustfmt
     clippy
     pkg-config
