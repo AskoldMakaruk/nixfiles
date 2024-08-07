@@ -5,6 +5,7 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     rustc
     cargo
+    cargo-watch
     gcc
     lldb
     rustfmt
