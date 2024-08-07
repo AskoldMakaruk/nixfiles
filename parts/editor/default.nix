@@ -78,9 +78,10 @@
           rust-tools-nvim
         ];
 
-        extraConfig = ''
-          :luafile ~/.config/nvim/init.lua
-        '';
+        # .vimrc
+        #        extraConfig = ''
+        #         :luafile ~/.config/nvim/lua/init.lua
+        #      '';
       };
       home.packages = with pkgs; [
         rust-analyzer
@@ -104,84 +105,20 @@
         nixfmt-rfc-style # todo later rename nixfmt
       ];
 
-      xdg.configFile.nvim = {
-        source = ./config;
-        recursive = true;
+      ## copying config 
+      ## todo investigate difference between xdg and home
+      ## may cause troubles 
+      home.file = {
+        ".config" = {
+          source = ./config;
+          recursive = true;
+        };
       };
+
+      #   xdg.configFile."nvim" = {
+      #     source = ./config;
+      #     recursive = true;
+      #   };
     };
-
-    #    programs.neovim = {
-    #      enable = true;
-
-    #      colorschemes.gruvbox.enable = true;
-    #      plugins.lightline.enable = true;
-    #
-    #      extraPlugins = with pkgs.vimPlugins; [
-    #        lazy-nvim
-    #        rust-vim
-    #      ];
-    #
-    #      extraConfigLua =
-    #        let
-    #          plugins = with pkgs.vimPlugins; [
-    #          ];
-    #          mkEntryFromDrv =
-    #            drv:
-    #            if lib.isDerivation drv then
-    #              {
-    #                name = "${lib.getName drv}";
-    #                path = drv;
-    #              }
-    #            else
-    #              drv;
-    #          lazyPath = pkgs.linkFarm "lazy-plugins" (builtins.map mkEntryFromDrv plugins);
-    #        in
-    #        ''
-    #                require("lazy").setup({
-    #          	defaults = {
-    #          	lazy = true,
-    #                },
-    #                dev = {
-    #                  path = "${lazyPath}",
-    #          	patters = { "." },
-    #          	fallback = true
-    #                },
-    #                spec = {
-    #                  { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    #          	{ "nvim-telescope/telescope-fzf-native.nvim", enabled = true },
-    #          	-- disable mason plugin manager because plugins are managed by nix
-    #          	{ "williamboman/mason-lspconfig.nvim", enabled = false },
-    #          	{ "williamboman/mason.nvim", enabled = false },
-    #          	-- import plugins
-    #          	{ import = "plugins" },
-    #          	-- treesitter config
-    #          	{ "nvim-treesitter/nvim-treesitter", opts = { ensure_installed = {"rust"} } },
-    #                },
-    #                })
-    #        '';
-    #      plugins.conform-nvim.enable = true;
-    #      plugins.conform-nvim.formattersByFt = {
-    #        rust = [ "rustfmt" ];
-    #        nix = [ "nixfmt" ];
-    #      };
-    #    };
   };
 }
-
-#};
-
-# https://github.com/nvim-treesitter/nvim-treesitter#i-get-query-error-invalid-node-type-at-position
-#xdg.configFile."nvim/parser".source =
-#  let
-#    parsers = pkgs.symlinkJoin {
-#      name = "treesitter-parsers";
-#      paths = (pkgs.vimPlugins.nvim-treesitter.withPlugins (plugins: with plugins; [
-#        c
-#        lua
-#      ])).dependencies;
-#    };
-#  in
-#  "${parsers}/parser";
-
-# Normal LazyVim config here, see https://github.com/LazyVim/starter/tree/main/lua
-# xdg.configFile."nvim/lua".source = ./lua;
