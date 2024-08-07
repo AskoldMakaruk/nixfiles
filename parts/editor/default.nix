@@ -12,7 +12,7 @@
   };
 
   config = lib.mkIf config.batat.editor.enable {
-    home-manager.users."askold" = {
+    home-manager.users.askold = {
       programs.neovim = {
         enable = true;
         plugins = with pkgs.vimPlugins; [
@@ -79,7 +79,7 @@
         ];
 
         extraConfig = ''
-          :luafile ~/.config/nvim/lua/init.lua
+          :luafile ~/.config/nvim/init.lua
         '';
       };
       home.packages = with pkgs; [
