@@ -76,6 +76,8 @@
           rustaceanvim
           rust-vim
           rust-tools-nvim
+
+          vim-ledger
         ];
 
         # .vimrc
@@ -101,6 +103,7 @@
         tree-sitter
         shfmt # shell formatter
         lua-language-server
+        ledger
 
         nixfmt-rfc-style # todo later rename nixfmt
       ];
