@@ -24,6 +24,7 @@
           vim-cool # don't highlight search results
           which-key-nvim # hints?
 
+          trouble-nvim # errors window
           # v/V to select region
           vim-expand-region
 
@@ -65,7 +66,6 @@
 
           persistence-nvim
           todo-comments-nvim
-          trouble-nvim
           vim-illuminate
 
           lazygit-nvim
