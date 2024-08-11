@@ -89,6 +89,8 @@
       home.packages = with pkgs; [
         #    rust-analyzer
         #  rustfmt
+        
+        fsautocomplete
 
         stylua
         ripgrep

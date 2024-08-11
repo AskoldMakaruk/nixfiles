@@ -23,6 +23,7 @@ require("lazy").setup({
     -- disable mason
     { "williamboman/mason-lspconfig.nvim", enabled = false },
     { "williamboman/mason.nvim", enabled = false },
+    { "ionide/Ionide-vim", enabled = true },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
