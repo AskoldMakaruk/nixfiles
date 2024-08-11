@@ -73,6 +73,7 @@
           obsidian-nvim
           # knap # live file preview
 
+          Ionide-vim #fsharp support
           rustaceanvim
           rust-vim
           rust-tools-nvim
