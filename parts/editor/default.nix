@@ -86,8 +86,8 @@
         #      '';
       };
       home.packages = with pkgs; [
-        rust-analyzer
-        rustfmt
+        #    rust-analyzer
+        #  rustfmt
 
         stylua
         ripgrep
