@@ -17,6 +17,7 @@
     console.enable = true;
     editor.enable = true;
     database.enable = false;
+    jetbrains.enable = true;
   };
 
   # Bootloader.
