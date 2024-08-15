@@ -45,7 +45,36 @@
           nvim-lspconfig # lsp
 
           none-ls-nvim # formating diagnostincs
-          conform-nvim
+                    {plugin = conform-nvim;
+            config = ''
+            packadd! conform-nvim.lua
+            lua << END
+  require 'conform-nvim'.setup {
+opts = function()
+  ---@type conform.setupOpts
+  local opts = {
+    default_format_opts = {
+      timeout_ms = 3000,
+      async = false, -- not recommended to change
+      quiet = false, -- not recommended to change
+      lsp_format = "fallback", -- not recommended to change
+    },
+    formatters_by_ft = {
+      lua = { "stylua" },
+      fish = { "fish_indent" },
+      sh = { "shfmt" },
+      rust = { "rustfmt" },
+    },
+    formatters = {
+      injected = { options = { ignore_errors = true } },
+    },
+  }
+  return opts
+end
+  }
+  END
+            '';
+}
 
           gitsigns-nvim
           neo-tree-nvim
