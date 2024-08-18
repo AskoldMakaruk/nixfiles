@@ -42,39 +42,49 @@
           cmp-nvim-lua
           cmp-nvim-lsp
           cmp-nvim-lsp-signature-help
-          nvim-lspconfig # lsp
+          {
+            plugin = nvim-lspconfig;
+            config = ''
+              vim.diagnostic.config({
+                virtual_text = false
+              })
 
-          none-ls-nvim # formating diagnostincs
-                    {plugin = conform-nvim;
+              -- Show line diagnostics automatically in hover window
+              vim.o.updatetime = 250
+              vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+            '';
+          }
+          {
+            plugin = conform-nvim;
             config = ''
             packadd! conform-nvim.lua
             lua << END
-  require 'conform-nvim'.setup {
-opts = function()
-  ---@type conform.setupOpts
-  local opts = {
-    default_format_opts = {
-      timeout_ms = 3000,
-      async = false, -- not recommended to change
-      quiet = false, -- not recommended to change
-      lsp_format = "fallback", -- not recommended to change
-    },
-    formatters_by_ft = {
-      lua = { "stylua" },
-      fish = { "fish_indent" },
-      sh = { "shfmt" },
-      rust = { "rustfmt" },
-    },
-    formatters = {
-      injected = { options = { ignore_errors = true } },
-    },
-  }
-  return opts
-end
-  }
-  END
+            require 'conform-nvim'.setup {
+              opts = function()
+                ---@type conform.setupOpts
+                local opts = {
+                  default_format_opts = {
+                    timeout_ms = 3000,
+                    async = false, -- not recommended to change
+                    quiet = false, -- not recommended to change
+                    lsp_format = "fallback", -- not recommended to change
+                  },
+                  formatters_by_ft = {
+                    lua = { "stylua" },
+                    fish = { "fish_indent" },
+                    sh = { "shfmt" },
+                    rust = { "rustfmt" },
+                  },
+                  formatters = {
+                    injected = { options = { ignore_errors = true } },
+                  },
+                }
+                return opts
+              end
+                }
+                END
             '';
-}
+          }
 
           gitsigns-nvim
           neo-tree-nvim
@@ -102,7 +112,7 @@ end
           obsidian-nvim
           # knap # live file preview
 
-          Ionide-vim #fsharp support
+          Ionide-vim # fsharp support
           rustaceanvim
           rust-vim
           rust-tools-nvim
@@ -118,7 +128,7 @@ end
       home.packages = with pkgs; [
         #    rust-analyzer
         #  rustfmt
-        
+
         fsautocomplete
 
         stylua
