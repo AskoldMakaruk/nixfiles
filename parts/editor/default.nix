@@ -28,9 +28,12 @@
           # v/V to select region
           vim-expand-region
 
-          # fuzzy search
-          telescope-fzf-native-nvim
+          # ui
           telescope-nvim
+          telescope-fzf-native-nvim
+          telescope-symbols-nvim
+          telescope-lsp-handlers-nvim
+          telescope-file-browser-nvim
 
           # intellisense
           nvim-cmp # engine
