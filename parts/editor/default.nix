@@ -114,18 +114,6 @@
           rust-tools-nvim
 
           vim-ledger
-          {
-            plugin =auto-session;
-            config = ''
-function()
-    require('auto-session').setup({
-      auto_session_suppress_dirs = { '~/', '~/Downloads', '/' },
-    })
-  end
-              '';
-            
-
-          }
         ];
       };
 
@@ -153,19 +141,12 @@ function()
       ];
 
       ## copying config 
-      ## todo investigate difference between xdg and home
-      ## may cause troubles 
       home.file = {
         ".config" = {
           source = ./config;
           recursive = true;
         };
       };
-
-      #   xdg.configFile."nvim" = {
-      #     source = ./config;
-      #     recursive = true;
-      #   };
     };
   };
 }
