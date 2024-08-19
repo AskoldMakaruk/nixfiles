@@ -167,6 +167,10 @@
     nettools
     usbutils
 
+    yazi
+    fzf
+    dblab
+
   ];
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;

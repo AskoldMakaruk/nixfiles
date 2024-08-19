@@ -51,6 +51,7 @@
               vim.diagnostic.config({
                 virtual_text = false
               })
+              vim.lsp.inlay_hint.enable(false)
 
               -- Show line diagnostics automatically in hover window
               vim.o.updatetime = 250
@@ -89,7 +90,6 @@
           gitsigns-nvim
           neo-tree-nvim
           nvim-lint
-          nvim-lspconfig
           nvim-spectre
 
           nvim-treesitter
