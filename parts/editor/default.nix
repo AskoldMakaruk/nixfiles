@@ -103,7 +103,6 @@
           vim-textobj-entire
           vim-closer
 
-          persistence-nvim
           todo-comments-nvim
           vim-illuminate
 
@@ -119,15 +118,9 @@
 
           vim-ledger
         ];
-
-        # .vimrc
-        #        extraConfig = ''
-        #         :luafile ~/.config/nvim/lua/init.lua
-        #      '';
       };
+
       home.packages = with pkgs; [
-        #    rust-analyzer
-        #  rustfmt
 
         fsautocomplete
 
