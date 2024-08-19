@@ -6,7 +6,8 @@ let
   libPath =
     with pkgs;
     lib.makeLibraryPath [
-      # load external libraries that you need in your rust project here
+      postgresql_16.lib
+      openssl
     ];
 in
 pkgs.mkShell rec {
