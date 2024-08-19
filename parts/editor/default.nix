@@ -57,9 +57,7 @@
           {
             plugin = conform-nvim;
             config = ''
-            packadd! conform-nvim.lua
-            lua << END
-            require 'conform-nvim'.setup {
+            require('conform-nvim').setup {
               opts = function()
                 ---@type conform.setupOpts
                 local opts = {
@@ -82,7 +80,6 @@
                 return opts
               end
                 }
-                END
             '';
           }
 
@@ -117,6 +114,18 @@
           rust-tools-nvim
 
           vim-ledger
+          {
+            plugin =auto-session;
+            config = ''
+function()
+    require('auto-session').setup({
+      auto_session_suppress_dirs = { '~/', '~/Downloads', '/' },
+    })
+  end
+              '';
+            
+
+          }
         ];
       };
 
