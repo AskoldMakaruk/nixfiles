@@ -92,6 +92,7 @@
 
     };
 
+
     users.defaultUserShell = pkgs.zsh;
     users.users.askold.shell = pkgs.zsh;
   };

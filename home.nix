@@ -33,5 +33,10 @@
     userEmail = "askoldmakaruk@gmail.com";
   };
 
+    programs.oh-my-posh = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
   programs.home-manager.enable = true;
 }
