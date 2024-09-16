@@ -71,6 +71,9 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
+  hardware.bluetooth.enable = true; 
+  hardware.bluetooth.powerOnBoot = true; 
+
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
@@ -130,15 +133,6 @@
 
   # Install firefox.
   programs.firefox.enable = true;
-
-  # git
-  # programs.git = {
-  #  enable = true;
-  #  extraConfig = {
-  #    user.name = "Askold Makaruk";
-  #     user.email = "askoldmakaruk@gmail.com";
-  #   };
-  # };
 
   # Steam
   programs.steam = {
