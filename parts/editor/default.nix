@@ -94,6 +94,7 @@
 
           nvim-treesitter
           nvim-treesitter.withAllGrammars
+          nvim-treesitter-parsers.godot_resource
           nvim-treesitter-context
           nvim-treesitter-textobjects
           nvim-comment # gcc
@@ -109,6 +110,8 @@
           lazygit-nvim
 
           obsidian-nvim
+
+          vim-godot
           # knap # live file preview
 
           Ionide-vim # fsharp support
