@@ -19,18 +19,7 @@
       tilda
       nerdfonts
       thefuck
-
-      # ls alternative
-      eza
-
-      # syntax highlighter for colorize plugin
-      # chroma
-
-      # hitchhiker
-      fortune
-      # strfile
-      neo-cowsay
-
+      eza  # ls alternative
       oh-my-posh
     ];
 
@@ -50,10 +39,6 @@
         zenv = ''nix-shell --command zsh $HOME/.dotfiles/envs/"$1"/'';
 
         v = "nvim";
-        wb = "web-search";
-
-        hh = "hitchhiker";
-        hhc = "hitchhiker_cow";
       };
       enableCompletion = true;
       autosuggestions.enable = true;
@@ -76,16 +61,11 @@
           # use git fix -s "api" "message"
           # git feat "message"
           "git-commit"
-          # <context> <query> where context is google youtube github or other search engine
-          "web-search"
-
           "rust"
-
           # "colorize" todo i think bat is a viable alternative
           "theme" # change zsh theme
 
           "extract" # get files from archives
-          "hitchhiker" # hh hhc
           "oh-my-posh"
         ];
         theme = "robbyrussell";
