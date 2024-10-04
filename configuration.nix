@@ -96,20 +96,10 @@
   # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
   home-manager = {
-    extraSpecialArgs = {
-      inherit inputs;
-    };
+    extraSpecialArgs = { inherit inputs; };
     users = {
-      askold =
-        { ... }:
-        {
-          imports = [ ./home.nix ];
-        };
+      askold = import ./home.nix;
     };
-    backupFileExtension =
-      "backup-"
-      + pkgs.lib.readFile "${pkgs.runCommand "timestamp" { } "echo -n `date '+%Y%m%d%H%M%S'` > $out"}";
-
     useGlobalPkgs = false;
   };
 
