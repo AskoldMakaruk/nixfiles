@@ -16,8 +16,9 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "tilda";
-    NIXPKGS_ALLOW_UNFREE = "1";
+    SHELL = "zsh";
     NIX_SHELL_INIT = "zsh";
+    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
   #   home.file = {
