@@ -43,6 +43,7 @@
         batat-roll = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/ |& nom";
         batat-edit = "cd $HOME/.dotfiles/ && nvim .";
         batat-gc = "nix-collect-garbage --delete-older-than 7d";
+        batat-upd = "nix flake update --flake $HOME/.dotfile/";
         grep = "grep --color=auto";
 
         nz = "nix-shell --command zsh";
