@@ -63,10 +63,7 @@
           "git-commit"
           "rust"
           # "colorize" todo i think bat is a viable alternative
-          "theme" # change zsh theme
-
           "extract" # get files from archives
-          "oh-my-posh"
         ];
         theme = "robbyrussell";
       };

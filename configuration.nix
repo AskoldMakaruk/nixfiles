@@ -100,6 +100,9 @@
     users = {
       askold = import ./home.nix;
     };
+     backupFileExtension =
+      "backup-"
+      + pkgs.lib.readFile "${pkgs.runCommand "timestamp" { } "echo -n `date '+%Y%m%d%H%M%S'` > $out"}";   
     useGlobalPkgs = false;
   };
 
