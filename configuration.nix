@@ -108,6 +108,8 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
+  #
+  virtualisation.docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.askold = {
@@ -116,6 +118,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker"
     ];
   };
 
