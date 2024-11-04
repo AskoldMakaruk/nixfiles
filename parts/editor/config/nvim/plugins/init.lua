@@ -1,6 +1,6 @@
-if true then
-  return {}
-end
+-- if true then
+--   return {}
+-- end
 
 return {
   { "ellisonleao/gruvbox.nvim" },
@@ -11,7 +11,6 @@ return {
       colorscheme = "gruvbox",
     },
   },
-
 
   -- change some telescope options and a keymap to browse plugin files
   -- {
@@ -42,8 +41,7 @@ return {
     ---@class PluginLspOpts
     opts = {
       ---@type lspconfig.options
-      servers = {
-      },
+      servers = {},
     },
   },
 
@@ -71,5 +69,13 @@ return {
   { import = "lazyvim.plugins.extras.ui.mini-starter" },
 
   -- add jsonls and schemastore packages, and setup treesitter for json, json5 and jsonc
+  {
+    "ray-x/go.nvim",
+    config = function()
+      require("go").setup()
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+  },
   { import = "lazyvim.plugins.extras.lang.json" },
 }
