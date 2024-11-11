@@ -19,12 +19,22 @@ require("lazy").setup({
     -- add LazyVim and import its plugins
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
     -- import/override with your plugins
-    { import = "plugins" },
+    -- { import = "plugins" },
     -- disable mason
     { "williamboman/mason-lspconfig.nvim", enabled = false },
     { "williamboman/mason.nvim", enabled = false },
     { "ionide/Ionide-vim", enabled = true },
     { "rafamadriz/friendly-snippets", enabled = false },
+    { "fatih/vim-go" },
+    {
+      "ray-x/go.nvim",
+      config = function()
+        require("go").setup()
+      end,
+      event = { "CmdlineEnter" },
+      ft = { "go", "gomod" },
+    },
+    -- { "ray-x/go.nvim" },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.
@@ -57,3 +67,9 @@ require("lazy").setup({
     },
   },
 })
+
+require("lspconfig").denols.setup({})
+
+vim.lsp.inlay_hint.enable(false)
+
+vim.opt.shell = "zsh"
