@@ -125,7 +125,7 @@
 
       home.packages = with pkgs; [
 
-        fsautocomplete
+        # fsautocomplete # built with deprecated dotnet version
 
         stylua
         ripgrep

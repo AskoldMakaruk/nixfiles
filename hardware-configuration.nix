@@ -6,6 +6,11 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  # Bootloader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.initrd.luks.devices."luks-eaf71e1a-d918-465d-952b-dccb8ec90fe1".device = "/dev/disk/by-uuid/eaf71e1a-d918-465d-952b-dccb8ec90fe1";
   boot.initrd.availableKernelModules =
     [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "sdhci_pci" ];
   boot.initrd.kernelModules = [ ];
@@ -27,7 +32,7 @@
   };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/90de3e65-5fc3-47e0-9da4-ce916918d13c"; }];
+   lib.mkForce [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's

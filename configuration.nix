@@ -20,20 +20,20 @@
     jetbrains.enable = true;
   };
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  boot.initrd.luks.devices."luks-eaf71e1a-d918-465d-952b-dccb8ec90fe1".device = "/dev/disk/by-uuid/eaf71e1a-d918-465d-952b-dccb8ec90fe1";
   # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable networking
-  networking.networkmanager.enable = true;
+  #networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Kyiv";
+
+              nixpkgs.config.permittedInsecurePackages = [
+                "dotnet-core-combined"
+              ];
+
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -86,10 +86,10 @@
     #media-session.enable = true;
   };
 
-  systemd.services.fprintd = {
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig.Type = "simple";
-  };
+  # systemd.services.fprintd = {
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig.Type = "simple";
+  # };
 
   # services.fprintd.enable = true;
   # services.fprintd.tod.enable = true;
@@ -137,7 +137,7 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  services.ollama.enable = true;
+  #services.ollama.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
