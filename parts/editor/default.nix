@@ -137,6 +137,7 @@
         luarocks
 
         wl-clipboard
+        xclip
 
         tree-sitter
         shfmt # shell formatter
