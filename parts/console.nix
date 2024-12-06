@@ -37,7 +37,7 @@
         grep = "grep --color=auto";
 
         nz = "nix-shell --command zsh";
-        zenv = ''nix-shell --command zsh $HOME/.dotfiles/envs/"$1"/'';
+        # zenv = "nix-shell --command zsh \"$HOME/.dotfiles/envs/$1/\""; todo create bash functions that handle such cases
 
         v = "nvim";
       };
