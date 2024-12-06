@@ -33,6 +33,7 @@
         batat-edit = "cd $HOME/.dotfiles/ && nvim .";
         batat-gc = "nix-collect-garbage --delete-older-than 7d";
         batat-upd = "nix flake update --flake $HOME/.dotfiles/";
+        batat-list = "nix-env --list-generations";
         grep = "grep --color=auto";
 
         nz = "nix-shell --command zsh";
