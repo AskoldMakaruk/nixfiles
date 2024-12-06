@@ -16,10 +16,9 @@ Config is split into parts.
 - [x] done: bash aliases for easier nix life (batat stack)
 
 ## Console
-Terminal emulator: tilda (for smoothscroll)
+Terminal emulator: konsole (i don't care anymore)
 Shell: zsh
 - [ ] todo: zsh plugins
-- [ ] todo: getting to know tilda and it's various configurations capabilities
 - [ ] todo: use direnv + nix-direnv for new package managment 
 - [ ] todo: .ssh/config file from nixos repo 
 

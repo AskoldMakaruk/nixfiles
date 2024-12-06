@@ -15,7 +15,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    TERMINAL = "tilda";
+    TERMINAL = "konsole";
     SHELL = "zsh";
     NIX_SHELL_INIT = "zsh";
     NIXPKGS_ALLOW_UNFREE = "1";

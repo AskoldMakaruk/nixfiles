@@ -16,7 +16,6 @@
 
     environment.systemPackages = with pkgs; [
       zsh
-      tilda
       nerdfonts
       thefuck
       eza  # ls alternative
