@@ -19,11 +19,12 @@
     database.enable = false;
     jetbrains.enable = true;
     vscode.enable = true;
+    piracy.enable = false;
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
   # Enable networking
   #networking.networkmanager.enable = true;
@@ -54,7 +55,7 @@
   services = {
     desktopManager.plasma6 = {
       enable = true;
-      enableQt5Integration = true; #disable for qt6 full version
+      enableQt5Integration = true; # disable for qt6 full version
     };
     displayManager = {
       defaultSession = "plasma";
@@ -75,8 +76,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = false;
 
-  hardware.bluetooth.enable = true; 
-  hardware.bluetooth.powerOnBoot = true; 
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.powerOnBoot = true;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -108,9 +109,9 @@
     users = {
       askold = import ./home.nix;
     };
-     backupFileExtension =
+    backupFileExtension =
       "backup-"
-      + pkgs.lib.readFile "${pkgs.runCommand "timestamp" { } "echo -n `date '+%Y%m%d%H%M%S'` > $out"}";   
+      + pkgs.lib.readFile "${pkgs.runCommand "timestamp" { } "echo -n `date '+%Y%m%d%H%M%S'` > $out"}";
     useGlobalPkgs = false;
   };
 
@@ -142,48 +143,21 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  # Allow unfree packages
   nixpkgs.config = {
     allowUnfree = true;
-    permittedInsecurePackages = [
-          "aspnetcore-runtime-6.0.36"
-          "aspnetcore-runtime-wrapped-6.0.36"
-          "dotnet-sdk-6.0.428"
-          "dotnet-sdk-wrapped-6.0.428"
-        ];
   };
-
-#   services.jellyfin = {
-#     enable = true;
-#     openFirewall = true;
-#     user="askold";
-#   }; 
-#
-# services.sonarr = {
-# enable = true;
-# openFirewall = true;
-#     user="askold";
-#     dataDir="/home/askold/Downloads/sonarr/";
-#  };
-#
-#   services.jackett = {
-#  enable = true;
-#     openFirewall = true;
-#     user = "askold";
-# };
-
-  #services.ollama.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    pkgs.dotnetCorePackages.sdk_8_0_3xx
-    pkgs.telegram-desktop
-    pkgs.git
+    dotnetCorePackages.sdk_8_0_3xx
+    telegram-desktop
     nix-output-monitor # nom. for build logs
-    lazygit
 
-    #tools 
+    lazygit
+    git
+
+    #tools
     nettools
     usbutils
 
@@ -191,12 +165,7 @@
     fzf
     dblab
 
-    jellyfin
-    jellyfin-web
-    jellyfin-ffmpeg
-
     blackbox-terminal
-
   ];
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
@@ -207,5 +176,4 @@
     "nix-command"
     "flakes"
   ];
-
 }
