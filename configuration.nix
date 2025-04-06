@@ -152,24 +152,24 @@
         ];
   };
 
-  services.jellyfin = {
-    enable = true;
-    openFirewall = true;
-    user="askold";
-  }; 
-
-services.sonarr = {
-enable = true;
-openFirewall = true;
-    user="askold";
-    dataDir="/home/askold/Downloads/sonarr/";
- };
-
-  services.jackett = {
- enable = true;
-    openFirewall = true;
-    user = "askold";
-};
+#   services.jellyfin = {
+#     enable = true;
+#     openFirewall = true;
+#     user="askold";
+#   }; 
+#
+# services.sonarr = {
+# enable = true;
+# openFirewall = true;
+#     user="askold";
+#     dataDir="/home/askold/Downloads/sonarr/";
+#  };
+#
+#   services.jackett = {
+#  enable = true;
+#     openFirewall = true;
+#     user = "askold";
+# };
 
   #services.ollama.enable = true;
 
