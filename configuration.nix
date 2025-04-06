@@ -15,7 +15,7 @@
 
   batat = {
     console.enable = true;
-    editor.enable = true;
+    nvim.enable = true;
     database.enable = false;
     jetbrains.enable = true;
     vscode.enable = true;

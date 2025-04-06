@@ -8,10 +8,10 @@
 
 {
   options = {
-    batat.editor.enable = lib.mkEnableOption "enables editors";
+    batat.nvim.enable = lib.mkEnableOption "enables nvim";
   };
 
-  config = lib.mkIf config.batat.editor.enable {
+  config = lib.mkIf config.batat.nvim.enable {
     home-manager.users.askold = {
 
       ## NEOVIM
