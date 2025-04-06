@@ -30,11 +30,6 @@
   # Set your time zone.
   time.timeZone = "Europe/Kyiv";
 
-              nixpkgs.config.permittedInsecurePackages = [
-                "dotnet-core-combined"
-              ];
-
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -55,8 +50,20 @@
   services.xserver.enable = true;
 
   # Enable the KDE Plasma Desktop Environment.
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  services = {
+    desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true; #disable for qt6 full version
+    };
+    displayManager = {
+      defaultSession = "plasma";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
+  };
+  # services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -135,7 +142,34 @@
   };
 
   # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+          "aspnetcore-runtime-6.0.36"
+          "aspnetcore-runtime-wrapped-6.0.36"
+          "dotnet-sdk-6.0.428"
+          "dotnet-sdk-wrapped-6.0.428"
+        ];
+  };
+
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+    user="askold";
+  }; 
+
+services.sonarr = {
+enable = true;
+openFirewall = true;
+    user="askold";
+    dataDir="/home/askold/Downloads/sonarr/";
+ };
+
+  services.jackett = {
+ enable = true;
+    openFirewall = true;
+    user = "askold";
+};
 
   #services.ollama.enable = true;
 
@@ -155,6 +189,12 @@
     yazi
     fzf
     dblab
+
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
+
+    blackbox-terminal
 
   ];
   # Enable the OpenSSH daemon.
