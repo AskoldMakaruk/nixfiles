@@ -18,6 +18,7 @@
     editor.enable = true;
     database.enable = false;
     jetbrains.enable = true;
+    vscode.enable = true;
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
