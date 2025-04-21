@@ -105,6 +105,14 @@
   # services.fprintd.tod.enable = true;
   # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+    loadModels = [
+      "gemma3"
+    ];
+  };
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
@@ -147,11 +155,11 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
-
+  programs.nix-ld.enable = true;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    dotnetCorePackages.sdk_8_0_3xx
+    dotnetCorePackages.sdk_9_0
     telegram-desktop
     nix-output-monitor # nom. for build logs
 
