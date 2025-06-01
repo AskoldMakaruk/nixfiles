@@ -69,6 +69,9 @@
         ];
         theme = "robbyrussell";
       };
+      promptInit = ''
+        eval "$(zoxide init zsh)"
+        '';
 
     };
 

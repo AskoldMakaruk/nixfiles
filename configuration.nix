@@ -172,6 +172,7 @@
 
     yazi
     fzf
+    zoxide
     dblab
 
     blackbox-terminal
