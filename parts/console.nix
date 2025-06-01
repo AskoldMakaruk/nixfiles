@@ -72,6 +72,9 @@
 
     };
 
+home-manager.users.askold = {
+  programs.zsh.initExtra = "source ${./functions.sh}";
+};
 
     users.defaultUserShell = pkgs.zsh;
     users.users.askold.shell = pkgs.zsh;
