@@ -1,3 +1,3 @@
 { stdenv }:
 
-stdenv.mkDerivation rec { config = { services.ollama.enable = true; }; }
+stdenv.mkDerivation rec { config = { services.ollama.enable = false; }; }

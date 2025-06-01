@@ -38,7 +38,7 @@
         nz = "nix-shell --command zsh";
         # zenv = "nix-shell --command zsh \"$HOME/.dotfiles/envs/$1/\""; todo create bash functions that handle such cases
 
-        ssh-start = "eval $(ssh-agent -s) && ssh-add";
+        ssh-init = "eval $(ssh-agent -s) && ssh-add";
 
         v = "nvim";
       };
