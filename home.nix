@@ -10,6 +10,7 @@
     username = "askold";
     homeDirectory = "/home/askold";
     stateVersion = "24.05";
+    sessionPath = ["$HOME/.dotnet/tools/"];
   };
 
   home.sessionVariables = {
