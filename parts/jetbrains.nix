@@ -1,12 +1,18 @@
-{ config, inputs, lib, pkgs, ...}:
 {
-options = {
+  config,
+  inputs,
+  lib,
+  pkgs,
+  ...
+}:
+{
+  options = {
     batat.jetbrains.enable = lib.mkEnableOption "enables jetbrains toolbox";
 
   };
 
-  config = lib.mkIf config.batat.jetbrains.enable{
+  config = lib.mkIf config.batat.jetbrains.enable {
 
-    environment.systemPackages = with pkgs; [jetbrains-toolbox];
+    environment.systemPackages = with pkgs; [ jetbrains-toolbox ];
   };
 }

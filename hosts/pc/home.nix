@@ -9,14 +9,14 @@
   home = {
     username = "askold";
     homeDirectory = "/home/askold";
-    stateVersion = "24.05";
+    stateVersion = "25.05";
     sessionPath = ["$HOME/.dotnet/tools/"];
   };
 
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
-    TERMINAL = "konsole";
+    TERMINAL = "ghostty";
     SHELL = "zsh";
     NIX_SHELL_INIT = "zsh";
     NIXPKGS_ALLOW_UNFREE = "1";

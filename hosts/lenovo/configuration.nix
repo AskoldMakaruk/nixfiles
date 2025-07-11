@@ -10,7 +10,7 @@
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
-    ./parts
+    ./../../parts
   ];
 
   batat = {
@@ -66,7 +66,6 @@
       };
     };
   };
-  # services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11
   services.xserver.xkb = {
@@ -76,24 +75,12 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = false;
-
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true;
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
   };
 
   # systemd.services.fprintd = {
@@ -104,14 +91,6 @@
   # services.fprintd.enable = true;
   # services.fprintd.tod.enable = true;
   # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
-
-  services.ollama = {
-    enable = true;
-    acceleration = "rocm";
-    loadModels = [
-      "gemma3"
-    ];
-  };
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
@@ -124,9 +103,6 @@
     useGlobalPkgs = false;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-  #
   virtualisation.docker.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -140,43 +116,9 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
-  # Steam
-  programs.steam = {
-    enable = true;
-    extraCompatPackages = [ pkgs.proton-ge-bin ];
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
-
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
   programs.nix-ld.enable = true;
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    dotnetCorePackages.sdk_9_0
-    telegram-desktop
-    nix-output-monitor # nom. for build logs
-
-    lazygit
-    git
-
-    #tools
-    nettools
-    usbutils
-
-    yazi
-    fzf
-    zoxide
-    dblab
-
-    blackbox-terminal
-  ];
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;

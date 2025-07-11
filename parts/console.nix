@@ -14,13 +14,15 @@
 
   config = lib.mkIf config.batat.console.enable {
 
-    environment.systemPackages = with pkgs; [
-      zsh
-      nerdfonts
-      thefuck
-      eza  # ls alternative
-      oh-my-posh
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        zsh
+        thefuck
+        eza # ls alternative
+        oh-my-posh
+      ]
+      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 
     programs.zsh = {
       enable = true;
@@ -71,13 +73,13 @@
       };
       promptInit = ''
         eval "$(zoxide init zsh)"
-        '';
+      '';
 
     };
 
-home-manager.users.askold = {
-  programs.zsh.initExtra = "source ${./functions.sh}";
-};
+    home-manager.users.askold = {
+      programs.zsh.initContent = "source ${./functions.sh}";
+    };
 
     users.defaultUserShell = pkgs.zsh;
     users.users.askold.shell = pkgs.zsh;
