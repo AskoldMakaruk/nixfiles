@@ -14,6 +14,7 @@
   ];
 
   batat = {
+    audio.enable = true;
     console.enable = true;
     kde.enable = true;
     nvim.enable = true;
@@ -35,14 +36,6 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
-  };
-
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
   };
 
   # systemd.services.fprintd = {
@@ -79,8 +72,7 @@
   };
 
   programs.nix-ld.enable = true;
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;

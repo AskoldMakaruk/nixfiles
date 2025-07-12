@@ -15,6 +15,7 @@
   ];
 
   batat = {
+    audio.enable = true;
     console.enable = true;
     kde.enable = true;
     nvim.enable = true;
@@ -48,16 +49,6 @@
 
   # Configure console keymap
   console.keyMap = "uk";
-
-  # Enable sound with pipewire.
-  services.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
 
   users.users.askold = {
     isNormalUser = true;
