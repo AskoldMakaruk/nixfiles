@@ -13,6 +13,10 @@
 
   config = lib.mkIf config.batat.jetbrains.enable {
 
-    environment.systemPackages = with pkgs; [ jetbrains-toolbox ];
+    nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
+
+    environment.systemPackages = with pkgs; [
+      jetbrains.rider
+    ];
   };
 }

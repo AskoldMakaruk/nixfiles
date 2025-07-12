@@ -19,13 +19,8 @@
     nvim.enable = true;
     vscode.enable = true;
     gaming.enable = true;
+    jetbrains.enable = true;
   };
-
-  nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
-
-  environment.systemPackages = with pkgs; [
-    jetbrains.rider
-  ];
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
