@@ -9,9 +9,11 @@
     ./vscodium/default.nix
     ./piracy.nix
     ./gaming.nix
+    ./kde.nix
   ];
 
   batat.basic.enable = lib.mkDefault true;
+  batat.kde.enable = lib.mkDefault false;
   batat.console.enable = lib.mkDefault false;
   batat.nvim.enable = lib.mkDefault false;
   batat.database.enable = lib.mkDefault false;
