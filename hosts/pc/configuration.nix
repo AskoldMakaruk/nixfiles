@@ -21,6 +21,12 @@
     gaming.enable = true;
   };
 
+  nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
+
+  environment.systemPackages = with pkgs; [
+    jetbrains.rider
+  ];
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
@@ -62,6 +68,7 @@
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   # Configure keymap in X11

@@ -10,15 +10,17 @@
     username = "askold";
     homeDirectory = "/home/askold";
     stateVersion = "25.05";
-    sessionPath = ["$HOME/.dotnet/tools/"];
+    sessionPath = [ "$HOME/.dotnet/tools/" ];
   };
 
   home.sessionVariables = {
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "ghostty";
-    SHELL = "zsh";
-    NIX_SHELL_INIT = "zsh";
+    # fix for wayland not working
+    # https://www.reddit.com/r/NixOS/comments/1df2oxc/kde_6_wayland_not_working_with_sddm/
+    # SHELL = "zsh";
+    # NIX_SHELL_INIT = "zsh";
     NIXPKGS_ALLOW_UNFREE = "1";
   };
 
