@@ -12,7 +12,7 @@
     batat.basic.enable = lib.mkEnableOption "enables basic programs";
   };
 
-  config = lib.mkIf config.batat.console.enable {
+  config = lib.mkIf config.batat.basic.enable {
 
     nixpkgs.config = {
       allowUnfree = true;

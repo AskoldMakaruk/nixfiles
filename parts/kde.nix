@@ -12,7 +12,7 @@
 
   };
 
-  config = lib.mkIf config.batat.jetbrains.enable {
+  config = lib.mkIf config.batat.kde.enable {
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.

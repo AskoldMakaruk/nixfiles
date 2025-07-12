@@ -12,7 +12,7 @@
     batat.gaming.enable = lib.mkEnableOption "enables steam";
   };
 
-  config = lib.mkIf config.batat.console.enable {
+  config = lib.mkIf config.batat.gaming.enable {
 
     programs.steam = {
       enable = true;
