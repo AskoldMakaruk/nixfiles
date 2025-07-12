@@ -3,7 +3,7 @@
   imports = [
     ./audio.nix
     ./basic.nix
-    ./console.nix
+    ./shell/default.nix
     ./nvim/default.nix
     ./database.nix
     ./jetbrains.nix
@@ -16,7 +16,7 @@
   batat.audio.enable = lib.mkDefault true;
   batat.basic.enable = lib.mkDefault true;
   batat.kde.enable = lib.mkDefault false;
-  batat.console.enable = lib.mkDefault false;
+  batat.shell.enable = lib.mkDefault false;
   batat.nvim.enable = lib.mkDefault false;
   batat.database.enable = lib.mkDefault false;
   batat.jetbrains.enable = lib.mkDefault false;

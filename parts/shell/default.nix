@@ -9,15 +9,14 @@
 
 {
   options = {
-    batat.console.enable = lib.mkEnableOption "enables console modules";
+    batat.shell.enable = lib.mkEnableOption "enables shell (zsh and plugins)";
   };
 
-  config = lib.mkIf config.batat.console.enable {
+  config = lib.mkIf config.batat.shell.enable {
 
     environment.systemPackages =
       with pkgs;
       [
-        zsh
         thefuck
         eza # ls alternative
         oh-my-posh

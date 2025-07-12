@@ -16,7 +16,7 @@
 
   batat = {
     audio.enable = true;
-    console.enable = true;
+    shell.enable = true;
     kde.enable = true;
     nvim.enable = true;
     vscode.enable = true;
