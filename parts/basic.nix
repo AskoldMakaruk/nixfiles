@@ -20,6 +20,7 @@
 
     environment.systemPackages = with pkgs; [
       dotnetCorePackages.sdk_9_0
+      dotnet-ef
       telegram-desktop
       nix-output-monitor # nom. for build logs
 
