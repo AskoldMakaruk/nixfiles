@@ -24,6 +24,8 @@
     jetbrains.enable = true;
   };
 
+  virtualisation.docker.enable = true;
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
