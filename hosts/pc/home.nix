@@ -14,6 +14,7 @@
   };
 
   home.sessionVariables = {
+    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_9_0}/share/dotnet/";
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "ghostty";
@@ -41,7 +42,8 @@
     enable = true;
     enableZshIntegration = true;
   };
-
+  xsession.enable = true;
+  programs.bash.enable = true;
   programs.zsh.enable = true;
   programs.home-manager.enable = true;
 }

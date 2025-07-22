@@ -19,6 +19,7 @@
     };
 
     environment.systemPackages = with pkgs; [
+      #dotnet-sdk
       dotnetCorePackages.sdk_9_0
       dotnet-ef
       telegram-desktop
