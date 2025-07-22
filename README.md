@@ -18,21 +18,21 @@ Config is split into parts.
 ## Console
 Terminal emulator: konsole (i don't care anymore)
 Shell: zsh
-- [ ] todo: zsh plugins
+- [x] done: zsh plugins
 - [ ] todo: use direnv + nix-direnv for new package managment 
 - [ ] todo: .ssh/config file from nixos repo 
 
 ## Editors
 - [x] done: setup neovim
-- [ ] todo: setup jetbrains tools
+- [x] done: setup jetbrains tools
 
 ## Desktop enviroment
 - [ ] todo: manage plasma config from home manager
 - [ ] todo: hotkeys and fine shortcuts
 
 ## Development
-- [ ] todo: add rust, c# as optinal dependencies 
-- [a] active: setup dev postgres (nix-shell)
+- [x] todo: add rust, c# as optinal dependencies 
+- [x] docker for posgrtes
 
 ## Shortcuts
 - [ ] todo configure KWin maximaze window meta+shift+up shortcut
