@@ -22,6 +22,7 @@
     vscode.enable = true;
     gaming.enable = true;
     jetbrains.enable = true;
+    mscode.enable = true;
   };
 
   virtualisation.docker.enable = true;
