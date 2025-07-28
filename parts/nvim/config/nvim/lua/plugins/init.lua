@@ -110,6 +110,7 @@ return {
     opts = {
       formatters_by_ft = {
         cs = { "csharpier" },
+        nix = { "nixfmt" },
       },
       formatters = {
         csharpier = {
@@ -123,7 +124,7 @@ return {
     "seblyng/roslyn.nvim",
     ft = "cs",
     opts = {
-      -- your configuration comes here; leave empty for default settings
+      -- todo: your configuration comes here; leave empty for default settings
     },
   },
   {
@@ -131,9 +132,17 @@ return {
     tag = "0.1.8",
     dependencies = { "nvim-lua/plenary.nvim" },
   },
+
+  -- theme
   {
     "scottmckendry/cyberdream.nvim",
     lazy = false,
     priority = 1000,
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    opts = {},
   },
 }

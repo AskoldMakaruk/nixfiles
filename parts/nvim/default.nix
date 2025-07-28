@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -40,12 +39,18 @@
         shfmt # shell formatter
         lua-language-server
         ledger
-# csharp formatter
-csharpier
-# netcore managed debugger
-netcoredbg
+        # csharp formatter
+        csharpier
+        # netcore managed debugger
+        netcoredbg
 
-omnisharp-roslyn
+        omnisharp-roslyn
+
+        # nix language server
+        nil
+
+        # nix formatter
+        nixfmt-rfc-style
 
         nixfmt-rfc-style # todo later rename nixfmt
       ];
