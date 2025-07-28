@@ -1,4 +1,4 @@
-{ pkg, lib, ... }:
+{ lib, ... }:
 {
   imports = [
     ./audio.nix

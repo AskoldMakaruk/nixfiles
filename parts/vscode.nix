@@ -1,6 +1,5 @@
 {
   config,
-  inputs,
   lib,
   pkgs,
   ...
@@ -14,7 +13,7 @@
   config = lib.mkIf config.batat.mscode.enable {
 
     environment.systemPackages = with pkgs; [
-      vscode 
+      vscode
     ];
   };
 }
