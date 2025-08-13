@@ -24,6 +24,11 @@
       telegram-desktop
       nix-output-monitor # nom. for build logs
 
+      nodejs
+      nodePackages.npm
+
+      vlc
+
       lazygit
       git
 

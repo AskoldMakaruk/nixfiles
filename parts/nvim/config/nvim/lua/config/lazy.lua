@@ -58,4 +58,48 @@ vim.opt.shell = "zsh"
 vim.cmd("colorscheme cyberdream")
 
 vim.opt.title = true
-vim.opt.titlestring = [[%{expand('%:p:h:t')}/%t%h%m%r%w]]
+vim.opt.titlestring = [[%{luaeval('my_console_title()')}]]
+
+function _G.my_console_title()
+  local bufname = vim.api.nvim_buf_get_name(0)
+
+  if bufname:match("zsh") then
+    return "zsh: " .. vim.fn.fnamemodify(vim.fn.getcwd(), ":t")
+  end
+
+  local filename = vim.fn.expand("%:t")
+  local parent_dir = vim.fn.fnamemodify(bufname, ":h:t")
+
+  if filename == "" then
+    filename = "[No Name]"
+    parent_dir = ""
+  end
+
+  local is_ro = vim.bo.readonly and "[RO]" or ""
+  local is_help = vim.bo.buftype == "help" and "[HELP]" or ""
+
+  local title_parts = {}
+
+  -- local bufname = vim.api.nvim_buf_get_name(0)
+  -- local dir = vim.fn.fnamemodify(bufname, ":h")
+  -- while vim.fn.fnamemodify(dir, ":~") ~= "~/src" and dir ~= vim.fn.getcwd() and dir ~= "" do
+  --   dir = vim.fn.fnamemodify(dir, ":h:h")
+  --   table.insert(title_parts, 1, dir)
+  -- end
+  -- table.insert(title_parts, "/")
+  -- table.insert(title_parts, filename)
+  -- if true then
+  --   return table.concat(title_parts)
+  -- end
+
+  if parent_dir ~= "." and parent_dir ~= "" then
+    table.insert(title_parts, parent_dir)
+  end
+  table.insert(title_parts, "/")
+  table.insert(title_parts, filename)
+  if is_ro ~= "" or is_help ~= "" then
+    table.insert(title_parts, is_ro .. " " .. is_help)
+  end
+
+  return table.concat(title_parts)
+end

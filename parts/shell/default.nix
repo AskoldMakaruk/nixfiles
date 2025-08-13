@@ -45,6 +45,7 @@
 
         v = "nvim";
       };
+
       enableCompletion = true;
       autosuggestions.enable = true;
       syntaxHighlighting.enable = true;
@@ -79,7 +80,8 @@
     };
 
     home-manager.users.askold = {
-      programs.zsh.initContent = "source ${./functions.sh}";
+      programs.zsh.initContent = "source ${./zshrc.sh}";
+      programs.zsh.autocd = true;
     };
 
     users.defaultUserShell = pkgs.zsh;

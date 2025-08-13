@@ -28,6 +28,7 @@
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
   networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
 
   # Enable networking
   #networking.networkmanager.enable = true;
