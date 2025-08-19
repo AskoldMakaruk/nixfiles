@@ -38,6 +38,9 @@
         batat-list = "nix-env --list-generations";
         grep = "grep --color=auto";
 
+        ls = "eza";
+        cd = "z";
+
         nz = "nix-shell --command zsh";
         # zenv = "nix-shell --command zsh \"$HOME/.dotfiles/envs/$1/\""; todo create bash functions that handle such cases
 
