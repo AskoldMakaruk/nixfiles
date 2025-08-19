@@ -12,6 +12,7 @@
     ./gaming.nix
     ./kde.nix
     ./vscode.nix
+    ./development/default.nix
   ];
 
   batat.audio.enable = lib.mkDefault true;
@@ -25,4 +26,5 @@
   batat.piracy.enable = lib.mkDefault false;
   batat.gaming.enable = lib.mkDefault false;
   batat.mscode.enable = lib.mkDefault false;
+  batat.development.enable = lib.mkDefault false;
 }

@@ -4,33 +4,22 @@
   pkgs,
   ...
 }:
-
 {
   options = {
     batat.basic.enable = lib.mkEnableOption "enables basic programs";
   };
 
   config = lib.mkIf config.batat.basic.enable {
-
     nixpkgs.config = {
       allowUnfree = true;
     };
 
     environment.systemPackages = with pkgs; [
       anki-bin
-      #dotnet-sdk
-      dotnetCorePackages.sdk_9_0
-      dotnet-ef
       telegram-desktop
       nix-output-monitor # nom. for build logs
 
-      nodejs
-      nodePackages.npm
-
       vlc
-
-      lazygit
-      git
 
       #tools
       nettools
@@ -63,6 +52,5 @@
       LC_TELEPHONE = "uk_UA.UTF-8";
       LC_TIME = "uk_UA.UTF-8";
     };
-
   };
 }

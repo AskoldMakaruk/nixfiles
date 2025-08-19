@@ -1,6 +1,5 @@
 {
   inputs,
-  config,
   pkgs,
   ...
 }:
@@ -23,9 +22,8 @@
     gaming.enable = true;
     jetbrains.enable = true;
     mscode.enable = true;
+    development.enable = true;
   };
-
-  virtualisation.docker.enable = true;
 
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
