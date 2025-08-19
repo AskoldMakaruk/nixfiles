@@ -10,6 +10,7 @@
     };
     nixvim.url = "github:nix-community/nixvim";
     jbr-overlay.url = "github:AskoldMakaruk/jbr-wayland-nix";
+    dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
   };
 
   outputs =
@@ -19,6 +20,7 @@
       home-manager,
       nixvim,
       jbr-overlay,
+      dohla,
       ...
     }@inputs:
     let
@@ -35,7 +37,10 @@
         # pc
         pc = lib.nixosSystem {
           specialArgs = { inherit inputs system; };
-          modules = [ ./hosts/pc/configuration.nix ];
+          modules = [
+            ./hosts/pc/configuration.nix
+            dohla.nixosModules.docker-services
+          ];
         };
       };
     };

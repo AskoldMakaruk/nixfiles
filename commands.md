@@ -7,6 +7,11 @@ Update lock file:
 nix flake update
 ```
 
+Update only one remote flake:
+```bash
+nix flake update <remote name> --flake .
+```
+
 Switch to new system built from this flake.
 `.#profilename` to select profile
 ```bash
