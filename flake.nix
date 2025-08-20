@@ -8,9 +8,14 @@
       url = "github:nix-community/home-manager/release-25.05";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
+    agenix.url = "github:ryantm/agenix";
     nixvim.url = "github:nix-community/nixvim";
     jbr-overlay.url = "github:AskoldMakaruk/jbr-wayland-nix";
     dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
+    mysecrets = {
+      url = "git+file:///home/askold/secrets/";
+      flake = false;
+    };
   };
 
   outputs =
@@ -18,6 +23,7 @@
       self,
       nixpkgs,
       home-manager,
+      agenix,
       nixvim,
       jbr-overlay,
       dohla,
@@ -39,6 +45,7 @@
           specialArgs = { inherit inputs system; };
           modules = [
             ./hosts/pc/configuration.nix
+            agenix.nixosModules.default
             dohla.nixosModules.docker-services
           ];
         };

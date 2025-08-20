@@ -3,7 +3,10 @@
   pkgs,
   ...
 }:
+let
+  inherit (inputs) mysecrets;
 
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -23,6 +26,17 @@
     jetbrains.enable = true;
     mscode.enable = true;
     development.enable = true;
+    dohla.enable = true;
+  };
+
+  age.identityPaths = [ "/home/askold/.ssh/agenix_key" ];
+  age = {
+    #identityPath = "/home/askold/secrets/ssh_key";
+    secrets = {
+      secret1 = {
+        file = mysecrets + "/secret1.age";
+      };
+    };
   };
 
   home-manager = {
