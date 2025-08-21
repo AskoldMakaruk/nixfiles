@@ -5,7 +5,6 @@
 }:
 let
   inherit (inputs) mysecrets;
-
 in
 {
   imports = [

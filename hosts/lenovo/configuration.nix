@@ -4,7 +4,9 @@
   pkgs,
   ...
 }:
-
+let
+  inherit (inputs) mysecrets;
+in
 {
   imports = [
     ./hardware-configuration.nix
@@ -18,10 +20,11 @@
     shell.enable = true;
     kde.enable = true;
     nvim.enable = true;
-    database.enable = false;
     jetbrains.enable = true;
     vscode.enable = true;
     piracy.enable = false;
+    dohla.enable = true;
+    development.enable = true;
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
@@ -32,6 +35,18 @@
 
   # Enable networking
   #networking.networkmanager.enable = true;
+
+  age = {
+    identityPaths = [ "/home/askold/.ssh/agenix_key" ];
+    secrets = {
+      api = {
+        file = mysecrets + "/api-prod.age";
+      };
+      postgres = {
+        file = mysecrets + "/postgres-prod.age";
+      };
+    };
+  };
 
   # Configure keymap in X11
   services.xserver.xkb = {

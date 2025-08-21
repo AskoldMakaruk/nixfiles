@@ -38,7 +38,11 @@
         # laptop
         lenovo = lib.nixosSystem {
           specialArgs = { inherit inputs system; };
-          modules = [ ./hosts/lenovo/configuration.nix ];
+          modules = [
+            ./hosts/lenovo/configuration.nix
+            agenix.nixosModules.default
+            dohla.nixosModules.docker-services
+          ];
         };
         # pc
         pc = lib.nixosSystem {
