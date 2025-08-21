@@ -48,11 +48,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1755630523,
-        "narHash": "sha256-ZxXpFVc+vDTO8qW6j1IpOl154ShSC5MKBnrQ020Z9a4=",
+        "lastModified": 1755785106,
+        "narHash": "sha256-3lzjt1dg330a4T7ulFAdCdOpv+iq843JJcNAyimzb80=",
         "ref": "refs/heads/master",
-        "rev": "8939e757e71da7926f24b0a3d117e3cdc5651d33",
-        "revCount": 48,
+        "rev": "a7f223cda8a156c019d5ba183a2a543ff48d48f8",
+        "revCount": 50,
         "type": "git",
         "url": "file:///home/askold/src/DohlaRusnya/"
       },
@@ -189,11 +189,11 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1755708562,
-        "narHash": "sha256-zUZCRdBupJAhMieFPCMrv2LkCyMp9ors5EH1CitW0As=",
+        "lastModified": 1755784793,
+        "narHash": "sha256-tn93cTNRJbSu6a6Ol42IxoILEyIFmiyRqr4PbXno78M=",
         "ref": "refs/heads/master",
-        "rev": "0c26c1ea44b47a39a1ff05f10a11e3291f9c08e2",
-        "revCount": 1,
+        "rev": "11eabd11d793007b00ceb2b30c1864dff66563d2",
+        "revCount": 2,
         "type": "git",
         "url": "file:///home/askold/secrets/"
       },

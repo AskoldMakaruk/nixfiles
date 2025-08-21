@@ -29,12 +29,14 @@ in
     dohla.enable = true;
   };
 
-  age.identityPaths = [ "/home/askold/.ssh/agenix_key" ];
   age = {
-    #identityPath = "/home/askold/secrets/ssh_key";
+    identityPaths = [ "/home/askold/.ssh/agenix_key" ];
     secrets = {
-      secret1 = {
-        file = mysecrets + "/secret1.age";
+      api = {
+        file = mysecrets + "/api-test.age";
+      };
+      postgres = {
+        file = mysecrets + "/postgres-test.age";
       };
     };
   };
