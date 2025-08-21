@@ -12,7 +12,8 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
-    ./../../parts
+    ../../parts
+    ../../parts/wireguard.nix
   ];
 
   batat = {
@@ -36,6 +37,12 @@ in
       };
       postgres = {
         file = mysecrets + "/postgres-test.age";
+      };
+      wg_key = {
+        file = mysecrets + "/pc_wireguard_key.age";
+      };
+      wg_endpoint = {
+        file = mysecrets + "/wireguard_endpoint_ip.age";
       };
     };
   };
