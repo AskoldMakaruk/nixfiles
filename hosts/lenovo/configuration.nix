@@ -12,7 +12,8 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
-    ./../../parts
+    ../../parts
+    ../../parts/wireguard.nix
   ];
 
   batat = {
@@ -33,6 +34,14 @@ in
   networking.firewall.allowedTCPPorts = [ 22 ];
   networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
 
+  networking.wireguard.interfaces = {
+    wg0 = {
+      ips = [
+        "10.5.5.10/24"
+      ];
+    };
+  };
+
   # Enable networking
   #networking.networkmanager.enable = true;
 
@@ -44,6 +53,12 @@ in
       };
       postgres = {
         file = mysecrets + "/postgres-prod.age";
+      };
+      wg_key = {
+        file = mysecrets + "/nout_wireguard_key.age";
+      };
+      wg_endpoint = {
+        file = mysecrets + "/wireguard_endpoint_ip.age";
       };
     };
   };

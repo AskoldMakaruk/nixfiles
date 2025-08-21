@@ -47,6 +47,14 @@ in
     };
   };
 
+  networking.wireguard.interfaces = {
+    wg0 = {
+      ips = [
+        "10.5.5.3/24"
+      ];
+    };
+  };
+
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {

@@ -11,9 +11,7 @@ in
   networking.wireguard.enable = true;
   networking.wireguard.interfaces = {
     wg0 = {
-      ips = [
-        "10.5.5.3/24"
-      ];
+      # ips = [ per host basis ];
       listenPort = 51820;
 
       privateKeyFile = config.age.secrets.wg_key.path;
