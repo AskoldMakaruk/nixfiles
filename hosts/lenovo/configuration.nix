@@ -30,12 +30,16 @@ in
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
+
   networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
+  # networking.wireless.iwd.enable = true;
+  # networking.wireless.iwd.settings.Network.EnableIPv6 = true;
+  # networking.wireless.iwd.settings.Settings.AutoConnect = true;
   networking.firewall.allowedTCPPorts = [
     22
     8080
   ];
-  networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
+  #  networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
 
   networking.wireguard.interfaces = {
     wg0 = {
@@ -46,7 +50,8 @@ in
   };
 
   # Enable networking
-  #networking.networkmanager.enable = true;
+  # networking.networkmanager.enable = true;
+  # networking.networkmanager.wifi.backend = "iwd";
 
   age = {
     identityPaths = [ "/home/askold/.ssh/agenix_key" ];
