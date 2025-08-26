@@ -31,7 +31,10 @@ in
   # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
   networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
-  networking.firewall.allowedTCPPorts = [ 22 ];
+  networking.firewall.allowedTCPPorts = [
+    22
+    8080
+  ];
   networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
 
   networking.wireguard.interfaces = {

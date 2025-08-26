@@ -30,8 +30,10 @@
         batat-test-c = "sudo echo -e '\\c';sudo nixos-rebuild test --option eval-cache false --flake $HOME/.dotfiles/ |& nom";
         batat-test = "sudo echo -e '\\c';sudo nixos-rebuild test --flake $HOME/.dotfiles/ |& nom";
         batat-test-pc = "sudo echo -e '\\c';sudo nixos-rebuild test --flake $HOME/.dotfiles/#pc |& nom";
+        batat-test-nout = "sudo echo -e '\\c';sudo nixos-rebuild test --flake $HOME/.dotfiles/#lenovo |& nom";
         batat-roll = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/ |& nom";
         batat-roll-pc = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/#pc |& nom";
+        batat-roll-nout = "sudo echo -e '\\c';sudo nixos-rebuild switch --flake $HOME/.dotfiles/#lenovo |& nom";
         batat-edit = "cd $HOME/.dotfiles/ && nvim .";
         batat-gc = "nix-collect-garbage --delete-older-than 7d";
         batat-upd = "nix flake update --flake $HOME/.dotfiles/";

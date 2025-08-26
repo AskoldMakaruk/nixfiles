@@ -17,8 +17,8 @@
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "konsole";
-    SHELL = "zsh";
-    NIX_SHELL_INIT = "zsh";
+    # SHELL = "zsh";
+    # NIX_SHELL_INIT = "zsh";
     NIXPKGS_ALLOW_UNFREE = "1";
   };
 
