@@ -14,6 +14,7 @@ in
     inputs.nixvim.nixosModules.nixvim
     ../../parts
     ../../parts/wireguard.nix
+    ../../services/affine.nix
   ];
 
   batat = {
@@ -26,7 +27,9 @@ in
     jetbrains.enable = true;
     mscode.enable = true;
     development.enable = true;
-    dohla.enable = true;
+
+    dohla.enable = false;
+    affine.enable = false;
   };
 
   age = {
@@ -66,7 +69,7 @@ in
     useGlobalPkgs = false;
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "pc-machine"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable networking
