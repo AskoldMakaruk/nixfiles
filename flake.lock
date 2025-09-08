@@ -173,11 +173,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1752317552,
-        "narHash": "sha256-ZQABdOp7SoJJMHQWwiXK5AIWzE6381fR2hREtlKkER8=",
+        "lastModified": 1757347919,
+        "narHash": "sha256-oxsvV1A+numRMddPTfJxIL9R8Fs7fqSi8x9u6/s93gE=",
         "owner": "AskoldMakaruk",
         "repo": "jbr-wayland-nix",
-        "rev": "e003ade6da8d8555f77b2802ddfb292e134fd4d6",
+        "rev": "f193a35b1720b146d60cb980cd1ce91c891ec276",
         "type": "github"
       },
       "original": {
