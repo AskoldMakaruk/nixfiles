@@ -16,8 +16,11 @@
 
     environment.systemPackages = with pkgs; [
       anki-bin
+      affine # mira alternative; collaborative whiteboard & markdown database
       telegram-desktop
       nix-output-monitor # nom. for build logs
+
+      lorien # minimalistic infinite canvas
 
       vlc
 
