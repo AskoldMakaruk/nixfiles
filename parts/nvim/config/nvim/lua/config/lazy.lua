@@ -21,6 +21,7 @@ require("lazy").setup({
     { "williamboman/mason-lspconfig.nvim", enabled = false },
     { "williamboman/mason.nvim", enabled = false },
     { "rafamadriz/friendly-snippets", enabled = false },
+    { "Mofiqul/vscode.nvim" },
   },
   defaults = {
     lazy = false,
@@ -51,11 +52,77 @@ require("lazy").setup({
   },
 })
 
-vim.lsp.enable("omnisharp")
+-- vim.lsp.enable("omnisharp")
 vim.lsp.inlay_hint.enable(false)
 
+vim.lsp.config("roslyn", {
+  on_attach = function()
+    -- print("This will run when the server attaches!")
+  end,
+  settings = {
+    ["csharp|inlay_hints"] = {
+      csharp_enable_inlay_hints_for_implicit_object_creation = true,
+      csharp_enable_inlay_hints_for_lambda_parameter_types = false,
+      csharp_enable_inlay_hints_for_implicit_variable_types = false,
+      dotnet_enable_inlay_hints_for_other_parameters = false,
+      dotnet_enable_inlay_hints_for_parameters = false,
+    },
+    ["csharp|code_lens"] = {
+      dotnet_enable_references_code_lens = false,
+    },
+    ["csharp|background_analysis"] = {
+      dotnet_analyzer_diagnostics_scope = "fullSolution",
+      dotnet_compiler_diagnostics_scope = "fullSolution",
+    },
+    ["csharp|completion"] = {
+      dotnet_show_completion_items_from_unimported_namespaces = true,
+      dotnet_show_name_completion_suggestions = true,
+    },
+  },
+})
+
 vim.opt.shell = "zsh"
-vim.cmd("colorscheme cyberdream")
+
+vim.o.background = "dark"
+
+local c = require("vscode.colors").get_colors()
+require("vscode").setup({
+  -- Alternatively set style in setup
+  -- style = 'light'
+
+  -- Enable transparent background
+  transparent = true,
+
+  -- Enable italic comment
+  italic_comments = true,
+
+  -- Enable italic inlay type hints
+  italic_inlayhints = true,
+
+  -- Underline `@markup.link.*` variants
+  underline_links = true,
+
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = true,
+
+  -- Apply theme colors to terminal
+  terminal_colors = true,
+
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscLineNumber = "#FFFFFF",
+  },
+
+  -- Override highlight groups (see ./lua/vscode/theme.lua)
+  group_overrides = {
+    -- this supports the same val table as vim.api.nvim_set_hl
+    -- use colors from this colorscheme by requiring vscode.colors!
+    Cursor = { fg = c.vscDarkBlue, bg = c.vscLightGreen, bold = true },
+  },
+})
+-- require('vscode').load()
+
+vim.cmd.colorscheme("vscode")
 
 vim.opt.title = true
 vim.opt.titlestring = [[%{luaeval('my_console_title()')}]]

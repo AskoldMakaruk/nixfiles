@@ -44,7 +44,8 @@
         # netcore managed debugger
         netcoredbg
 
-        omnisharp-roslyn
+        roslyn-ls
+        #       omnisharp-roslyn
 
         # nix language server
         nil

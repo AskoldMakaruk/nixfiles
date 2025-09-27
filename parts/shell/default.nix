@@ -17,7 +17,7 @@
     environment.systemPackages =
       with pkgs;
       [
-        thefuck
+        pay-respects
         eza # ls alternative
         oh-my-posh
       ]
@@ -62,7 +62,7 @@
       ohMyZsh = {
         enable = true;
         plugins = [
-          "thefuck"
+          "pay-respects"
           "eza"
           "fzf"
           "sudo" # press escape twice to sudo
