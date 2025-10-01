@@ -121,7 +121,13 @@ require("vscode").setup({
   },
 })
 -- require('vscode').load()
-
+--
+vim.opt.langmap = table.concat({
+  "йq,цw,уe,кr,еt,нy,гu,шi,щo,зp,х[,ї],фa,іs,вd,аf,пg,рh,оj,лk,дl,ж\\;,є',ґ\\,,",
+  "яz,чx,сc,мv,иb,тn,ьm,ю.,./,ЙQ,ЦW,УE,КR,ЕT,НY,ГU,ШI,ЩO,ЗP,Х{,Ї},ФA,ІS,ВD,АF,",
+  'ПG,РH,ОJ,ЛK,ДL,Ж\\:,Є",Ґ|,ЯZ,ЧX,СC,МV,ИB,ТN,ЬM,Б<,Ю>,№#',
+}, "")
+vim.opt.langremap = false
 vim.cmd.colorscheme("vscode")
 
 vim.opt.title = true
