@@ -41,7 +41,7 @@
           modules = [
             ./hosts/lenovo/configuration.nix
             agenix.nixosModules.default
-            dohla.nixosModules.docker-services
+            dohla.nixosModules.dohly-services
           ];
         };
         # pc
@@ -50,7 +50,7 @@
           modules = [
             ./hosts/pc/configuration.nix
             agenix.nixosModules.default
-            dohla.nixosModules.docker-services
+            dohla.nixosModules.dohly-services
           ];
         };
       };

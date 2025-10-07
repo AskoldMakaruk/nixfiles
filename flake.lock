@@ -48,11 +48,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1758100933,
-        "narHash": "sha256-svBzMeDrdlLVLPK1Te5l66ysx0iLMjjnyOMiTh6ae4g=",
+        "lastModified": 1759609241,
+        "narHash": "sha256-50ZsqHsT4z7p4zDzIMchb7g/riue3IoTFeZB72evUSA=",
         "ref": "refs/heads/master",
-        "rev": "95db24c94b5e669c4ae3897571b22179f0d916dd",
-        "revCount": 73,
+        "rev": "5ea7ce4b38c837f87ed297d0a216d1537ec6d060",
+        "revCount": 74,
         "type": "git",
         "url": "file:///home/askold/src/DohlaRusnya/"
       },
