@@ -16,6 +16,11 @@ in
     batat.affine.enable = lib.mkEnableOption "enables Affine service";
   };
 
+  # HOW TO UPDATE affine
+  # stop service
+  # docker pull "ghcr.io/toeverything/affine:stable"
+  # start service
+  #
   config = lib.mkIf config.batat.affine.enable {
 
     # Secrets

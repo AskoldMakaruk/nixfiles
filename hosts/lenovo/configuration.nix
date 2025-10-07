@@ -14,6 +14,7 @@ in
     inputs.nixvim.nixosModules.nixvim
     ../../parts
     ../../parts/wireguard.nix
+    ../../services/affine.nix
   ];
 
   batat = {
@@ -26,6 +27,7 @@ in
     piracy.enable = false;
     dohla.enable = true;
     development.enable = true;
+    affine.enable = true;
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
