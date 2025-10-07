@@ -34,6 +34,8 @@
       dblab
 
       ghostty # terminal emulator
+
+      follow
     ];
     # Install firefox.
     programs.firefox.enable = true;

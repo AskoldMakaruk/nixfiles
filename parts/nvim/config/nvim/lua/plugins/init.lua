@@ -71,7 +71,10 @@ return {
 
   {
     "nvim-treesitter/nvim-treesitter",
-    opts = { ensure_installed = { "c_sharp" } },
+    opts = { ensure_installed = { "c_sharp", "nix" } },
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
   },
   {
     "neovim/nvim-lspconfig",

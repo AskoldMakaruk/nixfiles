@@ -62,7 +62,6 @@
       ohMyZsh = {
         enable = true;
         plugins = [
-          "pay-respects"
           "eza"
           "fzf"
           "sudo" # press escape twice to sudo
