@@ -20,48 +20,48 @@
     #   };
     # };
     #
-    dohly-services.enable = true;
-    dohly-services.openobserve = {
-      enable = true;
-      networks = [
-        "internal"
-      ];
-    };
-
-    dohly-services.database = {
-      enable = true;
-      networks = [
-        "internal"
-      ];
-    };
-
-    dohly-services.envs = {
-      "dohly_test" = {
-        api = {
-          enable = true;
-          env = "production";
-          containerPort = 5000;
-          hostPort = 8080;
-          projectPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
-          networks = [
-            "dohly_test"
-            "internal"
-          ];
-        };
-
-        front = {
-          enable = true;
-          env = "production";
-          containerPort = 5000;
-          hostPort = 8081;
-          projectPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
-          networks = [
-            "dohly_test"
-            "internal"
-          ];
-        };
-
-      };
+    # dohly-services.enable = true;
+    # dohly-services.openobserve = {
+    #   enable = true;
+    #   networks = [
+    #     "internal"
+    #   ];
+    # };
+    #
+    # dohly-services.database = {
+    #   enable = true;
+    #   networks = [
+    #     "internal"
+    #   ];
+    # };
+    #
+    # dohly-services.envs = {
+    #   "dohly_test" = {
+    #     api = {
+    #       enable = true;
+    #       env = "production";
+    #       containerPort = 5000;
+    #       hostPort = 8080;
+    #       projectPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
+    #       networks = [
+    #         "dohly_test"
+    #         "internal"
+    #       ];
+    #     };
+    #
+    #     front = {
+    #       enable = true;
+    #       env = "production";
+    #       containerPort = 5000;
+    #       hostPort = 8081;
+    #       projectPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
+    #       networks = [
+    #         "dohly_test"
+    #         "internal"
+    #       ];
+    #     };
+    #
+    #   };
 
       # "dohly_prod" = {
       #
