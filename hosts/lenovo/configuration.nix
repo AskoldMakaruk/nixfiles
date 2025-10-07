@@ -22,7 +22,7 @@ in
     shell.enable = true;
     kde.enable = true;
     nvim.enable = true;
-    jetbrains.enable = true;
+    jetbrains.enable = false;
     vscode.enable = true;
     piracy.enable = false;
     dohla.enable = true;

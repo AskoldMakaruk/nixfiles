@@ -49,7 +49,7 @@
       },
       "locked": {
         "lastModified": 1759609241,
-        "narHash": "sha256-50ZsqHsT4z7p4zDzIMchb7g/riue3IoTFeZB72evUSA=",
+        "narHash": "sha256-KcI9KvlMKstqg79ymE6oot1tqd9hqFbAfs+kFKNRPMQ=",
         "ref": "refs/heads/master",
         "rev": "5ea7ce4b38c837f87ed297d0a216d1537ec6d060",
         "revCount": 74,
@@ -189,11 +189,11 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1757434420,
-        "narHash": "sha256-ZRP+Jbektjow+LJbwMQllUTzqE798KVdVOqCdU50H74=",
+        "lastModified": 1759845290,
+        "narHash": "sha256-v9wXsqK9RCkew40ZFHZRIHZiugf5rUNl8N2yn+zUOZQ=",
         "ref": "refs/heads/master",
-        "rev": "943bb59d0bd53ec4b526945cfaf088bf6ec43697",
-        "revCount": 6,
+        "rev": "dca2ea71b1ce0f1b11e76b8db324db03f4d7c6bd",
+        "revCount": 7,
         "type": "git",
         "url": "file:///home/askold/secrets/"
       },
