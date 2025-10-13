@@ -9,6 +9,8 @@ let
   inherit (inputs) mysecrets;
 in
 {
+
+  imports = [ ./nginx-test.nix ];
   options = {
     batat.dohla.enable = lib.mkEnableOption "enables deployment of dohla rusnya services";
   };
@@ -30,6 +32,33 @@ in
       generalNetworkService = "${generalNetwork}.service";
     in
     {
+      systemd.services."docker-dohly-nginx-test" = {
+        serviceConfig = {
+          Restart = lib.mkOverride 90 "always";
+          RestartMaxDelaySec = lib.mkOverride 90 "1m";
+          RestartSec = lib.mkOverride 90 "100ms";
+          RestartSteps = lib.mkOverride 90 9;
+        };
+
+        after = [
+          testNetworkService
+          generalNetworkService
+        ];
+
+        requires = [
+          testNetworkService
+          generalNetworkService
+        ];
+
+        partOf = [ testRoot ];
+        wantedBy = [ testRoot ];
+      };
+
+      virtualisation.docker = {
+        enable = true;
+        autoPrune.enable = true;
+      };
+      virtualisation.oci-containers.backend = "docker";
 
       age.secrets = {
         api-test.file = mysecrets + "/api-test.age";
@@ -40,6 +69,13 @@ in
       };
 
       # TEST
+      # NGINX
+      # virtualisation.oci-containers.containers."dohly-nginx-test" = {
+      #   image = "nginx:alpine:latest";
+      #   ports = [ "7000:7000" ];
+      #   log-driver = "journald";
+      #   extraOptions = [ "--user=nginx:nginx" ];
+      # };
 
       # API
       virtualisation.oci-containers.containers."dohly-api-test" = {
@@ -94,7 +130,7 @@ in
           TimeOutSec = 300;
         };
         script = ''
-          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${testApiPath} --arg imagePostfix '"test"')
+          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${testApiPath} -A apiImage --no-out-link --arg imagePostfix '"test"')
         '';
 
         partOf = [ testRoot ];
@@ -239,7 +275,7 @@ in
           TimeOutSec = 300;
         };
         script = ''
-          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${prodApiPath})
+          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${prodApiPath} -A apiImage --no-out-link --arg imagePostfix '"prod"')
         '';
 
         partOf = [ prodRoot ];
