@@ -6,6 +6,7 @@
 }:
 
 {
+  imports = [ ../../parts/shell/tmux.nix ];
   home = {
     username = "askold";
     homeDirectory = "/home/askold";
@@ -14,7 +15,7 @@
   };
 
   home.sessionVariables = {
-    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_9_0}/share/dotnet/";
+    DOTNET_ROOT = "${pkgs.dotnetCorePackages.runtime_9_0}/share/dotnet/";
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "ghostty";
