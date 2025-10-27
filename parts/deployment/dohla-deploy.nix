@@ -21,6 +21,7 @@ in
       testApiPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/default.nix";
       testNetwork = "docker-network-dohly-test";
       testNetworkService = "${testNetwork}.service";
+      testProxyPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/Proxy/default.nix";
 
       prodRoot = "docker-dohly-prod-root.target";
       prodApiPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/default.nix";
@@ -32,28 +33,6 @@ in
       generalNetworkService = "${generalNetwork}.service";
     in
     {
-      systemd.services."docker-dohly-nginx-test" = {
-        serviceConfig = {
-          Restart = lib.mkOverride 90 "always";
-          RestartMaxDelaySec = lib.mkOverride 90 "1m";
-          RestartSec = lib.mkOverride 90 "100ms";
-          RestartSteps = lib.mkOverride 90 9;
-        };
-
-        after = [
-          testNetworkService
-          generalNetworkService
-        ];
-
-        requires = [
-          testNetworkService
-          generalNetworkService
-        ];
-
-        partOf = [ testRoot ];
-        wantedBy = [ testRoot ];
-      };
-
       virtualisation.docker = {
         enable = true;
         autoPrune.enable = true;
@@ -63,25 +42,77 @@ in
       age.secrets = {
         api-test.file = mysecrets + "/api-test.age";
         api-prod.file = mysecrets + "/api-prod.age";
-
-        postgres.file = mysecrets + "/postgres-prod.age";
         openobserve.file = mysecrets + "/openobserve.age";
       };
 
       # TEST
-      # NGINX
-      # virtualisation.oci-containers.containers."dohly-nginx-test" = {
-      #   image = "nginx:alpine:latest";
-      #   ports = [ "7000:7000" ];
-      #   log-driver = "journald";
-      #   extraOptions = [ "--user=nginx:nginx" ];
-      # };
+      # PROXY
+      virtualisation.oci-containers.containers."dohly-proxy-test" = {
+        image = "dohly-proxy-test";
+        environmentFiles = [
+          "/run/agenix/api-test"
+          #"/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/.env"
+        ];
+        # dependsOn = [ "dohly-database" ];
+        ports = [
+          "0.0.0.0:7000:5000/tcp"
+        ];
+        log-driver = "journald";
+        extraOptions = [
+          "--network-alias=dohly-proxy-test"
+          "--network=dohly-test"
+          "--network=dohly-general"
+        ];
+      };
+
+      systemd.services."docker-dohly-proxy-test" = {
+        serviceConfig = {
+          Restart = lib.mkOverride 90 "always";
+          RestartMaxDelaySec = lib.mkOverride 90 "1m";
+          RestartSec = lib.mkOverride 90 "100ms";
+          RestartSteps = lib.mkOverride 90 9;
+        };
+
+        after = [
+          "docker-build-dohly-proxy-test.service"
+          testNetworkService
+          generalNetworkService
+        ];
+
+        requires = [
+          "docker-build-dohly-proxy-test.service"
+          testNetworkService
+          generalNetworkService
+        ];
+
+        partOf = [ testRoot ];
+        wantedBy = [ testRoot ];
+      };
+
+      systemd.services."docker-build-dohly-proxy-test" = {
+        path = [
+          pkgs.docker
+          pkgs.nix
+        ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          TimeOutSec = 300;
+        };
+        script = ''
+          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${testProxyPath} -A proxyImage --no-out-link --arg imagePostfix '"test"' --arg hostPort '"7100"')
+        '';
+
+        partOf = [ testRoot ];
+        wantedBy = [ testRoot ];
+      };
 
       # API
       virtualisation.oci-containers.containers."dohly-api-test" = {
         image = "dohly-api-test";
         environmentFiles = [
-          "/run/agenix/api-test"
+          #"/run/agenix/api-test"
+          "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/.env"
         ];
         dependsOn = [ "dohly-database" ];
         ports = [
@@ -130,7 +161,7 @@ in
           TimeOutSec = 300;
         };
         script = ''
-          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${testApiPath} -A apiImage --no-out-link --arg imagePostfix '"test"')
+          docker load < $(nix-build -I nixpkgs=${pkgs.path} ${testApiPath} -A apiImage --no-out-link --arg imagePostfix '"test"' --arg hostPort '"7100"')
         '';
 
         partOf = [ testRoot ];
@@ -140,13 +171,13 @@ in
       # FRONT
 
       virtualisation.oci-containers.containers."dohly-front-test" = {
-        image = "dohly-front-test";
+        image = "dohly-front-test:latest";
         environmentFiles = [
           #"/run/agenix/front-test"
         ];
         dependsOn = [ "dohly-api-test" ];
         ports = [
-          "0.0.0.0:7200:5000/tcp"
+          "0.0.0.0:7200:3000/tcp"
         ];
         log-driver = "journald";
         extraOptions = [
@@ -189,7 +220,7 @@ in
         };
         script = ''
           cd /home/askold/src/tic-tac-toe/tictactoe/
-          docker build -t dohly-front-test -f Dockerfile .
+          docker build -t dohly-front-test:latest -f Dockerfile .
         '';
         partOf = [ testRoot ];
         wantedBy = [ testRoot ];
@@ -291,7 +322,7 @@ in
         ];
         dependsOn = [ "dohly-api-prod" ];
         ports = [
-          "0.0.0.0:6200:5000/tcp"
+          "0.0.0.0:6200:3000/tcp"
         ];
         log-driver = "journald";
         extraOptions = [

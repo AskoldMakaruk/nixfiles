@@ -36,14 +36,49 @@ let
       WorkingDir = "/usr/share/nginx/html";
 
       # Copy custom nginx configuration
-      copyToRoot = pkgs.buildEnv {
-        name = "nginx-config-root";
-        paths = [
-          (pkgs.writeTextDir "etc/nginx/conf.d/default.conf" (builtins.readFile ./nginx.conf))
-        ];
-      };
+      # copyToRoot = pkgs.buildEnv {
+      #   name = "nginx-config-root";
+      #   paths = [
+      #     (pkgs.writeTextDir "etc/nginx/conf.d/default.conf" (builtins.readFile ./nginx.conf))
+      #   ];
+      # };
     };
   };
+
+  # traefikImage = pkgs.dockerTools.buildImage {
+  #   name = "traefik";
+  #   tag = "latest";
+  #   fromImage = pkgs.dockerImages.traefik;
+  #
+  #   config = {
+  #     Cmd = [
+  #       "nginx"
+  #       "-g"
+  #       "daemon off;"
+  #     ];
+  #     ExposedPorts = {
+  #       "7000/tcp" = { };
+  #     };
+  #     WorkingDir = "/usr/share/nginx/html";
+  #
+  #     # Copy custom nginx configuration
+  #     copyToRoot = pkgs.buildEnv {
+  #       name = "nginx-config-root";
+  #       paths = [
+  #         (pkgs.writeTextDir "etc/nginx/conf.d/default.conf" (builtins.readFile ./nginx.conf))
+  #       ];
+  #     };
+  #   };
+  #   copyToRoot = pkgs.buildEnv {
+  #     name = "traefik-root";
+  #     paths = [ ./traefic.yml ];
+  #     pathsToLink = [ "/etc/traefik/" ];
+  #   };
+  # };
+  #
+  # ports = [ "7000:7000" ];
+  # networks = [ testNetwork ];
+  # volumes = [ "/var/run/docker.sock:/var/run/docker.sock:ro" ];
 in
 {
   config = {
@@ -61,11 +96,11 @@ in
       };
     };
 
-    virtualisation.oci-containers.containers."dohly-nginx-test" = {
-      image = "dohly-nginx-test:latest";
-      ports = [ "7000:7000" ];
-      log-driver = "journald";
-      #extraOptions = [ "--user=nginx:nginx" ]; # Use nginx user that exists in Alpine image
-    };
+    # virtualisation.oci-containers.containers."dohly-nginx-test" = {
+    #   image = "dohly-nginx-test:latest";
+    #   ports = [ "0.0.0.0:7000:7000/tcp" ];
+    #   log-driver = "journald";
+    #   #extraOptions = [ "--user=nginx:nginx" ]; # Use nginx user that exists in Alpine image
+    # };
   };
 }
