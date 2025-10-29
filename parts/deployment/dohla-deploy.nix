@@ -408,7 +408,7 @@ in
           configFile = pkgs.writeShellApplication {
             name = "exec.sh";
             text = ''
-              find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s \'${pkgs.git} --git-dir ${gitDir} --work-tree ${projectPath} pull && ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service\'
+              find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s '${pkgs.git} --work-tree ${projectPath} pull local master && ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service'
             '';
           };
         in
