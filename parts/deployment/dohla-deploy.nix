@@ -404,11 +404,11 @@ in
       # GENERAL
       systemd.services."dohly-api-build-restarter" =
         let
+          gitDir = "/home/askold/repos/dohly-back.git";
           configFile = pkgs.writeShellApplication {
             name = "exec.sh";
             text = ''
-              cd ${apiProjectPath}
-              find ./* | ${pkgs.entr}/bin/entr -n ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service
+              find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s \'${pkgs.git} --git-dir ${gitDir} --work-tree ${projectPath} pull && ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service\'
             '';
           };
         in
@@ -421,18 +421,6 @@ in
           };
           wantedBy = [ "multi-user.target" ];
         };
-
-      # systemd.paths."dohly-api-test-monitor" = {
-      #   description = "Monitors code changes";
-      #   pathConfig = {
-      #     PathModified = [
-      #       "${apiProjectPath}/"
-      #     ];
-      #     Unit = "dohly-api-build-restarter";
-      #     MakeDirectory = false;
-      #   };
-      #   wantedBy = [ testRoot ];
-      # };
 
       # DATABASE
       virtualisation.oci-containers.containers."dohly-database" = {
