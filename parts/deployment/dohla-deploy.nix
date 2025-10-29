@@ -17,14 +17,17 @@ in
 
   config = lib.mkIf config.batat.dohla.enable (
     let
+      projectPath = "/home/askold/src/DohlaRusnya";
+      apiProjectPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
+
       testRoot = "docker-dohly-test-root.target";
-      testApiPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/default.nix";
+      testApiPath = "${apiProjectPath}/default.nix";
       testNetwork = "docker-network-dohly-test";
       testNetworkService = "${testNetwork}.service";
-      testProxyPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/Proxy/default.nix";
+      testProxyPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/Proxy/default.nix";
 
       prodRoot = "docker-dohly-prod-root.target";
-      prodApiPath = "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/default.nix";
+      prodApiPath = "${apiProjectPath}/default.nix";
       prodNetwork = "docker-network-dohly-prod";
       prodNetworkService = "${prodNetwork}.service";
 
@@ -399,6 +402,37 @@ in
       };
 
       # GENERAL
+      systemd.services."dohly-api-build-restarter" =
+        let
+          configFile = pkgs.writeShellApplication {
+            name = "exec.sh";
+            text = ''
+              cd ${apiProjectPath}
+              find ./* | ${pkgs.entr}/bin/entr -n ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service
+            '';
+          };
+        in
+        {
+          description = "Restarts build on code change";
+          serviceConfig = {
+            Type = "simple";
+            Restart = "always";
+            ExecStart = "${configFile}/bin/exec.sh";
+          };
+          wantedBy = [ "multi-user.target" ];
+        };
+
+      # systemd.paths."dohly-api-test-monitor" = {
+      #   description = "Monitors code changes";
+      #   pathConfig = {
+      #     PathModified = [
+      #       "${apiProjectPath}/"
+      #     ];
+      #     Unit = "dohly-api-build-restarter";
+      #     MakeDirectory = false;
+      #   };
+      #   wantedBy = [ testRoot ];
+      # };
 
       # DATABASE
       virtualisation.oci-containers.containers."dohly-database" = {
