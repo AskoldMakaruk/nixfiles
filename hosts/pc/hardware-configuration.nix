@@ -14,6 +14,20 @@
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
+  boot.kernelParams = [ "usbcore.autosuspend=-1" ];
+
+  # Add USB quirks for your RØDE device
+  boot.extraModprobeConfig = ''
+    options snd_usb_audio vid=0x19f7 pid=0x003e enable=1 skip_validation=1
+    options snd_usb_audio ignore_ctl_error=1
+  '';
+
+  services.udev.extraRules = ''
+    # Fix for RØDE XCM-50 USB issues
+    SUBSYSTEM=="usb", ATTR{idVendor}=="19f7", ATTR{idProduct}=="003e", ATTR{authorized}="1"
+    SUBSYSTEM=="usb", ATTR{idVendor}=="19f7", ATTR{idProduct}=="003e", RUN+="/bin/sh -c 'echo 1 > /sys/bus/usb/devices/%k/authorized'"
+  '';
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -28,7 +42,10 @@
     "sd_mod"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [
+    "kvm-amd"
+    "snd-usb-audio"
+  ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
