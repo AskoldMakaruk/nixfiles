@@ -2,20 +2,12 @@
   lib,
   config,
   pkgs,
-  inputs,
   ...
 }:
 let
-  inherit (inputs) mysecrets;
   mkDockerNetwork = import ./docker-network.nix;
 in
 {
-
-  imports = [ ./nginx-test.nix ];
-  options = {
-    batat.dohla.enable = lib.mkEnableOption "enables deployment of dohla rusnya services";
-  };
-
   config = lib.mkIf config.batat.dohla.enable (
     let
       projectPath = "/home/askold/src/DohlaRusnya";
@@ -25,18 +17,6 @@ in
       generalNetworkService = "${generalNetwork}.service";
     in
     {
-      virtualisation.docker = {
-        enable = true;
-        autoPrune.enable = true;
-      };
-      virtualisation.oci-containers.backend = "docker";
-
-      age.secrets = {
-        api-test.file = mysecrets + "/api-test.age";
-        api-prod.file = mysecrets + "/api-prod.age";
-        openobserve.file = mysecrets + "/openobserve.age";
-      };
-
       # GENERAL
       systemd.services."dohly-api-build-restarter" =
         let

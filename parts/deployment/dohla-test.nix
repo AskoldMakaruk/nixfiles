@@ -9,12 +9,6 @@ let
   mkDockerBuild = import ./docker-build.nix;
 in
 {
-
-  imports = [ ./nginx-test.nix ];
-  options = {
-    batat.dohla.enable = lib.mkEnableOption "enables deployment of dohla rusnya services";
-  };
-
   config = lib.mkIf config.batat.dohla.enable (
     let
       projectPath = "/home/askold/src/DohlaRusnya";
@@ -32,56 +26,56 @@ in
     {
       # TEST
       # PROXY
-      virtualisation.oci-containers.containers."dohly-proxy-test" = {
-        image = "dohly-proxy-test";
-        environmentFiles = [
-          "/run/agenix/api-test"
-          #"/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/.env"
-        ];
-        # dependsOn = [ "dohly-database" ];
-        ports = [
-          "0.0.0.0:7000:5000/tcp"
-        ];
-        log-driver = "journald";
-        extraOptions = [
-          "--network-alias=dohly-proxy-test"
-          "--network=dohly-test"
-          "--network=dohly-general"
-        ];
-      };
-
-      systemd.services."docker-dohly-proxy-test" = {
-        serviceConfig = {
-          Restart = lib.mkOverride 90 "always";
-          RestartMaxDelaySec = lib.mkOverride 90 "1m";
-          RestartSec = lib.mkOverride 90 "100ms";
-          RestartSteps = lib.mkOverride 90 9;
-        };
-
-        after = [
-          "docker-build-dohly-proxy-test.service"
-          testNetworkService
-          generalNetworkService
-        ];
-
-        requires = [
-          "docker-build-dohly-proxy-test.service"
-          testNetworkService
-          generalNetworkService
-        ];
-
-        partOf = [ testRoot ];
-        wantedBy = [ testRoot ];
-      };
-
-      systemd.services."docker-build-dohly-proxy-test" = mkDockerBuild {
-        inherit pkgs;
-        projectPath = testProxyPath;
-        packageName = "proxy";
-        envName = "test";
-        root = testRoot;
-        port = "7100";
-      };
+      # virtualisation.oci-containers.containers."dohly-proxy-test" = {
+      #   image = "dohly-proxy-test";
+      #   environmentFiles = [
+      #     "/run/agenix/api-test"
+      #     #"/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/.env"
+      #   ];
+      #   # dependsOn = [ "dohly-database" ];
+      #   ports = [
+      #     "0.0.0.0:7000:5000/tcp"
+      #   ];
+      #   log-driver = "journald";
+      #   extraOptions = [
+      #     "--network-alias=dohly-proxy-test"
+      #     "--network=dohly-test"
+      #     "--network=dohly-general"
+      #   ];
+      # };
+      #
+      # systemd.services."docker-dohly-proxy-test" = {
+      #   serviceConfig = {
+      #     Restart = lib.mkOverride 90 "always";
+      #     RestartMaxDelaySec = lib.mkOverride 90 "1m";
+      #     RestartSec = lib.mkOverride 90 "100ms";
+      #     RestartSteps = lib.mkOverride 90 9;
+      #   };
+      #
+      #   after = [
+      #     "docker-build-dohly-proxy-test.service"
+      #     testNetworkService
+      #     generalNetworkService
+      #   ];
+      #
+      #   requires = [
+      #     "docker-build-dohly-proxy-test.service"
+      #     testNetworkService
+      #     generalNetworkService
+      #   ];
+      #
+      #   partOf = [ testRoot ];
+      #   wantedBy = [ testRoot ];
+      # };
+      #
+      # systemd.services."docker-build-dohly-proxy-test" = mkDockerBuild {
+      #   inherit pkgs;
+      #   projectPath = testProxyPath;
+      #   packageName = "proxy";
+      #   envName = "test";
+      #   root = testRoot;
+      #   port = "7100";
+      # };
 
       # API
       virtualisation.oci-containers.containers."dohly-api-test" = {

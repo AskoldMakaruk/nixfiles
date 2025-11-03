@@ -8,10 +8,9 @@ let
   inherit (inputs) mysecrets;
 in
 {
-
   imports = [
     ./dohla-general.nix
-    ./dohla-prod.nix
+    # ./dohla-prod.nix
     ./dohla-test.nix
   ];
 

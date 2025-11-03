@@ -6,18 +6,10 @@
   ...
 }:
 let
-  inherit (inputs) mysecrets;
   mkDockerNetwork = import ./docker-network.nix;
   mkDockerBuild = import ./docker-build.nix;
-  mkDockerContainer = import ./docker-container.nix;
 in
 {
-
-  imports = [ ./nginx-test.nix ];
-  options = {
-    batat.dohla.enable = lib.mkEnableOption "enables deployment of dohla rusnya services";
-  };
-
   config = lib.mkIf config.batat.dohla.enable (
     let
       projectPath = "/home/askold/src/DohlaRusnya";
@@ -28,7 +20,6 @@ in
       prodNetwork = "docker-network-dohly-prod";
       prodNetworkService = "${prodNetwork}.service";
 
-      generalRoot = "docker-compose-dohly-general-root.target";
       generalNetwork = "docker-network-dohly-general";
       generalNetworkService = "${generalNetwork}.service";
     in
