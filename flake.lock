@@ -189,11 +189,11 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1759920948,
-        "narHash": "sha256-KrbN9r54hLDOqQotzEbAbqEDtBwyhMocIKS7aDtW81c=",
+        "lastModified": 1761736792,
+        "narHash": "sha256-Vnol1/uXdUq3dafxiUb7fQ7xYJsdBr70XE4Wkcxadjg=",
         "ref": "refs/heads/master",
-        "rev": "384839c9226f9cfa249ca371b0961b7457e87338",
-        "revCount": 10,
+        "rev": "d162e0f94aaf201380e4cdc0a9b34b09ee6a95b5",
+        "revCount": 15,
         "type": "git",
         "url": "file:///home/askold/secrets/"
       },
