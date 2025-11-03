@@ -7,6 +7,7 @@
 }:
 let
   inherit (inputs) mysecrets;
+  mkDockerNetwork = import ./docker-network.nix;
 in
 {
 
@@ -230,24 +231,11 @@ in
       };
 
       # Networks
-      systemd.services."${testNetwork}" = (
-        let
-          networkName = "dohly-test";
-        in
-        {
-          path = [ pkgs.docker ];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStop = "docker network rm -f ${networkName}";
-          };
-          script = ''
-            docker network inspect ${networkName}|| docker network create ${networkName}
-          '';
-          partOf = [ testRoot ];
-          wantedBy = [ testRoot ];
-        }
-      );
+      systemd.services."${testNetwork}" = mkDockerNetwork {
+        inherit pkgs;
+        networkName = "dohly-test";
+        root = testRoot;
+      };
 
       systemd.targets."${testRoot}" = {
         unitConfig = {
@@ -375,24 +363,11 @@ in
       };
 
       # Networks
-      systemd.services."${prodNetwork}" = (
-        let
-          networkName = "dohly-prod";
-        in
-        {
-          path = [ pkgs.docker ];
-          serviceConfig = {
-            Type = "oneshot";
-            RemainAfterExit = true;
-            ExecStop = "docker network rm -f ${networkName}";
-          };
-          script = ''
-            docker network inspect ${networkName}|| docker network create ${networkName}
-          '';
-          partOf = [ prodRoot ];
-          wantedBy = [ prodRoot ];
-        }
-      );
+      systemd.services."${prodNetwork}" = mkDockerNetwork {
+        inherit pkgs;
+        networkName = "dohly-prod";
+        root = prodRoot;
+      };
 
       systemd.targets."${prodRoot}" = {
         unitConfig = {
@@ -540,19 +515,12 @@ in
         partOf = [ generalRoot ];
         wantedBy = [ generalRoot ];
       };
+
       # Networks
-      systemd.services."${generalNetwork}" = {
-        path = [ pkgs.docker ];
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-          ExecStop = "docker network rm -f dohly-general";
-        };
-        script = ''
-          docker network inspect dohly-general || docker network create dohly-general
-        '';
-        partOf = [ generalRoot ];
-        wantedBy = [ generalRoot ];
+      systemd.services."${generalNetwork}" = mkDockerNetwork {
+        inherit pkgs;
+        networkName = "dohly-general";
+        root = generalRoot;
       };
 
       systemd.targets."${generalRoot}" = {
