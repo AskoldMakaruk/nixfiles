@@ -25,6 +25,28 @@ in
     in
     {
       # TEST
+      systemd.services."dohly-api-build-restarter" =
+        let
+          gitDir = "/home/askold/repos/dohly-back.git";
+          configFile = pkgs.writeShellApplication {
+            name = "exec.sh";
+            text = ''
+              find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s \
+              '${pkgs.git}/bin/git --work-tree ${projectPath} --git-dir ${projectPath}/.git pull local master && \ 
+               ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service'
+            '';
+          };
+        in
+        {
+          description = "Restarts build on code change";
+          serviceConfig = {
+            Type = "simple";
+            Restart = "always";
+            ExecStart = "${configFile}/bin/exec.sh";
+          };
+          wantedBy = [ "multi-user.target" ];
+        };
+
       # PROXY
       # virtualisation.oci-containers.containers."dohly-proxy-test" = {
       #   image = "dohly-proxy-test";
@@ -137,7 +159,7 @@ in
         ];
         dependsOn = [ "dohly-api-test" ];
         ports = [
-          "0.0.0.0:7200:3000/tcp"
+          "0.0.0.0:7200:5173/tcp"
         ];
         log-driver = "journald";
         extraOptions = [
@@ -180,7 +202,7 @@ in
         };
         script = ''
           cd /home/askold/src/tic-tac-toe/tictactoe/
-          docker build -t dohly-front-test:latest -f Dockerfile .
+          docker build -t dohly-front-test:latest -f dev.dockerfile .
         '';
         partOf = [ testRoot ];
         wantedBy = [ testRoot ];

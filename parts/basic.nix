@@ -17,7 +17,8 @@
 
     environment.systemPackages = with pkgs; [
       anki-bin
-      affine # mira alternative; collaborative whiteboard & markdown database
+      # deprecated due to electron 35 dependency
+      # affine # mira alternative; collaborative whiteboard & markdown database
       telegram-desktop
       nix-output-monitor # nom. for build logs
 

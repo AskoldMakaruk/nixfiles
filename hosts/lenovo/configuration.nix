@@ -22,7 +22,7 @@ in
     shell.enable = true;
     kde.enable = true;
     nvim.enable = true;
-    jetbrains.enable = false;
+    jetbrains.enable = true;
     vscode.enable = true;
     piracy.enable = false;
     dohla.enable = true;
@@ -113,6 +113,10 @@ in
   };
 
   programs.nix-ld.enable = true;
+  programs.nh = {
+    enable = true;
+    flake = "/home/askold/.dotfiles";
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh = {

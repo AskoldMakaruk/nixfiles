@@ -10,34 +10,12 @@ in
 {
   config = lib.mkIf config.batat.dohla.enable (
     let
-      projectPath = "/home/askold/src/DohlaRusnya";
-
       generalRoot = "docker-compose-dohly-general-root.target";
       generalNetwork = "docker-network-dohly-general";
       generalNetworkService = "${generalNetwork}.service";
     in
     {
       # GENERAL
-      systemd.services."dohly-api-build-restarter" =
-        let
-          gitDir = "/home/askold/repos/dohly-back.git";
-          configFile = pkgs.writeShellApplication {
-            name = "exec.sh";
-            text = ''
-              find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s '${pkgs.git}/bin/git --work-tree ${projectPath} pull local master && ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service'
-            '';
-          };
-        in
-        {
-          description = "Restarts build on code change";
-          serviceConfig = {
-            Type = "simple";
-            Restart = "always";
-            ExecStart = "${configFile}/bin/exec.sh";
-          };
-          wantedBy = [ "multi-user.target" ];
-        };
-
       # DATABASE
       virtualisation.oci-containers.containers."dohly-database" = {
         image = "dohly-database";
@@ -138,7 +116,13 @@ in
           RemainAfterExit = true;
         };
         script = ''
-          docker volume inspect dohly-observe-volume || docker volume create dohly-observe-volume
+          docker volume inspect dohly-observe-volume || \
+          docker volume create \
+            --driver local \
+            --opt type=none \
+            --opt device=/work/dohly/observe/ \
+            --opt o=bind \
+          dohly-observe-volume
         '';
         partOf = [ generalRoot ];
         wantedBy = [ generalRoot ];
