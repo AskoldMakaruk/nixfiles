@@ -24,6 +24,10 @@
     # SHELL = "zsh";
     # NIX_SHELL_INIT = "zsh";
     NIXPKGS_ALLOW_UNFREE = "1";
+    LD_LIBRARY_PATH = "${pkgs.openssl_legacy}/lib/";
+    # LD_LIBRARY_PATH = "${lib.makeLibraryPath [
+    #   pkgs.openssl
+    # ]}";
   };
 
   #   home.file = {

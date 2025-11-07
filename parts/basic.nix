@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -22,6 +23,8 @@
 
       lorien # minimalistic infinite canvas
 
+      inputs.agenix.packages.${system}.default
+
       vlc
 
       #tools
@@ -36,6 +39,7 @@
       ghostty # terminal emulator
 
       follow
+      openssl_legacy
     ];
     # Install firefox.
     programs.firefox.enable = true;

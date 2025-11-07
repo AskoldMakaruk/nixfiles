@@ -27,7 +27,6 @@ in
     jetbrains.enable = true;
     mscode.enable = true;
     development.enable = true;
-
     dohla.enable = false;
     affine.enable = false;
   };
@@ -35,18 +34,11 @@ in
   age = {
     identityPaths = [ "/home/askold/.ssh/agenix_key" ];
     secrets = {
-      api = {
-        file = mysecrets + "/api-test.age";
-      };
-      postgres = {
-        file = mysecrets + "/postgres-test.age";
-      };
-      wg_key = {
-        file = mysecrets + "/pc_wireguard_key.age";
-      };
-      wg_endpoint = {
-        file = mysecrets + "/wireguard_endpoint_ip.age";
-      };
+      api.file = mysecrets + "/api-test.age";
+      postgres.file = mysecrets + "/postgres-test.age";
+
+      wg_key.file = mysecrets + "/pc_wireguard_key.age";
+      wg_endpoint.file = mysecrets + "/wireguard_endpoint_ip.age";
     };
   };
 
@@ -66,7 +58,7 @@ in
     backupFileExtension =
       "backup-"
       + pkgs.lib.readFile "${pkgs.runCommand "timestamp" { } "echo -n `date '+%Y%m%d%H%M%S'` > $out"}";
-    useGlobalPkgs = false;
+    useGlobalPkgs = true;
   };
 
   networking.hostName = "pc-machine"; # Define your hostname.
