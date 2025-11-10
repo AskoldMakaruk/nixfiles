@@ -14,8 +14,13 @@
   };
 
   home.sessionVariables = {
-    LD_LIBRARY_PATH = "${pkgs.openssl_legacy}/lib/";
-    DOTNET_ROOT = "${pkgs.dotnetCorePackages.runtime_9_0}/share/dotnet/";
+    LD_LIBRARY_PATH = lib.makeLibraryPath [
+      "${pkgs.openssl_legacy}/lib/"
+      pkgs.icu
+    ];
+    # DOTNET_ROOT = "${pkgs.dotnet-sdk}";
+    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_9_0}/share/dotnet/";
+
     EDITOR = "nvim";
     VISUAL = "nvim";
     TERMINAL = "konsole";

@@ -36,11 +36,12 @@
       fzf
       zoxide
       dblab
+      tree
 
       ghostty # terminal emulator
 
       follow
-      openssl_legacy
+      #openssl_legacy
     ];
     # Install firefox.
     programs.firefox.enable = true;
