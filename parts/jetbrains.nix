@@ -3,6 +3,7 @@
   inputs,
   lib,
   pkgs,
+  pkgs-askold,
   ...
 }:
 {
@@ -13,9 +14,9 @@
 
   config = lib.mkIf config.batat.jetbrains.enable {
 
-    nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
+    #nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
 
-    environment.systemPackages = with pkgs; [
+    environment.systemPackages = with pkgs-askold; [
       jetbrains.rider
     ];
   };

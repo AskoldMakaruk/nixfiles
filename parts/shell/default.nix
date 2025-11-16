@@ -12,14 +12,16 @@
 
   config = lib.mkIf config.batat.shell.enable {
 
-    environment.systemPackages =
-      with pkgs;
-      [
-        pay-respects
-        eza # ls alternative
-        oh-my-posh
-      ]
-      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+    fonts.packages = with pkgs; [
+      nerd-fonts.fira-code
+      nerd-fonts.droid-sans-mono
+    ];
+
+    environment.systemPackages = with pkgs; [
+      pay-respects
+      eza # ls alternative
+      oh-my-posh
+    ];
 
     programs.zsh = {
       enable = true;

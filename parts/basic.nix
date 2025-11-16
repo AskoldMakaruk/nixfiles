@@ -26,6 +26,8 @@
 
       inputs.agenix.packages.${system}.default
 
+      xdotool
+
       vlc
 
       #tools

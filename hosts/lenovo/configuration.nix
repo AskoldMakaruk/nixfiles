@@ -15,6 +15,7 @@ in
     ../../parts
     ../../parts/wireguard.nix
     ../../services/affine.nix
+    ../../services/espanso.nix
   ];
 
   batat = {
