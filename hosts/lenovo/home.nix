@@ -2,6 +2,7 @@
   inputs,
   lib,
   pkgs,
+  pkgs-master,
   ...
 }:
 
@@ -19,7 +20,7 @@
       pkgs.icu
     ];
     # DOTNET_ROOT = "${pkgs.dotnet-sdk}";
-    DOTNET_ROOT = "${pkgs.dotnetCorePackages.sdk_9_0}/share/dotnet/";
+    DOTNET_ROOT = "${pkgs-master.dotnetCorePackages.sdk_10_0}/share/dotnet/";
 
     EDITOR = "nvim";
     VISUAL = "nvim";
@@ -38,7 +39,7 @@
 
   programs.git = {
     enable = true;
-    userName = "Askold Makaruk";
+    userName = "AskoldMakaruk";
     userEmail = "askoldmakaruk@gmail.com";
   };
 

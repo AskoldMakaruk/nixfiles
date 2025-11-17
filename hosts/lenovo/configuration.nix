@@ -1,5 +1,6 @@
 {
   inputs,
+  system,
   config,
   pkgs,
   ...
@@ -90,7 +91,14 @@ in
   # services.fprintd.tod.driver = pkgs.libfprint-2-tod1-goodix;
 
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
+    extraSpecialArgs = {
+      inherit inputs;
+
+      pkgs-master = import inputs.nixpkgs-master {
+        inherit system;
+        config.allowUnfree = true;
+      };
+    };
     users = {
       askold = import ./home.nix;
     };

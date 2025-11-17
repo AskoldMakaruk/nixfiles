@@ -39,7 +39,7 @@
 
   programs.git = {
     enable = true;
-    userName = "Askold Makaruk";
+    userName = "AskoldMakaruk";
     userEmail = "askoldmakaruk@gmail.com";
   };
 

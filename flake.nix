@@ -18,7 +18,7 @@
     agenix.url = "github:ryantm/agenix";
     nixvim.url = "github:nix-community/nixvim";
     #jbr-overlay.url = "github:AskoldMakaruk/jbr-wayland-nix";
-    dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
+    #   dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
     mysecrets = {
       url = "git+file:///home/askold/secrets/";
       flake = false;
@@ -35,7 +35,7 @@
       agenix,
       nixvim,
       # jbr-overlay,
-      dohla,
+      # dohla,
       espanso-fix,
       ...
     }@inputs:
@@ -54,7 +54,7 @@
               inherit system;
               config.allowUnfree = true;
             };
-            pkgs-askold = import nixpkgs-master {
+            pkgs-askold = import nixpkgs-askold {
               inherit system;
               config.allowUnfree = true;
             };
@@ -62,7 +62,7 @@
           modules = [
             ./hosts/lenovo/configuration.nix
             agenix.nixosModules.default
-            dohla.nixosModules.dohly-services
+            #dohla.nixosModules.dohly-services
             espanso-fix.nixosModules.espanso-capdacoverride
           ];
         };
@@ -73,7 +73,7 @@
           modules = [
             ./hosts/pc/configuration.nix
             agenix.nixosModules.default
-            dohla.nixosModules.dohly-services
+            #dohla.nixosModules.dohly-services
           ];
         };
       };
