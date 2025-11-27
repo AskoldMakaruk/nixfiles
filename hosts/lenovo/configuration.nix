@@ -28,9 +28,10 @@ in
     jetbrains.enable = true;
     vscode.enable = true;
     piracy.enable = false;
-    dohla.enable = true;
+    dohla.enable = false;
     development.enable = true;
     affine.enable = true;
+    gaming.enable = true;
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
