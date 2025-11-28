@@ -18,6 +18,7 @@ in
     ../../services/affine.nix
     ../../services/espanso.nix
     ../../services/minio.nix
+    #    inputs.nvf.nixosModules.default
   ];
 
   batat = {
@@ -33,6 +34,36 @@ in
     affine.enable = true;
     gaming.enable = true;
   };
+
+        #  programs.nvf = {
+                #    enable = true;
+
+    # Your settings need to go into the settings attribute set
+    # most settings are documented in the appendix
+                #    settings = {
+                #      vim.viAlias = false;
+                #      vim.vimAlias = true;
+                #      vim.lsp = {
+                #        enable = true;
+                #      };
+
+                #      vim.terminal.toggleterm.lazygit.enable  =true;
+                #vim.terminal.toggleterm.enable = true;
+                #      vim.utility.smart-splits.enable = true;
+                #      vim.utility.snacks-nvim.enable = true;
+                #vim.startPlugins = ["snacks-nvim"];
+                #vim.filetree.neo-tree.enable = true;
+
+                #      vim.languages.nix.enable = true;
+                #      vim.languages.nix.lsp.enable = true;
+                #vim.languages.nix.format.enable = true;
+                #vim.languages.nix.treesitter.enable = true;
+
+
+                #      vim.languages.csharp.lsp.enable = true;
+                #      vim.languages.csharp.treesitter.enable = true;
+                #    };
+                #  };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
   networking.hostName = "nixos"; # Define your hostname.
