@@ -23,6 +23,9 @@
       url = "git+file:///home/askold/secrets/";
       flake = false;
     };
+
+    nixos-generators.url = "github:nix-community/nixos-generators";
+    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -31,6 +34,7 @@
       nixpkgs,
       nixpkgs-master,
       nixpkgs-askold,
+      nixos-generators,
       home-manager,
       agenix,
       nixvim,
@@ -42,6 +46,7 @@
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
+
     in
     {
       nixosConfigurations = {
@@ -76,7 +81,26 @@
             #dohla.nixosModules.dohly-services
           ];
         };
+
+        timba-1 = lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs system nixpkgs;
+
+            pkgs-master = import nixpkgs-master {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs-askold = import nixpkgs-askold {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+            ./hosts/timba-1/configuration.nix
+            agenix.nixosModules.default
+          ];
+        };
       };
     };
-
 }
