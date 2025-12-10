@@ -7,7 +7,7 @@
 }:
 {
   options = {
-    batat.basic.enable = lib.mkEnableOption "enables basic programs";
+    batat.basic.enable = lib.mkEnableOption "enables basic stuff";
   };
 
   config = lib.mkIf config.batat.basic.enable {
@@ -16,37 +16,23 @@
     };
 
     environment.systemPackages = with pkgs; [
-      anki-bin
-      # deprecated due to electron 35 dependency
-      # affine # mira alternative; collaborative whiteboard & markdown database
-      telegram-desktop
-      nix-output-monitor # nom. for build logs
-
-      lorien # minimalistic infinite canvas
-
+      # nom. for nixos switch build logs
+      nix-output-monitor
+      # agenix tool for declarative secret management
       inputs.agenix.packages.${system}.default
 
       xdotool
 
-      vlc
-
       #tools
       nettools
       usbutils
-
+      # cli folder navigator
       yazi
       fzf
       zoxide
       dblab
       tree
-
-      ghostty # terminal emulator
-
-      follow
-      #openssl_legacy
     ];
-    # Install firefox.
-    programs.firefox.enable = true;
 
     # Set your time zone.
     time.timeZone = "Europe/Kyiv";

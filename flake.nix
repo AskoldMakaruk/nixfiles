@@ -3,11 +3,11 @@
   description = "Askold's main flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-25.05";
+    nixpkgs.url = "nixpkgs/nixos-25.11";
     nixpkgs-master.url = "github:nixos/nixpkgs";
     nixpkgs-askold.url = "github:AskoldMakaruk/nixpkgs";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
     espanso-fix.url = "github:pitkling/nixpkgs/espanso-fix-capabilities-export";

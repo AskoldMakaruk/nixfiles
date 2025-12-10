@@ -28,6 +28,7 @@ in
     age.secrets = {
       api-test.file = mysecrets + "/api-test.age";
       api-prod.file = mysecrets + "/api-prod.age";
+      front-test.file = mysecrets + "/front-test.age";
       openobserve.file = mysecrets + "/openobserve.age";
     };
   });

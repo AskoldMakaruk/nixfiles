@@ -17,7 +17,8 @@ in
     ../../parts/wireguard.nix
     ../../services/affine.nix
     ../../services/espanso.nix
-    ../../services/minio.nix
+    #../../services/minio.nix
+    ../../services/garage.nix
   ];
 
   batat = {
@@ -28,10 +29,11 @@ in
     jetbrains.enable = true;
     vscode.enable = true;
     piracy.enable = false;
-    dohla.enable = false;
+    dohla.enable = true;
     development.enable = true;
-    affine.enable = true;
+    affine.enable = false;
     gaming.enable = true;
+    programs.enable = true;
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];

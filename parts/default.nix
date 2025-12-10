@@ -13,6 +13,7 @@
     ./vscode.nix
     ./development/default.nix
     ./deployment/default.nix
+    ./programs.nix
   ];
 
   batat.audio.enable = lib.mkDefault true;
@@ -26,4 +27,5 @@
   batat.gaming.enable = lib.mkDefault false;
   batat.mscode.enable = lib.mkDefault false;
   batat.development.enable = lib.mkDefault false;
+  batat.programs.enable = lib.mkDefault false;
 }

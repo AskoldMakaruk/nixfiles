@@ -16,8 +16,9 @@ in
     ../../parts
     ../../parts/wireguard.nix
     ../../services/affine.nix
-    ../../services/espanso.nix
-    ../../services/minio.nix
+    #   ../../services/espanso.nix
+    # ../../services/minio.nix
+    ../../services/garage.nix
 
     "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-config.nix"
     inputs.nixos-generators.nixosModules.all-formats
@@ -48,6 +49,8 @@ in
     80
     443
     8080
+    5666
+    7200
   ];
   networking.hostId = "bd246190";
   networking.hostName = "timba-1";

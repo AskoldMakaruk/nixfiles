@@ -155,7 +155,7 @@ in
       virtualisation.oci-containers.containers."dohly-front-test" = {
         image = "dohly-front-test:latest";
         environmentFiles = [
-          #"/run/agenix/front-test"
+          "/run/agenix/front-test"
         ];
         dependsOn = [ "dohly-api-test" ];
         ports = [
