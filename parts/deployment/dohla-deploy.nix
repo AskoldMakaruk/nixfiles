@@ -16,8 +16,13 @@ in
 
   options = {
     batat.dohla.enable = lib.mkEnableOption "enables deployment of dohla rusnya services";
+    batat.dohla.test = {
+      database.enable = lib.mkEnableOption "enables test postgres";
+      logs.enable = lib.mkEnableOption "enables openobserve platform";
+      front.enable = lib.mkEnableOption "enables test frontend";
+      api.enable = lib.mkEnableOption "enables test api";
+    };
   };
-
   config = lib.mkIf config.batat.dohla.enable ({
     virtualisation.docker = {
       enable = true;

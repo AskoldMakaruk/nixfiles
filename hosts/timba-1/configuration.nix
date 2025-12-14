@@ -68,9 +68,16 @@ in
   batat = {
     shell.enable = true;
     nvim.enable = true;
-    dohla.enable = true;
     development.enable = true;
     affine.enable = true;
+
+    dohla.enable = true;
+    dohla.test = {
+      database.enable = true;
+      logs.enable = true;
+      api.enable = false;
+      front.enable = true;
+    };
   };
 
   age = {

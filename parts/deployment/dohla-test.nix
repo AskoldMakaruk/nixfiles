@@ -7,24 +7,40 @@
 let
   mkDockerNetwork = import ./docker-network.nix;
   mkDockerBuild = import ./docker-build.nix;
+
+  projectPath = "/home/askold/src/DohlaRusnya";
+  apiProjectPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
+
+  testRoot = "docker-dohly-test-root.target";
+  testApiPath = "${apiProjectPath}/default.nix";
+  testNetwork = "docker-network-dohly-test";
+  testNetworkService = "${testNetwork}.service";
+  testProxyPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/Proxy/default.nix";
+
+  generalNetwork = "docker-network-dohly-general";
+  generalNetworkService = "${generalNetwork}.service";
 in
 {
-  config = lib.mkIf config.batat.dohla.enable (
-    let
-      projectPath = "/home/askold/src/DohlaRusnya";
-      apiProjectPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
+  config = lib.mkMerge [
 
-      testRoot = "docker-dohly-test-root.target";
-      testApiPath = "${apiProjectPath}/default.nix";
-      testNetwork = "docker-network-dohly-test";
-      testNetworkService = "${testNetwork}.service";
-      testProxyPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/Proxy/default.nix";
-
-      generalNetwork = "docker-network-dohly-general";
-      generalNetworkService = "${generalNetwork}.service";
-    in
+    # TEST
     {
-      # TEST
+      # Networks
+      systemd.services."${testNetwork}" = mkDockerNetwork {
+        inherit pkgs;
+        networkName = "dohly-test";
+        root = testRoot;
+      };
+
+      systemd.targets."${testRoot}" = {
+        unitConfig = {
+          Description = "Root target for dohly project test";
+        };
+        wantedBy = [ "multi-user.target" ];
+      };
+    }
+
+    (lib.mkIf config.batat.dohla.test.api.enable ({
       systemd.services."dohly-api-build-restarter" =
         let
           gitDir = "/home/askold/repos/dohly-back.git";
@@ -151,13 +167,18 @@ in
         port = "7100";
       };
 
-      # FRONT
+    }))
+
+    # FRONT
+    (lib.mkIf config.batat.dohla.test.front.enable ({
       virtualisation.oci-containers.containers."dohly-front-test" = {
         image = "dohly-front-test:latest";
         environmentFiles = [
           "/run/agenix/front-test"
         ];
-        dependsOn = [ "dohly-api-test" ];
+        dependsOn = [
+          #  "dohly-api-test"
+        ];
         ports = [
           "0.0.0.0:7200:5173/tcp"
         ];
@@ -208,19 +229,6 @@ in
         wantedBy = [ testRoot ];
       };
 
-      # Networks
-      systemd.services."${testNetwork}" = mkDockerNetwork {
-        inherit pkgs;
-        networkName = "dohly-test";
-        root = testRoot;
-      };
-
-      systemd.targets."${testRoot}" = {
-        unitConfig = {
-          Description = "Root target for dohly project test";
-        };
-        wantedBy = [ "multi-user.target" ];
-      };
-    }
-  );
+    }))
+  ];
 }

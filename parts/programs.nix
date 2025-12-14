@@ -21,7 +21,7 @@
 
       vlc
 
-      ghostty # terminal emulator
+      #     ghostty # terminal emulator
 
       follow
       #openssl_legacy

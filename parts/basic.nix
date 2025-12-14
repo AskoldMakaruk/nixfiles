@@ -32,6 +32,11 @@
       zoxide
       dblab
       tree
+
+      # websocket cli client
+      claws
+
+      ghostty
     ];
 
     # Set your time zone.
