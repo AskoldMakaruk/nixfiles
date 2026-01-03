@@ -10,22 +10,41 @@
       url = "github:nix-community/home-manager/release-25.11";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # global macro expander
     espanso-fix.url = "github:pitkling/nixpkgs/espanso-fix-capabilities-export";
+
+    # cli tool to send telegram bot messages
     telegram-cli = {
       url = "github:AskoldMakaruk/telegram-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    agenix.url = "github:ryantm/agenix";
+
+    # vim flake
     nixvim.url = "github:nix-community/nixvim";
-    #jbr-overlay.url = "github:AskoldMakaruk/jbr-wayland-nix";
-    #   dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
+
+    # secret manager
+    agenix.url = "github:ryantm/agenix";
+
+    # personal secrets
     mysecrets = {
       url = "git+file:///home/askold/secrets/";
       flake = false;
     };
 
-    nixos-generators.url = "github:nix-community/nixos-generators";
-    nixos-generators.inputs.nixpkgs.follows = "nixpkgs";
+    # iso generation
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    #unused
+    # jbr-overlay.url = "github:AskoldMakaruk/jbr-wayland-nix";
+    # dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
+    # tagstudio = {
+    #   url = "github:TagStudioDev/TagStudio";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
