@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   pkgs,
@@ -36,6 +37,9 @@
   #       recursive = true;
   #     };
   #   };
+
+  home.file.".ideavimrc".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/ideavimrc";
 
   programs.git = {
     enable = true;

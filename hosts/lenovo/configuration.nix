@@ -19,12 +19,14 @@ in
     ../../services/espanso.nix
     #../../services/minio.nix
     ../../services/garage.nix
+    ../../services/slskd.nix
+    ../../parts/keyd.nix
   ];
 
   batat = {
     audio.enable = true;
     shell.enable = true;
-    kde.enable = true;
+    # kde.enable = true;
     nvim.enable = true;
     jetbrains.enable = true;
     vscode.enable = true;
@@ -64,6 +66,53 @@ in
     };
   };
 
+  services.xserver.enable = true;
+
+  services = {
+
+    # android ass DE
+    desktopManager.lomiri.enable = false;
+
+    # too flashy and alt tab doensn't work as well as shortcuts from non en layout
+    desktopManager.cosmic.enable = false;
+
+    # fun kino DE, unstable as monkey bananzas
+    # i cannot resize a fucken window
+    # telegram acts like a bitch, incoming message brings window on top # fixed in tg settings
+    desktopManager.pantheon.enable = false;
+
+    # gnomification (in a bad way)
+    # never again (maybe)
+    displayManager.gdm.enable = false;
+    desktopManager.gnome.enable = false;
+    # the slim gnomy
+    gnome.core-apps.enable = false;
+    gnome.core-developer-tools.enable = false;
+    gnome.games.enable = false;
+
+    # kde plasma. the base shit
+    desktopManager.plasma6 = {
+      enable = true;
+      enableQt5Integration = true; # disable for qt6 full version
+    };
+    displayManager = {
+      #defaultSession = "plasma";
+      sddm = {
+        enable = true;
+        wayland.enable = true;
+      };
+    };
+
+    # no shortcuts. no app launcher. no fucking wifi.
+    xserver.desktopManager.xfce.enable = false;
+
+  };
+
+  # the slim gnomy
+  environment.gnome.excludePackages = with pkgs; [
+    gnome-tour
+    gnome-user-docs
+  ];
   # Enable networking
   # networking.networkmanager.enable = true;
   # networking.networkmanager.wifi.backend = "iwd";

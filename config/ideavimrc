@@ -1,0 +1,161 @@
+let mapleader=" "
+
+set showcmd
+set scrolloff=5
+set sidescrolloff=5
+set incsearch
+
+set clipboard^=unnamedplus,unnamed
+
+set hlsearch
+set ignorecase
+set smartcase
+set visualbell " no sound errors
+
+set showmode
+set number relativenumber
+
+set ReplaceWithRegister
+
+" Toggle case and start typing. E.g. `<leader>iget`: `property` -> `getProperty`
+nmap <leader>i ~hi
+" Remove selection and toggle case. E.g. `v2l<leader>u`: `getProperty` -> `property`
+vmap <leader>u d~h
+
+""" IdeaVim options
+" Smart join for <C-J>
+set ideajoin
+" Map vim marks to IDEA global marks
+set ideamarks
+
+""" IdeaVim actions
+nmap [[ <Action>(MethodUp)
+nmap ]] <Action>(MethodDown)
+
+nmap ]e <Action>(GotoNextError)
+nmap [e <Action>(GotoPreviousError)
+
+nmap gb <Action>(Back)
+nmap gD <Action>(GotoTypeDeclaration)
+nmap gf <Action>(Forward)
+nmap gh <Action>(ShowHoverInfo)
+nmap gL <Action>(QuickImplementations)
+
+nmap <leader>b <Action>(ToggleLineBreakpoint)
+
+if &ide =~? 'rider'
+  nmap <leader>c <Action>(RiderShowIncomingCalls)
+else
+  nmap <leader>c <Action>(CallHierarchy)
+endif
+
+" Highlight usages, use CMD+G/Shift+CMD+G to iterate
+nmap <leader>h <Action>(HighlightUsagesInFile)
+nmap <leader>n <Action>(ReSharperNavigateTo)
+nmap <leader>p <Action>(ParameterInfo)
+nmap <leader>q <Action>(ToggleRenderedDocPresentation)
+nmap <leader>r <Action>(Refactorings.QuickListPopupAction)
+xmap <leader>r <Action>(Refactorings.QuickListPopupAction)
+nmap <leader>s <Action>(ShowUsages)
+nmap <leader>t <Action>(TypeHierarchy)
+nmap <leader>u <Action>(FindUsages)
+nmap <leader>v <Action>(Vcs.QuickListPopupAction)
+nmap <leader>w <Action>(ActiveToolwindowGroup)
+nmap <leader>x <Action>(HideAllWindows)
+
+nmap <C-j> <Action>(MoveLineDown)
+xmap <C-j> <Action>(MoveLineDown)
+nmap <C-k> <Action>(MoveLineUp)
+xmap <C-k> <Action>(MoveLineUp)
+
+command Wrap action EditorToggleUseSoftWraps
+
+
+""" IdeaVim plugins
+
+packadd matchit		" Extended matching. Supports % (matching motion) and g% (reverse motion)
+
+set which-key
+set notimeout
+let g:WhichKey_FontSize = 20
+
+Plug 'easymotion/vim-easymotion'	" Requires IdeaVim-EasyMotion. Lots of mappings
+Plug 'kana/vim-textobj-entire'		" entire buffer text object: ae
+Plug 'machakann/vim-highlightedyank'
+Plug 'terryma/vim-multiple-cursors'	" See below for remapped keys. <A-n> doesn't work on Mac
+Plug 'tommcdo/vim-exchange'		    " cx{motion} to select, again to exchange
+Plug 'tpope/vim-commentary'		    " [count]gc{motion}, o_gc, v_gc, gcc
+Plug 'tpope/vim-surround'		    " ys, cs, ds, S
+Plug 'vim-scripts/argtextobj.vim'	    " argument text objects: aa, ia
+
+" i need to know what it means before i add it in:
+"
+" Remap multiple-cursors shortcuts to match terryma/vim-multiple-cursors
+nmap <C-n> <Plug>NextWholeOccurrence
+xmap <C-n> <Plug>NextWholeOccurrence
+nmap g<C-n> <Plug>NextOccurrence
+xmap g<C-n> <Plug>NextOccurrence
+xmap <C-x> <Plug>SkipOccurrence
+xmap <C-p> <Plug>RemoveOccurrence
+" Plug 'vim-scripts/ReplaceWithRegister'  " [count][{reg}]gr{motion}, [count][{reg}]grr, {Visual}[{reg}]gr
+"
+" map Q gq
+" set nrformats-=octal
+"
+" Changes the word under the cursor, such that `.` will repeat with the next occurrence of the word
+nnoremap <leader>j *``cgn
+
+" Requires IdeaVim-Sneak plugin (port of ideavim-sneak)
+" Replaces s and S to search forwards/backwards with 2 chars. ; and , to repeat
+set sneak
+
+" Requires IdeaVim-QuickScope plugin (port of quick-scope)
+" Docs say to ensure that `set quickscope` is placed after `set sneak` (not sure why)
+" Replaces f/F and t/T to show highlights
+set quickscope
+let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+
+" CamelCaseMotion approximation (obsolete with WIP proper CamelCaseMotoin plugin)
+" Missing inner word motions e.g. i<leader>w
+nmap <leader>w [w
+nmap <leader>b [b
+nmap <leader>e ]w
+nmap <leader>ge ]b
+" let g:camelcasemotion_key='<leader>'
+" set CamelCaseMotion
+
+" CCM's inner motions are a bit weird. Arguably, they should be an actual text object,
+" like how vim-text-obj-variable-segment does it. On the other hand v[count]i\b can't
+" be done without a motion. These maps give us best of both worlds
+" xnoremap iv i\e
+" onoremap iv i\e
+" xnoremap av i\w
+" onoremap av i\w
+"
+"
+function! Invert(calledFromVisual)
+  let antonyms = ['true', 'false', 'after', 'before', 'start', 'end', 'left', 'right', 'first', 'last',
+                 \'True', 'False', 'After', 'Before', 'Start', 'End', 'Left', 'Right', 'First', 'Last']
+
+  if a:calledFromVisual
+    normal gv"wy
+  else
+    normal "wyiw
+  endif
+  let wordUnderCaret = @w
+
+  let eraseWord = a:calledFromVisual ? 'gvc' : 'ciw'
+  let count = 0
+  while (count < len(antonyms))
+    if (antonyms[count] ==# wordUnderCaret)
+      let antonym = (count % 2 ==? 0) ? antonyms[count + 1] : antonyms[count - 1]
+      execute 'normal ' .. eraseWord .. antonym
+      break
+    endif
+    let count += 1
+  endwhile
+endfunction
+
+
+nnoremap ! :call Invert(0)<CR>
+vnoremap ! :<C-u>call Invert(1)<CR>
