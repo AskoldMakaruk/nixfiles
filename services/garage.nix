@@ -10,8 +10,9 @@ in
     };
 
     services.garage = {
-      package = pkgs.garage;
+      package = pkgs.garage_2;
       enable = true;
+      logLevel = "debug";
       environmentFile = "/run/agenix/garage";
       settings = {
         metadata_dir = "/var/lib/garage/meta";
@@ -21,14 +22,12 @@ in
         replication_factor = 1;
 
         s3_api = {
-
           s3_region = "garage";
           api_bind_addr = "[::]:3900";
           root_domain = ".s3.garage.localhost";
         };
 
         s3_web = {
-
           bind_addr = "[::]:3902";
           root_domain = ".web.garage.localhost";
           index = "index.html";
@@ -38,11 +37,8 @@ in
           api_bind_addr = "[::]:5550";
         };
 
-        #rpc_secret = "4425f5c26c5e11581d3223904324dcb5b5d5dfb14e5e7f35e38c595424f5f1e6";
         rpc_bind_addr = "[::]:3901";
         rpc_bind_outgoing = false;
-        #admin_token = "$(openssl rand -base64 32)"
-        #metrics_token = "$(openssl rand -base64 32)"
       };
     };
   };
