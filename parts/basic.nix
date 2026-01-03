@@ -32,6 +32,7 @@
       zoxide
       dblab
       tree
+      ripgrep
 
       # websocket cli client
       claws

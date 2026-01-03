@@ -17,6 +17,7 @@
     #nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
 
     environment.systemPackages = with pkgs-askold; [
+      jetbrains.webstorm
       jetbrains.rider
     ];
   };

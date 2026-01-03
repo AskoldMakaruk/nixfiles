@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 {
@@ -13,9 +14,14 @@
 
     environment.systemPackages = with pkgs; [
       anki-bin
+
       # deprecated due to electron 35 dependency
       # affine # mira alternative; collaborative whiteboard & markdown database
+
       telegram-desktop
+
+      # notebook
+      nb
 
       lorien # minimalistic infinite canvas
 
@@ -23,8 +29,13 @@
 
       #     ghostty # terminal emulator
 
-      follow
+      folo
       #openssl_legacy
+
+      # Tag Studio
+      # UI for managing files marked by tags
+      # written in python by youtuber, weights 2GB
+      # inputs.tagstudio.packages.${pkgs.stdenv.hostPlatform.system}.tagstudio
     ];
 
     programs.firefox.enable = true;
