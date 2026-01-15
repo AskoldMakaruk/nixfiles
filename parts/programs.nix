@@ -20,6 +20,8 @@
 
       telegram-desktop
 
+      simplex-chat-desktop
+
       # notebook
       nb
 
