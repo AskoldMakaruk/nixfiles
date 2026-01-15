@@ -7,3 +7,7 @@ function y() {
   [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
   rm -f -- "$tmp"
 }
+
+function nr() {
+  nix-shell -p "$1" --command "$1 ${@:2}"
+}

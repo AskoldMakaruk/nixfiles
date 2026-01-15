@@ -40,6 +40,11 @@
         batat-list = "nix-env --list-generations";
         grep = "grep --color=auto";
 
+        # kde system restart
+        logout = " qdbus org.kde.LogoutPrompt /LogoutPrompt  org.kde.LogoutPrompt.promptLogout";
+        reboot = "qdbus org.kde.LogoutPrompt /LogoutPrompt  promptReboot";
+        poweroff = "qdbus org.kde.Shutdown /Shutdown  org.kde.Shutdown.logoutAndShutdown";
+
         ls = "eza";
         cd = "z";
 
