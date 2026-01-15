@@ -1,19 +1,21 @@
-let mapleader=" "
+set scrolloff=10
+set sidescrolloff=10
+set history=1000
 
+set number relativenumber
 set showcmd
-set scrolloff=5
-set sidescrolloff=5
+set showmode
+
+set smartcase
 set incsearch
+set hlsearch
+set visualbell
 
 set clipboard^=unnamedplus,unnamed
 
-set hlsearch
-set ignorecase
-set smartcase
-set visualbell " no sound errors
+let mapleader="\<space>"
 
-set showmode
-set number relativenumber
+command Wrap action EditorToggleUseSoftWraps
 
 set ReplaceWithRegister
 
@@ -29,6 +31,8 @@ set ideajoin
 set ideamarks
 
 """ IdeaVim actions
+inoremap jk <Esc>
+
 nmap [[ <Action>(MethodUp)
 nmap ]] <Action>(MethodDown)
 
@@ -63,13 +67,48 @@ nmap <leader>v <Action>(Vcs.QuickListPopupAction)
 nmap <leader>w <Action>(ActiveToolwindowGroup)
 nmap <leader>x <Action>(HideAllWindows)
 
+nmap <leader>ff <Action>(GotoFile)
+let g:WhichKeyDesc_ff = "<leader>ff File picker"
+nmap <leader><leader> <Action>(GotoSymbol)
+let g:WhichKeyDesc_ff = "<leader>ff Symbols picker"
+
+
 nmap <C-j> <Action>(MoveLineDown)
 xmap <C-j> <Action>(MoveLineDown)
 nmap <C-k> <Action>(MoveLineUp)
 xmap <C-k> <Action>(MoveLineUp)
 
-command Wrap action EditorToggleUseSoftWraps
+nmap <leader>wx <Action>(CloseAllEditorsButActive)
+let g:WhichKeyDesc_Window_Closex = "<leader>wx Close All Tabs but active"
+nmap <leader>wr <Action>(ReopenClosedTab)
+let g:WhichKeyDesc_Window_Reopen = "<leader>wr Reopen Last Closed Buffer"
 
+
+let g:WhichKeyDesc_Folding = "<leader>z Folding"
+nmap <leader>zc <Action>(CollapseRegion)
+let g:WhichKeyDesc_Folding_c = "<leader>zc Collapse Region"
+nmap <leader>ze <Action>(ExpandRegion)
+let g:WhichKeyDesc_Folding_e = "<leader>ze Expand Region"
+nmap <leader>zd <Action>(CollapseAllRegions)
+let g:WhichKeyDesc_Folding_C = "<leader>zd Collapse All Regions"
+nmap <leader>zf <Action>(ExpandAllRegions)
+let g:WhichKeyDesc_Folding_E = "<leader>zf Expand All Regions"
+
+let g:WhichKeyDesc_Terminal = "<leader>t Terminal and Run"
+nmap <leader>to <Action>(Terminal.OpenInTerminal)
+let g:WhichKeyDesc_Terminal_to = "<leader>to Open New Terminal in Path"
+nmap <leader>tt <Action>(ActivateTerminalToolWindow)
+let g:WhichKeyDesc_Terminal_tt = "<leader>tt Open Terminal"
+nmap <leader>tr <Action>(ContextRun)
+let g:WhichKeyDesc_Terminal_tr = "<leader>tr Context Run"
+nmap <leader>ts <Action>(RunClass)
+let g:WhichKeyDesc_Terminal_ts = "<leader>ts Run Class"
+nmap <leader>tc <Action>(RerunTests)
+let g:WhichKeyDesc_Terminal_tc = "<leader>tc Run Tests"
+nmap <leader>tf <Action>(RerunFailedTests)
+let g:WhichKeyDesc_Terminal_tf = "<leader>tf Run Failed Tests"
+nmap <leader>tp <Action>(ChooseRunConfiguration)
+let g:WhichKeyDesc_Terminal_tp = "<leader>tp Choose Run Configuration"
 
 """ IdeaVim plugins
 
@@ -78,6 +117,102 @@ packadd matchit		" Extended matching. Supports % (matching motion) and g% (rever
 set which-key
 set notimeout
 let g:WhichKey_FontSize = 20
+let g:WhichKey_PrefixColor = "#a403fe"
+let g:WhichKey_CommandColor = "#01ffff"
+let g:WhichKey_PrefixStyle = "bold"
+let g:WhichKey_KeyStyle = "italic"
+let g:WhichKey_SortOrder = "by_key_prefix_first"
+let g:WhichKey_ShowTypedSequence = "false"
+
+
+let g:WhichKeyDesc_Ref = "<leader>r Refactorings"
+nmap <leader>rp <Action>(Refactorings.QuickListPopupAction)
+let g:WhichKeyDesc_Ref_p = "<leader>rp Refactor Popup"
+nmap <Leader>rf <Action>(ReformatCode)
+let g:WhichKeyDesc_Ref_f = "<leader>rf Reformat Code"
+nmap <Leader>rn <Action>(RenameElement)
+let g:WhichKeyDesc_Ref_n = "<leader>rn Rename Element"
+nmap <leader>ra <Action>(ShowIntentionActions)
+let g:WhichKeyDesc_Ref_a = "<leader>ra Intention Actions"
+nmap <leader>rg <Action>(Generate)
+let g:WhichKeyDesc_Ref_g = "<leader>rg Generate"
+
+let g:WhichKeyDesc_Find = "<leader>f Find and Replace"
+nmap <leader>fr <Action>(Replace)
+let g:WhichKeyDesc_Find_rep = "<leader>fr Replace"
+nmap <leader>fg <Action>(SearchEverywhere)
+let g:WhichKeyDesc_Find_find = "<leader>fg Search Everywhere"
+nmap <leader>fp <Action>(FindInPath)
+let g:WhichKeyDesc_Find_findp = "<leader>fp Find in Path"
+
+let g:WhichKeyDesc_vim = "<leader>v VIM"
+nmap <leader>vr <Action>(IdeaVim.ReloadVimRc.reload)
+let g:WhichKeyDesc_vim_r = "<leader>vr Reload .ideavimrc"
+nnoremap <leader>ve :e ~/.ideavimrc<CR>
+let g:WhichKeyDesc_vim_e = "<leader>ve Edit .ideavimrc"
+
+
+let g:WhichKeyDesc_Show = "<leader>s Show"
+nmap <leader>su <Action>(FindUsages)
+let g:WhichKeyDesc_Show_us = "<leader>su Show Usages"
+nmap <leader>sl <Action>(RecentLocations)
+let g:WhichKeyDesc_Show_lo = "<leader>sl Recent Locations"
+"map <leader>sr <Action>(GotoRelated)
+"let g:WhichKeyDesc_Show_rel = "<leader>sr Goto Related"
+nmap <leader>sd <Action>(QuickJavaDoc)
+let g:WhichKeyDesc_Show_doc = "<leader>sd Documentation"
+nmap <leader>se <Action>(ShowErrorDescription)
+let g:WhichKeyDesc_Show_er = "<leader>se Error Description"
+nmap <leader>sa <Action>(GotoAction)
+let g:WhichKeyDesc_Show_ac = "<leader>sa Actions"
+nmap <leader>sf <Action>(RecentFiles)
+let g:WhichKeyDesc_Show_fi = "<leader>sf Recent Files"
+nmap <leader>sc <Action>(RecentChangedFiles)
+let g:WhichKeyDesc_Show_sc = "<leader>sc Recent Changed Files"
+
+let g:WhichKeyDesc_Go = "<leader>g Go"
+nmap <leader>gb <Action>(Back)
+let g:WhichKeyDesc_Go_b = "<leader>gb Go Back"
+nmap <leader>gc <Action>(VcsShowPrevChangeMarker)
+let g:WhichKeyDesc_Go_c = "<leader>gc Go to Previous Git Change"
+nmap <leader>gd <Action>(GotoDeclaration)
+let g:WhichKeyDesc_Go_d = "<leader>gd Go to Declaration"
+nmap <leader>ge <Action>(JumpToLastChange)
+let g:WhichKeyDesc_Go_e = "<leader>ge Go to Last Change"
+nmap <leader>gf <Action>(Forward)
+let g:WhichKeyDesc_Go_f = "<leader>gf Go Forward"
+nmap <leader>gi <Action>(GotoImplementation)
+let g:WhichKeyDesc_Go_i = "<leader>gi Go to Implementation"
+nmap <leader>gj <Action>(GotoClass)
+let g:WhichKeyDesc_Go_j = "<leader>gj Go to Class"
+nmap <leader>gm <Action>(MethodDown)
+let g:WhichKeyDesc_Go_m = "<leader>gm Go to next method"
+nmap <leader>gn <Action>(VcsShowNextChangeMarker)
+let g:WhichKeyDesc_Go_n = "<leader>gn Go to Next Git Change"
+nmap <leader>gp <Action>(GotToSuperMethod)
+let g:WhichKeyDesc_Go_p = "<leader>gp Go to Super Method"
+nmap <leader>gt <Action>(GotoTest)
+let g:WhichKeyDesc_Go_t = "<leader>gt Go to Test"
+nmap <leader>gu <Action>(MethodUp)
+let g:WhichKeyDesc_Go_u = "<leader>gu Go to previous method"
+nmap <leader>gw <Action>(GotoPreviousError)
+let g:WhichKeyDesc_Go_w = "<leader>gw Go to Previous Error"
+nmap <leader>gx <Action>(GotoNextError)
+let g:WhichKeyDesc_Go_x = "<leader>gx Go to Next Error"
+
+let g:WhichKeyDesc_Debug = "<leader>d Debug"
+nmap <leader>dc <Action>(ChooseDebugConfiguration)
+let g:WhichKeyDesc_Debug_c = "<leader>dc Choose Debug Configuration"
+nmap <leader>dg <Action>(Debug)
+let g:WhichKeyDesc_Debug_g = "<leader>dg Debug"
+nmap <leader>dr <Action>(Debugger.RemoveAllBreakpoints)
+let g:WhichKeyDesc_Debug_r = "<leader>dr Remove All Breakpoints"
+nmap <leader>ds <Action>(Stop)
+let g:WhichKeyDesc_Debug_s = "<leader>ds Stop"
+nmap <leader>dt <Action>(ToggleLineBreakpoint)
+let g:WhichKeyDesc_Debug_t = "<leader>dt Toggle Line Breakpoint"
+nmap <leader>dv <Action>(ViewBreakpoints)
+let g:WhichKeyDesc_Debug_v = "<leader>dv View Breakpoints"
 
 Plug 'easymotion/vim-easymotion'	" Requires IdeaVim-EasyMotion. Lots of mappings
 Plug 'kana/vim-textobj-entire'		" entire buffer text object: ae
