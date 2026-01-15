@@ -8,6 +8,10 @@
 }:
 
 {
+  imports = [
+    inputs.zen-browser.homeModules.beta
+  ];
+
   home = {
     username = "askold";
     homeDirectory = "/home/askold";
@@ -54,4 +58,6 @@
 
   programs.zsh.enable = true;
   programs.home-manager.enable = true;
+
+  programs.zen-browser.enable = true;
 }
