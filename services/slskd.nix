@@ -1,12 +1,22 @@
-{ inputs, ... }:
+{ inputs, pkgs-master, ... }:
 let
   inherit (inputs) mysecrets;
 in
 {
+
+  users.groups."media" = {
+    members = [
+      "slskd"
+      "askold"
+    ];
+  };
+
   age.secrets = {
     slskd.file = mysecrets + "/slskd.age";
   };
+
   services.slskd = {
+    package = pkgs-master.slskd;
     enable = true;
     domain = "slskd.localhost";
     settings = {
@@ -16,7 +26,8 @@ in
       };
       shares = {
         directories = [
-          "/home/askold/Music/"
+          # TODO: move to directory that's accesable for slskd user
+          "/home/askold/Music"
         ];
       };
     };
