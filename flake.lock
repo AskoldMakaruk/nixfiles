@@ -141,11 +141,11 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1767086149,
-        "narHash": "sha256-7goZf+W84cIeAJ5WTpL7PTnApTuHvdsva5BQoatDgWM=",
+        "lastModified": 1769600753,
+        "narHash": "sha256-m7/roI+KG4CLOSNXVHNOQ+2UNTz1QQ12j1qozSsbeXs=",
         "ref": "refs/heads/master",
-        "rev": "6b1d9ba317dff1c03d04adc942e7c61d61865615",
-        "revCount": 20,
+        "rev": "f20b05ded420e055e8c09a462e5d4354f2788c74",
+        "revCount": 21,
         "type": "git",
         "url": "file:///home/askold/secrets/"
       },
@@ -223,11 +223,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1766567752,
-        "narHash": "sha256-WHVX5vF2mu9GRJiprvKJEwjn5bGEmE+bzmhxXs1N8KM=",
+        "lastModified": 1770373771,
+        "narHash": "sha256-OJFil/mSHcVFGVfeIkI3zR9Jr/y8iEdndwquYZi6Iww=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "8bbe3123a472506f9a92a61cea2465d2c7646af3",
+        "rev": "bf9a9c6be22f73bbd3f3c44c1ae166d5c75b673c",
         "type": "github"
       },
       "original": {

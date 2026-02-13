@@ -5,7 +5,11 @@
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-25.11";
     nixpkgs-master.url = "github:nixos/nixpkgs";
-    nixpkgs-askold.url = "github:AskoldMakaruk/nixpkgs";
+    nixpkgs-askold = {
+      url = "github:AskoldMakaruk/nixpkgs";
+      # for local development
+      # url = "git+file:///home/askold/src/nixpkgs";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       #inputs.nixpkgs.follows = "nixpkgs";
