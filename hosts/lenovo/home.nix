@@ -45,19 +45,28 @@
   home.file.".ideavimrc".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/ideavimrc";
 
-  programs.git = {
-    enable = true;
-    userName = "AskoldMakaruk";
-    userEmail = "askoldmakaruk@gmail.com";
+  programs = {
+    git = {
+      enable = true;
+      userName = "AskoldMakaruk";
+      userEmail = "askoldmakaruk@gmail.com";
+    };
+
+    oh-my-posh = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    zsh.enable = true;
+    home-manager.enable = true;
+
+    zen-browser.enable = true;
+
+    beets.enable = true;
+    beets.settings = lib.generators.toYAML { } {
+      directory = "~/Music";
+      library = "~/musiclib.db";
+      import.move = "yes";
+    };
   };
-
-  programs.oh-my-posh = {
-    enable = true;
-    enableZshIntegration = true;
-  };
-
-  programs.zsh.enable = true;
-  programs.home-manager.enable = true;
-
-  programs.zen-browser.enable = true;
 }
