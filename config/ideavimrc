@@ -33,6 +33,11 @@ set ideamarks
 """ IdeaVim actions
 inoremap jk <Esc>
 
+nnoremap H ^
+vnoremap H ^
+nnoremap L $
+vnoremap L $
+
 nmap [[ <Action>(MethodUp)
 nmap ]] <Action>(MethodDown)
 
@@ -78,11 +83,28 @@ xmap <C-j> <Action>(MoveLineDown)
 nmap <C-k> <Action>(MoveLineUp)
 xmap <C-k> <Action>(MoveLineUp)
 
+" Command Picker using <leader>
+let g:WhichKeyDesc_Window = "<leader>w Manage Windows"
+nmap <leader>ws <Action>(SplitVertically)
+let g:WhichKeyDesc_Window_Split = "<leader>ws Split Vertically"
+nmap <leader>wu <Action>(Unsplit)
+let g:WhichKeyDesc_Window_Unsplit = "<leader>wu Unsplit"
+nmap <leader>wq <Action>(CloseContent)
+let g:WhichKeyDesc_Window_Close = "<leader>wq Close Buffer"
+nmap <leader>wh <Action>(CloseAllToTheLeft)
+let g:WhichKeyDesc_Window_Closeh = "<leader>wh Close All Tabs to left"
+nmap <leader>wl <Action>(CloseAllToTheRight)
+let g:WhichKeyDesc_Window_Closel = "<leader>wl Close All Tabs to right"
 nmap <leader>wx <Action>(CloseAllEditorsButActive)
 let g:WhichKeyDesc_Window_Closex = "<leader>wx Close All Tabs but active"
 nmap <leader>wr <Action>(ReopenClosedTab)
 let g:WhichKeyDesc_Window_Reopen = "<leader>wr Reopen Last Closed Buffer"
-
+map <leader>wt <Action>(NextTab)
+let g:WhichKeyDesc_Window_NTab = "<leader>wt Next Tab"
+map <leader>wp <Action>(PreviousTab)
+let g:WhichKeyDesc_Window_PTab = "<leader>wp Previous Tab"
+nmap <leader>wc <Action>(HideAllWindows)
+let g:WhichKeyDesc_Window_Hide = "<leader>wc Hide All Windows"
 
 let g:WhichKeyDesc_Folding = "<leader>z Folding"
 nmap <leader>zc <Action>(CollapseRegion)
