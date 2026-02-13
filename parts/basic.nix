@@ -33,6 +33,7 @@
       dblab
       tree
       ripgrep
+      comma # , to call bins from nixpkgs
 
       # websocket cli client
       claws
