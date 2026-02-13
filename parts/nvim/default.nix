@@ -59,6 +59,7 @@
       ## copying config
       home.file = {
         ".config/nvim" = {
+          #source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/parts/nvim/config";
           source = ./config/nvim;
           recursive = true;
         };
