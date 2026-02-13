@@ -3,7 +3,7 @@
   inputs,
   lib,
   pkgs,
-  pkgs-askold,
+  pkgs-master,
   ...
 }:
 {
@@ -16,7 +16,7 @@
 
     #nixpkgs.overlays = with inputs.jbr-overlay.overlays; [ editorsOverlay ];
 
-    environment.systemPackages = with pkgs-askold; [
+    environment.systemPackages = with pkgs-master; [
       jetbrains.webstorm
       jetbrains.rider
     ];
