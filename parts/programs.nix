@@ -2,7 +2,10 @@
   config,
   lib,
   pkgs,
+  pkgs-askold,
+  pkgs-master,
   inputs,
+
   ...
 }:
 {
@@ -38,6 +41,19 @@
       # UI for managing files marked by tags
       # written in python by youtuber, weights 2GB
       # inputs.tagstudio.packages.${pkgs.stdenv.hostPlatform.system}.tagstudio
+      #
+
+      # pkgs-askold.beets
+
+      # two factor auth
+      kdePackages.keysmith
+
+      # vpns
+      openfortivpn
+      gof5
+
+      # work browser
+      ungoogled-chromium
     ];
 
     programs.firefox.enable = true;

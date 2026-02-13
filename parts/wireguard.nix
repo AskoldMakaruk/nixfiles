@@ -29,6 +29,7 @@ in
         {
           publicKey = wg_pub;
           allowedIPs = [ "10.5.5.0/24" ];
+          # allowedIPs = [ "0.0.0.0/32" ];
           #endpoint = loading public ip from secret insted via postSetup;
           persistentKeepalive = 25;
         }
