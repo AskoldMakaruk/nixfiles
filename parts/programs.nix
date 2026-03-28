@@ -5,7 +5,6 @@
   pkgs-askold,
   pkgs-master,
   inputs,
-
   ...
 }:
 {
@@ -18,12 +17,18 @@
     environment.systemPackages = with pkgs; [
       anki-bin
 
+      # (pkgs-master.godot-mono.override { dotnet-sdk = pkgs-master.dotnet-sdk_10; })
+      # pkgs-askold.godot-mono
+
       # deprecated due to electron 35 dependency
       # affine # mira alternative; collaborative whiteboard & markdown database
 
       telegram-desktop
 
       simplex-chat-desktop
+
+      # voip chat
+      mumble
 
       # notebook
       nb
@@ -43,7 +48,7 @@
       # inputs.tagstudio.packages.${pkgs.stdenv.hostPlatform.system}.tagstudio
       #
 
-      # pkgs-askold.beets
+      pkgs-master.beets
 
       # two factor auth
       kdePackages.keysmith
