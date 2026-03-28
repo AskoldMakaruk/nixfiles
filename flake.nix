@@ -6,9 +6,9 @@
     nixpkgs.url = "nixpkgs/nixos-25.11";
     nixpkgs-master.url = "github:nixos/nixpkgs";
     nixpkgs-askold = {
-      url = "github:AskoldMakaruk/nixpkgs";
+      #     url = "github:AskoldMakaruk/nixpkgs";
       # for local development
-      # url = "git+file:///home/askold/src/nixpkgs";
+      url = "git+file:///home/askold/src/nixpkgs";
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -53,9 +53,10 @@
       };
     };
 
+    # dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
+
     #unused
     # jbr-overlay.url = "github:AskoldMakaruk/jbr-wayland-nix";
-    # dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
     # tagstudio = {
     #   url = "github:TagStudioDev/TagStudio";
     #   inputs.nixpkgs.follows = "nixpkgs";

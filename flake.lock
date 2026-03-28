@@ -141,11 +141,11 @@
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1769600753,
-        "narHash": "sha256-m7/roI+KG4CLOSNXVHNOQ+2UNTz1QQ12j1qozSsbeXs=",
+        "lastModified": 1772279768,
+        "narHash": "sha256-5rOpkUnBc6P+pGIGD0BNtQk6mmonEXEuJA+pJXawzNQ=",
         "ref": "refs/heads/master",
-        "rev": "f20b05ded420e055e8c09a462e5d4354f2788c74",
-        "revCount": 21,
+        "rev": "25bb35ec1e59457a7d522b9fb8d94b511d0d680e",
+        "revCount": 23,
         "type": "git",
         "url": "file:///home/askold/secrets/"
       },
@@ -208,17 +208,17 @@
     },
     "nixpkgs-askold": {
       "locked": {
-        "lastModified": 1763278678,
-        "narHash": "sha256-kmzY53JuXSwoi1GticFGIhnZ0r12y0SuBV7Jqp3boQQ=",
-        "owner": "AskoldMakaruk",
-        "repo": "nixpkgs",
-        "rev": "564381e5858a14d0926ecef411e122d3d9dfd703",
-        "type": "github"
+        "lastModified": 1771843708,
+        "narHash": "sha256-OhV2DF+Nf1wWhwMk1Gv7K8tR3Va1xv6CU1NA+jSLzwE=",
+        "ref": "refs/heads/master",
+        "rev": "58d6a6afae20af92d33bea7f35579a281dc898e9",
+        "revCount": 950628,
+        "type": "git",
+        "url": "file:///home/askold/src/nixpkgs"
       },
       "original": {
-        "owner": "AskoldMakaruk",
-        "repo": "nixpkgs",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/askold/src/nixpkgs"
       }
     },
     "nixpkgs-master": {
