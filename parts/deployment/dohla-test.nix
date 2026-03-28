@@ -41,27 +41,27 @@ in
     }
 
     (lib.mkIf config.batat.dohla.test.api.enable ({
-      systemd.services."dohly-api-build-restarter" =
-        let
-          gitDir = "/home/askold/repos/dohly-back.git";
-          configFile = pkgs.writeShellApplication {
-            name = "exec.sh";
-            text = ''
-              find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s \
-              '${pkgs.git}/bin/git --work-tree ${projectPath} --git-dir ${projectPath}/.git pull local master && \ 
-               ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service'
-            '';
-          };
-        in
-        {
-          description = "Restarts build on code change";
-          serviceConfig = {
-            Type = "simple";
-            Restart = "always";
-            ExecStart = "${configFile}/bin/exec.sh";
-          };
-          wantedBy = [ "multi-user.target" ];
-        };
+      # systemd.services."dohly-api-build-restarter" =
+      #   let
+      #     gitDir = "/home/askold/repos/dohly-back.git";
+      #     configFile = pkgs.writeShellApplication {
+      #       name = "exec.sh";
+      #       text = ''
+      #         find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s \
+      #         '${pkgs.git}/bin/git --work-tree ${projectPath} --git-dir ${projectPath}/.git pull local master && \
+      #          ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service'
+      #       '';
+      #     };
+      #   in
+      #   {
+      #     description = "Restarts build on code change";
+      #     serviceConfig = {
+      #       Type = "simple";
+      #       Restart = "always";
+      #       ExecStart = "${configFile}/bin/exec.sh";
+      #     };
+      #     wantedBy = [ "multi-user.target" ];
+      #   };
 
       # PROXY
       # virtualisation.oci-containers.containers."dohly-proxy-test" = {
@@ -114,7 +114,40 @@ in
       #   root = testRoot;
       #   port = "7100";
       # };
-
+      #
+      # systemd.services.git-auto-pull = {
+      #   description = "Auto pull git repository and restart service";
+      #   after = [ "network-online.target" ];
+      #   wants = [ "network-online.target" ];
+      #
+      #   serviceConfig = {
+      #     Type = "oneshot";
+      #     User = "askold"; # change to appropriate user
+      #     WorkingDirectory = projectPath;
+      #   };
+      #
+      #   script = ''
+      #     set -e
+      #
+      #     echo "Pulling repository..."
+      #     ${pkgs.git}/bin/git pull --ff-only
+      #
+      #     echo "Restarting service..."
+      #     ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service
+      #   '';
+      # };
+      #
+      # systemd.timers.git-auto-pull = {
+      #   description = "Run git-auto-pull every 5 minutes";
+      #
+      #   wantedBy = [ "timers.target" ];
+      #
+      #   timerConfig = {
+      #     OnBootSec = "2min";
+      #     OnUnitActiveSec = "5min";
+      #     Unit = "git-auto-pull.service";
+      #   };
+      # };
       # API
       virtualisation.oci-containers.containers."dohly-api-test" = {
         image = "dohly-api-test";
@@ -143,13 +176,13 @@ in
         };
 
         after = [
-          "docker-build-dohly-api-test.service"
+          # "docker-build-dohly-api-test.service"
           testNetworkService
           generalNetworkService
         ];
 
         requires = [
-          "docker-build-dohly-api-test.service"
+          # "docker-build-dohly-api-test.service"
           testNetworkService
           generalNetworkService
         ];
@@ -158,14 +191,14 @@ in
         wantedBy = [ testRoot ];
       };
 
-      systemd.services."docker-build-dohly-api-test" = mkDockerBuild {
-        inherit pkgs;
-        projectPath = testApiPath;
-        packageName = "apiImage";
-        envName = "test";
-        root = testRoot;
-        port = "7100";
-      };
+      # systemd.services."docker-build-dohly-api-test" = mkDockerBuild {
+      #   inherit pkgs;
+      #   projectPath = testApiPath;
+      #   packageName = "apiImage";
+      #   envName = "test";
+      #   root = testRoot;
+      #   port = "7100";
+      # };
 
     }))
 
