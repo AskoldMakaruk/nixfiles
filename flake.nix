@@ -136,6 +136,26 @@
             agenix.nixosModules.default
           ];
         };
+
+        timba-2 = lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs system nixpkgs;
+
+            pkgs-master = import nixpkgs-master {
+              inherit system;
+              config.allowUnfree = true;
+            };
+            pkgs-askold = import nixpkgs-askold {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+            ./hosts/timba-2/configuration.nix
+            agenix.nixosModules.default
+          ];
+        };
       };
     };
 }
