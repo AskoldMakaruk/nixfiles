@@ -21,6 +21,11 @@ in
     ../../services/garage.nix
     ../../services/slskd.nix
     ../../parts/keyd.nix
+    ../../services/nextcloud.nix
+    ../../services/tailscale.nix
+
+    # ../../services/nginx-fora.nix
+    ../../services/rabbitmq.nix
   ];
 
   batat = {
@@ -46,15 +51,14 @@ in
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "MrGameFrog"; # Define your hostname.
 
   networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
   # networking.wireless.iwd.enable = true;
   # networking.wireless.iwd.settings.Network.EnableIPv6 = true;
   # networking.wireless.iwd.settings.Settings.AutoConnect = true;
   networking.firewall.allowedTCPPorts = [
-    22
-    8080
+    # 8080
   ];
   #  networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
 
@@ -74,6 +78,7 @@ in
     desktopManager.lomiri.enable = false;
 
     # too flashy and alt tab doensn't work as well as shortcuts from non en layout
+    # todo try again
     desktopManager.cosmic.enable = false;
 
     # fun kino DE, unstable as monkey bananzas
@@ -179,12 +184,22 @@ in
       "wheel"
       "docker"
     ];
+    openssh = {
+      authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKHio8WbNZzw9q6G/GjMvhhsxe93+q9v0P+0ecdDft8c officekiev\\a.makaruk@N-KV-BOR35O-015"
+      ];
+    };
   };
 
-  programs.nix-ld.enable = true;
-  programs.nh = {
-    enable = true;
-    flake = "/home/askold/.dotfiles";
+  programs = {
+    ssh.enableAskPassword = true;
+    ssh.askPassword = "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass";
+
+    nix-ld.enable = true;
+    nh = {
+      enable = true;
+      flake = "/home/askold/.dotfiles";
+    };
   };
 
   # Enable the OpenSSH daemon.
