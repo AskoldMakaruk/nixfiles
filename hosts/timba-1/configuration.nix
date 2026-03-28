@@ -65,6 +65,13 @@ in
     };
   };
 
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 4096;
+    }
+  ];
+
   batat = {
     shell.enable = true;
     nvim.enable = true;
@@ -75,7 +82,7 @@ in
     dohla.test = {
       database.enable = true;
       logs.enable = true;
-      api.enable = false;
+      api.enable = true;
       front.enable = true;
     };
   };
@@ -138,7 +145,69 @@ in
     };
   };
 
+  users.users.root = {
+    openssh = {
+      authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAG+yaR+V4osEzcipG2R2Tdmu7ZWswe4IZNpaXNOkzTu askold@nixos"
+      ];
+    };
+  };
+
   services.do-agent.enable = true;
+
+  services.fluent-bit = {
+    enable = true;
+    settings = {
+      service = {
+        grace = 30;
+      };
+      pipeline = {
+
+        inputs = [
+          {
+            name = "systemd";
+            systemd_filter = "_SYSTEMD_UNIT=docker.service";
+          }
+        ];
+        filters = [
+          {
+            name = "grep";
+            match = "*";
+            exclude = "openobserve";
+          }
+        ];
+
+        outputs = [
+          {
+            name = "http";
+            match = "*";
+            host = "localhost";
+            port = 5800;
+            uri = "/api/default/docker/_json";
+            tls = "off";
+            format = "json";
+            json_date_key = "_timestamp";
+            json_date_format = "iso8601";
+            http_user = "askoldmakaruk@gmail.com";
+            http_passwd = "o5tOfCQwaNYiKja9";
+            compress = "gzip";
+          }
+        ];
+      };
+
+    };
+  };
+
+  services.murmur = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    python3
+    mumble
+  ];
+
   programs.nix-ld.enable = true;
   programs.nh = {
     enable = true;
@@ -152,7 +221,7 @@ in
       PasswordAuthentication = false;
       UseDns = true;
       X11Forwarding = false;
-      PermitRootLogin = "prohibit-password";
+      PermitRootLogin = "yes";
     };
   };
 }
