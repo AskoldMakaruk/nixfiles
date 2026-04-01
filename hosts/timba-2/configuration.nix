@@ -14,6 +14,7 @@ in
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
     ../../parts
+    ../../nixos/modules
     ../../parts/wireguard.nix
     ../../services/affine.nix
     #   ../../services/espanso.nix
@@ -71,6 +72,8 @@ in
     nvim.enable = true;
     development.enable = true;
     affine.enable = true;
+
+    tailscale.enable = true;
 
     dohla.enable = true;
     dohla.test = {
