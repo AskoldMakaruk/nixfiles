@@ -4,10 +4,10 @@
   ...
 }:
 let
-  cfg = config.common.tailscale;
+  cfg = config.batat.tailscale;
 in
 {
-  options.common.tailscale = {
+  options.batat.tailscale = {
     enable = lib.mkEnableOption "Enable Tailscale";
     authKeyTag = lib.mkOption {
       type = lib.types.str;
