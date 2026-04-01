@@ -7,8 +7,8 @@
 lib.mkIf config.batat.development.enable {
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.rootless.setSocketVariable = true;
-  virtualisation.docker.rootless.enable = true;
+  virtualisation.docker.rootless.setSocketVariable = false;
+  virtualisation.docker.rootless.enable = false;
   virtualisation.docker.package = pkgs.docker_25;
   # virtualisation.containers.enable = true;
   environment.systemPackages = with pkgs; [

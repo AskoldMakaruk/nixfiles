@@ -160,7 +160,7 @@ in
       PasswordAuthentication = false;
       UseDns = true;
       X11Forwarding = false;
-      PermitRootLogin = "prohibit-password";
+      PermitRootLogin = "yes";
     };
   };
   boot.loader.systemd-boot.enable = true;
