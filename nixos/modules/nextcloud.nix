@@ -3,13 +3,15 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 let
-  cfg = config.common.nextcloud;
+  cfg = config.batat.nextcloud;
+  inherit (inputs) mysecrets;
 in
 {
-  options.common.nextcloud = {
+  options.batat.nextcloud = {
     enable = lib.mkEnableOption "Enable Nextcloud with Postgres DB and Redis caching";
     dataDir = lib.mkOption {
       type = lib.types.str;
@@ -23,7 +25,7 @@ in
     };
     domain = lib.mkOption {
       type = lib.types.str;
-      default = "nextcloud.pve.elmurphy.com";
+      default = "nextcloud.askold.dev";
       description = "Domain for Nextcloud service";
     };
     borgbackup = {
@@ -109,11 +111,11 @@ in
       nginx = lib.mkIf cfg.nginx {
         virtualHosts."${cfg.domain}" = {
           forceSSL = true;
-          useACMEHost = config.common.acme.domain;
+          useACMEHost = "askold.dev";
         };
-        virtualHosts."office.pve.${config.common.acme.domain}" = {
+        virtualHosts."office.askold.dev" = {
           forceSSL = true;
-          useACMEHost = config.common.acme.domain;
+          useACMEHost = "askold.dev";
           # Reference: https://sdk.collaboraonline.com/docs/installation/Proxy_settings.html#reverse-proxy-settings-in-nginx-config-ssl-termination
           locations = {
             # static files
@@ -194,9 +196,9 @@ in
     };
 
     age.secrets = {
-      nextcloudBorgPass.file = ../../../secrets/nextcloudBorgPass.age;
+      nextcloudBorgPass.file = mysecrets + "/nextcloudBorgPass.age";
       nextcloudPass = {
-        file = ../../../secrets/nextcloudPass.age;
+        file = mysecrets + "/nextcloudPass.age";
         owner = "nextcloud";
       };
     };

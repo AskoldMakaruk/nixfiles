@@ -20,48 +20,40 @@ in
     virtualHosts."logs.dead-idiots.rip" = {
       forceSSL = true;
       useACMEHost = "dead-idiots.rip";
-      locations = [
-        {
-          location = "/";
+      locations = {
+        "/" = {
           proxyPass = "http://100.118.231.37:5800";
-        }
-      ];
+        };
+      };
     };
 
     virtualHosts."dead-idiots.rip" = {
       forceSSL = true;
       useACMEHost = "dead-idiots.rip";
-      locations = [
-        {
-          location = "/logs";
-          proxyPass = "http://100.118.231.37:5800";
-          proxyWebsockets = true;
-        }
-        {
-          location = "/";
+      locations = {
+        "/" = {
           proxyPass = "http://100.118.231.37:7200";
           proxyWebsockets = true;
-        }
-        {
-          location = "/api";
+        };
+        "/api" = {
           proxyPass = "http://100.118.231.37:7100";
           proxyWebsockets = true;
-        }
-      ];
-
+        };
+        "/logs" = {
+          proxyPass = "http://100.118.231.37:5800";
+          proxyWebsockets = true;
+        };
+      };
     };
 
     virtualHosts."nextcloud.askold.dev" = {
-
       forceSSL = true;
       useACMEHost = "askold.dev";
-      locations = [
-        {
-          location = "/";
-          proxyPass = "http://100.118.231.37:5800";
-          proxyWebsockets = true;
-        }
-      ];
+      locations = {
+        "/" = {
+          proxyPass = "http://100.118.231.37";
+        };
+      };
     };
   };
 
@@ -75,12 +67,12 @@ in
 
     certs."askold.dev" = {
       extraDomainNames = [
-        "nextcloud.askold.dev"
+        "*.askold.dev"
       ];
     };
     certs."dead-idiots.rip" = {
       extraDomainNames = [
-        "logs.dead-idiots.rip"
+        "*.dead-idiots.rip"
       ];
     };
   };

@@ -3,6 +3,7 @@
   lib,
   pkgs,
   inputs,
+  pkgs-master,
   ...
 }:
 {
@@ -39,6 +40,10 @@
       claws
 
       ghostty
+
+      # humanity has fallen
+      pkgs-master.claude-code
+
     ];
 
     # Set your time zone.

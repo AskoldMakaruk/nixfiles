@@ -17,7 +17,6 @@ in
     ../../nixos/modules
     ../../parts/wireguard.nix
     ../../services/affine.nix
-    #   ../../services/espanso.nix
     # ../../services/minio.nix
     ../../services/garage.nix
     ./nginx.nix
@@ -76,6 +75,10 @@ in
 
   batat = {
     tailscale.enable = true;
+    # nextcloud = {
+    #   enable = true;
+    #   nginx = true;
+    # };
     # acme = {
     #   enable = true;
     #   domains = [

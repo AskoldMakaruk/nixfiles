@@ -152,7 +152,7 @@ in
       virtualisation.oci-containers.containers."dohly-api-test" = {
         image = "dohly-api-test";
         environmentFiles = [
-          "/run/agenix/api-test"
+          "/run/agenix/api-prod"
           # "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/.env"
         ];
         dependsOn = [ "dohly-database" ];

@@ -20,6 +20,7 @@ in
     #   ../../services/espanso.nix
     # ../../services/minio.nix
     ../../services/garage.nix
+    ./nextcloud.nix
 
     #    "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-config.nix"
     #inputs.nixos-generators.nixosModules.all-formats

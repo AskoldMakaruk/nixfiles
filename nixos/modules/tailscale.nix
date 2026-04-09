@@ -61,7 +61,7 @@ in
         fi
 
         # otherwise authenticate with tailscale
-        ${tailscale}/bin/tailscale up -authkey tskey-auth-<imperative-paste-of-one-time-key-here>
+        ${tailscale}/bin/tailscale up -authkey tskey-auth
       '';
     };
   };
