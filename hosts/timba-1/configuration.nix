@@ -14,11 +14,13 @@ in
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
     ../../parts
+    ../../nixos/modules
     ../../parts/wireguard.nix
     ../../services/affine.nix
     #   ../../services/espanso.nix
     # ../../services/minio.nix
     ../../services/garage.nix
+    ./nginx.nix
 
     "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-config.nix"
     inputs.nixos-generators.nixosModules.all-formats
@@ -73,6 +75,45 @@ in
   ];
 
   batat = {
+    tailscale.enable = true;
+    # acme = {
+    #   enable = true;
+    #   domains = [
+    #     {
+    #       name = "dead-idiots.rip";
+    #       locations = [
+    #         {
+    #           location = "/logs";
+    #           proxyPass = "http://100.118.231.37:5800";
+    #         }
+    #         {
+    #           location = "/";
+    #           proxyPass = "http://100.118.231.37:7200";
+    #         }
+    #         {
+    #           location = "/api";
+    #           proxyPass = "http://100.118.231.37:7100";
+    #         }
+    #         {
+    #           location = "logs.dead-idiots.rip";
+    #
+    #           proxyPass = "http://100.118.231.37:5800";
+    #         }
+    #       ];
+    #     }
+    #     {
+    #       name = "nextcloud.askold.dev";
+    #       locations = [
+    #         {
+    #           location = "/";
+    #           proxyPass = "http://100.118.231.37:5800";
+    #
+    #         }
+    #       ];
+    #     }
+    #   ];
+    #   email = "Cascade2000@proton.me";
+    # };
     shell.enable = true;
     nvim.enable = true;
     development.enable = true;

@@ -2,7 +2,7 @@ set scrolloff=10
 set sidescrolloff=10
 set history=1000
 
-set number relativenumber
+" set number relativenumber
 set showcmd
 set showmode
 

@@ -13,6 +13,7 @@ in
     ./hardware-configuration.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
+    ../../nixos/modules
     ../../parts
     ../../parts/wireguard.nix
     ../../services/affine.nix
@@ -21,14 +22,13 @@ in
     ../../services/garage.nix
     ../../services/slskd.nix
     ../../parts/keyd.nix
-    ../../services/nextcloud.nix
-    ../../services/tailscale.nix
 
     # ../../services/nginx-fora.nix
     ../../services/rabbitmq.nix
   ];
 
   batat = {
+    tailscale.enable = true;
     audio.enable = true;
     shell.enable = true;
     # kde.enable = true;
@@ -183,6 +183,8 @@ in
       "networkmanager"
       "wheel"
       "docker"
+      "adbusers"
+      "kvm"
     ];
     openssh = {
       authorizedKeys.keys = [
@@ -192,6 +194,8 @@ in
   };
 
   programs = {
+    adb.enable = true;
+
     ssh.enableAskPassword = true;
     ssh.askPassword = "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass";
 
