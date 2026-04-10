@@ -2,12 +2,12 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }:
 let
   mkDockerNetwork = import ./docker-network.nix;
   mkDockerBuild = import ./docker-build.nix;
-
   projectPath = "/home/askold/src/DohlaRusnya";
   apiProjectPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
 
@@ -260,6 +260,64 @@ in
         '';
         partOf = [ testRoot ];
         wantedBy = [ testRoot ];
+      };
+
+      age.secrets.telegram-bot.file = inputs.mysecrets + "/telegram-bot.age";
+
+      systemd.services."dohly-front-git-pull" = {
+        description = "Pull dohly frontend repo and rebuild+restart on changes";
+        path = [
+          pkgs.git
+          pkgs.openssh
+          pkgs.systemd
+          pkgs.curl
+        ];
+        serviceConfig = {
+          Type = "oneshot";
+          User = "askold";
+          EnvironmentFile = config.age.secrets.telegram-bot.path;
+        };
+        script = ''
+                    notify() {
+                      curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+                        --data-urlencode "chat_id=$CHAT_ID" \
+                        --data-urlencode "message_thread_id=$TOPIC_ID" \
+                        --data-urlencode "text=$1" \
+                        > /dev/null || true
+                    }
+
+                    trap 'notify "[dohly-front] git-pull service failed"' ERR
+                    set -e
+
+                    cd /home/askold/src/tic-tac-toe/tictactoe/
+
+                    before=$(git rev-parse HEAD)
+                    git pull --ff-only
+                    after=$(git rev-parse HEAD)
+
+                    if [ "$before" != "$after" ]; then
+                      changes=$(git log --oneline "$before".."$after")
+                      notify "[dohly-front] new commits, rebuilding:
+          $changes"
+                      if systemctl restart docker-build-dohly-front-test.service && \
+                         systemctl restart docker-dohly-front-test.service; then
+                        notify "[dohly-front] rebuild and restart done"
+                      else
+                        notify "[dohly-front] restart failed after pull"
+                        exit 1
+                      fi
+                    fi
+        '';
+      };
+
+      systemd.timers."dohly-front-git-pull" = {
+        description = "Check dohly frontend git repo every minute";
+        wantedBy = [ "timers.target" ];
+        timerConfig = {
+          OnBootSec = "1min";
+          OnUnitActiveSec = "1min";
+          Unit = "dohly-front-git-pull.service";
+        };
       };
 
     }))
