@@ -52,7 +52,26 @@ in
       locations = {
         "/" = {
           proxyPass = "http://100.118.231.37";
+          proxyWebsockets = true;
         };
+      };
+    };
+
+    virtualHosts."office.askold.dev" = {
+      forceSSL = true;
+      useACMEHost = "askold.dev";
+      locations."/" = {
+        proxyPass = "http://100.118.231.37";
+        proxyWebsockets = true;
+      };
+    };
+
+    virtualHosts."whiteboard.askold.dev" = {
+      forceSSL = true;
+      useACMEHost = "askold.dev";
+      locations."/" = {
+        proxyPass = "http://100.118.231.37";
+        proxyWebsockets = true;
       };
     };
   };

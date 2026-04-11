@@ -75,48 +75,6 @@ in
 
   batat = {
     tailscale.enable = true;
-    # nextcloud = {
-    #   enable = true;
-    #   nginx = true;
-    # };
-    # acme = {
-    #   enable = true;
-    #   domains = [
-    #     {
-    #       name = "dead-idiots.rip";
-    #       locations = [
-    #         {
-    #           location = "/logs";
-    #           proxyPass = "http://100.118.231.37:5800";
-    #         }
-    #         {
-    #           location = "/";
-    #           proxyPass = "http://100.118.231.37:7200";
-    #         }
-    #         {
-    #           location = "/api";
-    #           proxyPass = "http://100.118.231.37:7100";
-    #         }
-    #         {
-    #           location = "logs.dead-idiots.rip";
-    #
-    #           proxyPass = "http://100.118.231.37:5800";
-    #         }
-    #       ];
-    #     }
-    #     {
-    #       name = "nextcloud.askold.dev";
-    #       locations = [
-    #         {
-    #           location = "/";
-    #           proxyPass = "http://100.118.231.37:5800";
-    #
-    #         }
-    #       ];
-    #     }
-    #   ];
-    #   email = "Cascade2000@proton.me";
-    # };
     shell.enable = true;
     nvim.enable = true;
     development.enable = true;

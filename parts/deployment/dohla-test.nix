@@ -41,28 +41,6 @@ in
     }
 
     (lib.mkIf config.batat.dohla.test.api.enable ({
-      # systemd.services."dohly-api-build-restarter" =
-      #   let
-      #     gitDir = "/home/askold/repos/dohly-back.git";
-      #     configFile = pkgs.writeShellApplication {
-      #       name = "exec.sh";
-      #       text = ''
-      #         find ${gitDir}/* | ${pkgs.entr}/bin/entr -n -s \
-      #         '${pkgs.git}/bin/git --work-tree ${projectPath} --git-dir ${projectPath}/.git pull local master && \
-      #          ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service'
-      #       '';
-      #     };
-      #   in
-      #   {
-      #     description = "Restarts build on code change";
-      #     serviceConfig = {
-      #       Type = "simple";
-      #       Restart = "always";
-      #       ExecStart = "${configFile}/bin/exec.sh";
-      #     };
-      #     wantedBy = [ "multi-user.target" ];
-      #   };
-
       # PROXY
       # virtualisation.oci-containers.containers."dohly-proxy-test" = {
       #   image = "dohly-proxy-test";
@@ -115,39 +93,6 @@ in
       #   port = "7100";
       # };
       #
-      # systemd.services.git-auto-pull = {
-      #   description = "Auto pull git repository and restart service";
-      #   after = [ "network-online.target" ];
-      #   wants = [ "network-online.target" ];
-      #
-      #   serviceConfig = {
-      #     Type = "oneshot";
-      #     User = "askold"; # change to appropriate user
-      #     WorkingDirectory = projectPath;
-      #   };
-      #
-      #   script = ''
-      #     set -e
-      #
-      #     echo "Pulling repository..."
-      #     ${pkgs.git}/bin/git pull --ff-only
-      #
-      #     echo "Restarting service..."
-      #     ${pkgs.systemd}/bin/systemctl restart docker-build-dohly-api-test.service
-      #   '';
-      # };
-      #
-      # systemd.timers.git-auto-pull = {
-      #   description = "Run git-auto-pull every 5 minutes";
-      #
-      #   wantedBy = [ "timers.target" ];
-      #
-      #   timerConfig = {
-      #     OnBootSec = "2min";
-      #     OnUnitActiveSec = "5min";
-      #     Unit = "git-auto-pull.service";
-      #   };
-      # };
       # API
       virtualisation.oci-containers.containers."dohly-api-test" = {
         image = "dohly-api-test";
@@ -269,7 +214,6 @@ in
         path = [
           pkgs.git
           pkgs.openssh
-          pkgs.systemd
           pkgs.curl
         ];
         serviceConfig = {
@@ -278,35 +222,37 @@ in
           EnvironmentFile = config.age.secrets.telegram-bot.path;
         };
         script = ''
-                    notify() {
-                      curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
-                        --data-urlencode "chat_id=$CHAT_ID" \
-                        --data-urlencode "message_thread_id=$TOPIC_ID" \
-                        --data-urlencode "text=$1" \
-                        > /dev/null || true
-                    }
+          notify() {
+            curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+              --data-urlencode "chat_id=$CHAT_ID" \
+              --data-urlencode "message_thread_id=$TOPIC_ID" \
+              --data-urlencode "text=$1" \
+              > /dev/null || true
+          }
 
-                    trap 'notify "[dohly-front] git-pull service failed"' ERR
-                    set -e
+          trap 'notify "[dohly-front] git-pull service failed"' ERR
+          set -e
 
-                    cd /home/askold/src/tic-tac-toe/tictactoe/
+          cd /home/askold/src/tic-tac-toe/tictactoe/
 
-                    before=$(git rev-parse HEAD)
-                    git pull --ff-only
-                    after=$(git rev-parse HEAD)
+          git fetch
 
-                    if [ "$before" != "$after" ]; then
-                      changes=$(git log --oneline "$before".."$after")
-                      notify "[dohly-front] new commits, rebuilding:
-          $changes"
-                      if systemctl restart docker-build-dohly-front-test.service && \
-                         systemctl restart docker-dohly-front-test.service; then
-                        notify "[dohly-front] rebuild and restart done"
-                      else
-                        notify "[dohly-front] restart failed after pull"
-                        exit 1
-                      fi
-                    fi
+          local=$(git rev-parse HEAD)
+          remote=$(git rev-parse '@{u}')
+
+          if [ "$local" != "$remote" ]; then
+            changes=$(git log --oneline "$local".."$remote")
+            notify "[dohly-front] new commits, rebuilding:
+            $changes"
+            git merge --ff-only
+            if /run/wrappers/bin/sudo /run/current-system/sw/bin/systemctl restart docker-build-dohly-front-test.service && \
+               /run/wrappers/bin/sudo /run/current-system/sw/bin/systemctl restart docker-dohly-front-test.service; then
+              notify "[dohly-front] rebuild and restart done"
+            else
+              notify "[dohly-front] restart failed after pull"
+              exit 1
+            fi
+          fi
         '';
       };
 
@@ -319,6 +265,22 @@ in
           Unit = "dohly-front-git-pull.service";
         };
       };
+
+      security.sudo.extraRules = [
+        {
+          users = [ "askold" ];
+          commands = [
+            {
+              command = "/run/current-system/sw/bin/systemctl restart docker-build-dohly-front-test.service";
+              options = [ "NOPASSWD" ];
+            }
+            {
+              command = "/run/current-system/sw/bin/systemctl restart docker-dohly-front-test.service";
+              options = [ "NOPASSWD" ];
+            }
+          ];
+        }
+      ];
 
     }))
   ];
