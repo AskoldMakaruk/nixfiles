@@ -26,7 +26,10 @@
     "sdhci_pci"
   ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelModules = [
+    "kvm-amd"
+    "wl"
+  ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" = {
