@@ -70,6 +70,7 @@ in
 
   batat = {
     shell.enable = true;
+    fluent-bit.enable = true;
     nvim.enable = true;
     development.enable = true;
     affine.enable = true;
@@ -142,21 +143,7 @@ in
       ];
     };
   };
-  security.sudo.extraRules = [
-    {
-      users = [ "askold" ];
-      commands = [
-        {
-          command = "${pkgs.systemd}/bin/systemctl restart docker-build-dohly-front-test.service";
-          options = [ "NOPASSWD" ];
-        }
-        {
-          command = "${pkgs.systemd}/bin/systemctl restart docker-dohly-front-test.service";
-          options = [ "NOPASSWD" ];
-        }
-      ];
-    }
-  ];
+
   users.users.root = {
     openssh = {
       authorizedKeys.keys = [

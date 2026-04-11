@@ -75,6 +75,7 @@ in
 
   batat = {
     tailscale.enable = true;
+    fluent-bit.enable = true;
     shell.enable = true;
     nvim.enable = true;
     development.enable = true;
@@ -156,49 +157,6 @@ in
   };
 
   services.do-agent.enable = true;
-
-  services.fluent-bit = {
-    enable = true;
-    settings = {
-      service = {
-        grace = 30;
-      };
-      pipeline = {
-
-        inputs = [
-          {
-            name = "systemd";
-            systemd_filter = "_SYSTEMD_UNIT=docker.service";
-          }
-        ];
-        filters = [
-          {
-            name = "grep";
-            match = "*";
-            exclude = "openobserve";
-          }
-        ];
-
-        outputs = [
-          {
-            name = "http";
-            match = "*";
-            host = "localhost";
-            port = 5800;
-            uri = "/api/default/docker/_json";
-            tls = "off";
-            format = "json";
-            json_date_key = "_timestamp";
-            json_date_format = "iso8601";
-            http_user = "askoldmakaruk@gmail.com";
-            http_passwd = "o5tOfCQwaNYiKja9";
-            compress = "gzip";
-          }
-        ];
-      };
-
-    };
-  };
 
   services.murmur = {
     enable = true;
