@@ -81,12 +81,12 @@ in
     development.enable = true;
     affine.enable = true;
 
-    dohla.enable = true;
+    dohla.enable = false;
     dohla.test = {
-      database.enable = true;
-      logs.enable = true;
-      api.enable = true;
-      front.enable = true;
+      database.enable = false;
+      logs.enable = false;
+      api.enable = false;
+      front.enable = false;
     };
   };
 

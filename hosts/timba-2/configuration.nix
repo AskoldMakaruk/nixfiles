@@ -73,7 +73,7 @@ in
     fluent-bit.enable = true;
     nvim.enable = true;
     development.enable = true;
-    affine.enable = true;
+    affine.enable = false;
 
     tailscale.enable = true;
 

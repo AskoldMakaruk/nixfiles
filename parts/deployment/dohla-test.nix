@@ -235,13 +235,14 @@ in
 
           cd /home/askold/src/tic-tac-toe/tictactoe/
 
-          git fetch
+          branch=$(git rev-parse --abbrev-ref HEAD)
+          git fetch origin "$branch"
 
           local=$(git rev-parse HEAD)
-          remote=$(git rev-parse '@{u}')
+          remote=$(git rev-parse "origin/$branch")
 
           if [ "$local" != "$remote" ]; then
-            changes=$(git log --oneline "$local".."$remote")
+            changes=$(git log --oneline "$local".."origin/$branch")
             notify "[dohly-front] new commits, rebuilding:
             $changes"
             git merge --ff-only

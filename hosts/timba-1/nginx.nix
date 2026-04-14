@@ -5,7 +5,6 @@
   ...
 }:
 let
-  cfg = config.batat.acme;
   inherit (inputs) mysecrets;
 in
 {
@@ -60,9 +59,47 @@ in
     virtualHosts."office.askold.dev" = {
       forceSSL = true;
       useACMEHost = "askold.dev";
-      locations."/" = {
-        proxyPass = "http://100.118.231.37";
-        proxyWebsockets = true;
+      locations = {
+        "^~ /browser" = {
+          proxyPass = "http://100.118.231.37:9980";
+          proxyWebsockets = true;
+          extraConfig = "proxy_set_header Host $host;";
+        };
+        "^~ /hosting/discovery" = {
+          proxyPass = "http://100.118.231.37:9980";
+          proxyWebsockets = true;
+          extraConfig = "proxy_set_header Host $host;";
+        };
+        "^~ /hosting/capabilities" = {
+          proxyPass = "http://100.118.231.37:9980";
+          proxyWebsockets = true;
+          extraConfig = "proxy_set_header Host $host;";
+        };
+        "~ ^/cool/(.*)/ws$" = {
+          proxyPass = "http://100.118.231.37:9980";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_set_header Host $host;
+            proxy_read_timeout 36000s;
+          '';
+        };
+        "~ ^/(c|l)ool" = {
+          proxyPass = "http://100.118.231.37:9980";
+          proxyWebsockets = true;
+          extraConfig = "proxy_set_header Host $host;";
+        };
+        "^~ /cool/adminws" = {
+          proxyPass = "http://100.118.231.37:9980";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_set_header Host $host;
+            proxy_read_timeout 36000s;
+          '';
+        };
       };
     };
 

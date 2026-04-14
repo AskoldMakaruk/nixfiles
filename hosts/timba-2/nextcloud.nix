@@ -54,12 +54,14 @@ in
       image = "collabora/code:25.04.8.1.1";
       ports = [ "9980:9980" ];
       environment = {
-        domain = "office.askold.dev";
+        domain = "nextcloud\\.askold\\.dev";
         extra_params = "--o:ssl.enable=false --o:ssl.termination=true";
       };
       extraOptions = [
         "--cap-add"
         "MKNOD"
+        "--cap-add"
+        "SYS_ADMIN"
       ];
     };
     containers.whiteboard = {
@@ -160,7 +162,8 @@ in
     script = ''
       secret=$(grep JWT_SECRET_KEY ${config.age.secrets.whiteboardSecret.path} | cut -d= -f2)
       nextcloud-occ config:app:set whiteboard jwt_secret_key --value "$secret"
-      nextcloud-occ config:app:set richdocuments wopi_url --value "http://127.0.0.1:9980"
+      nextcloud-occ config:app:set richdocuments wopi_url --value "https://office.askold.dev"
+      nextcloud-occ config:app:set richdocuments wopi_allowlist --value "100.64.0.0/10"
     '';
   };
 

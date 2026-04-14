@@ -44,7 +44,7 @@ in
             "dohly-db-volume:/var/lib/postgresql/data:rw"
           ];
           ports = [
-            "0.0.0.0:5432:5432/tcp"
+            "0.0.0.0:5678:5432/tcp"
           ];
           log-driver = "journald";
           extraOptions = [
