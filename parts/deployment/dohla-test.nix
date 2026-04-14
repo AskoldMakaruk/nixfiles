@@ -8,6 +8,8 @@
 let
   mkDockerNetwork = import ./docker-network.nix;
   mkDockerBuild = import ./docker-build.nix;
+  mkNotify = import ./notify.nix;
+  telegramNotify = mkNotify { inherit pkgs; };
   projectPath = "/home/askold/src/DohlaRusnya";
   apiProjectPath = "${projectPath}/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api";
 
@@ -207,8 +209,6 @@ in
         wantedBy = [ testRoot ];
       };
 
-      age.secrets.telegram-bot.file = inputs.mysecrets + "/telegram-bot.age";
-
       systemd.services."dohly-front-git-pull" = {
         description = "Pull dohly frontend repo and rebuild+restart on changes";
         path = [
@@ -222,15 +222,7 @@ in
           EnvironmentFile = config.age.secrets.telegram-bot.path;
         };
         script = ''
-          notify() {
-            curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
-              --data-urlencode "chat_id=$CHAT_ID" \
-              --data-urlencode "message_thread_id=$TOPIC_ID" \
-              --data-urlencode "text=$1" \
-              > /dev/null || true
-          }
-
-          trap 'notify "[dohly-front] git-pull service failed"' ERR
+          trap '${telegramNotify} "[dohly-front] git-pull service failed"' ERR
           set -e
 
           cd /home/askold/src/tic-tac-toe/tictactoe/
@@ -243,14 +235,14 @@ in
 
           if [ "$local" != "$remote" ]; then
             changes=$(git log --oneline "$local".."origin/$branch")
-            notify "[dohly-front] new commits, rebuilding:
+            ${telegramNotify} "[dohly-front] new commits, rebuilding:
             $changes"
             git merge --ff-only
             if /run/wrappers/bin/sudo /run/current-system/sw/bin/systemctl restart docker-build-dohly-front-test.service && \
                /run/wrappers/bin/sudo /run/current-system/sw/bin/systemctl restart docker-dohly-front-test.service; then
-              notify "[dohly-front] rebuild and restart done"
+              ${telegramNotify} "[dohly-front] rebuild and restart done"
             else
-              notify "[dohly-front] restart failed after pull"
+              ${telegramNotify} "[dohly-front] restart failed after pull"
               exit 1
             fi
           fi

@@ -19,7 +19,6 @@ in
     ../../parts/wireguard.nix
     ../../services/affine.nix
     ../../services/espanso.nix
-    #../../services/minio.nix
     ../../services/garage.nix
     ../../services/slskd.nix
     ../../parts/keyd.nix
@@ -47,7 +46,7 @@ in
       database.enable = true;
       logs.enable = false;
       api.enable = false;
-      front.enable = false;
+      front.enable = true;
     };
   };
 
@@ -138,6 +137,7 @@ in
       wg_endpoint = {
         file = mysecrets + "/wireguard_endpoint_ip.age";
       };
+      telegram-bot.file = inputs.mysecrets + "/telegram-bot-dev.age";
     };
   };
 
