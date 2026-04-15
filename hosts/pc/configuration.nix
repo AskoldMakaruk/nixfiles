@@ -99,7 +99,19 @@ in
     port = 11434;
   };
 
-  networking.firewall.allowedTCPPorts = [ 11434 ];
+  services.openssh = {
+    enable = true;
+    ports = [ 22 ];
+    settings = {
+      PasswordAuthentication = false;
+      UseDns = true;
+      X11Forwarding = false;
+      PermitRootLogin = "prohibit-password";
+    };
+  };
+  networking.firewall.allowedTCPPorts = [
+    11434
+  ];
 
   system.stateVersion = "25.05"; # Did you read the comment?
   nix.settings.experimental-features = [
