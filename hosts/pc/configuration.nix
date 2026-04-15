@@ -1,6 +1,7 @@
 {
   inputs,
   pkgs,
+  pkgs-master,
   ...
 }:
 let
@@ -93,6 +94,7 @@ in
 
   services.ollama = {
     enable = true;
+    package = pkgs-master.ollama;
     host = "0.0.0.0";
     port = 11434;
   };

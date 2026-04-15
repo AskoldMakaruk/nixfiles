@@ -109,7 +109,13 @@
         # pc
         pc = lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs system; };
+          specialArgs = {
+            inherit inputs system;
+            pkgs-master = import nixpkgs-master {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
           modules = [
             ./hosts/pc/configuration.nix
             agenix.nixosModules.default
