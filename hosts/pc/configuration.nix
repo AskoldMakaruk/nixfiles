@@ -85,6 +85,14 @@ in
     ];
   };
 
+  services.ollama = {
+    enable = true;
+    host = "0.0.0.0";
+    port = 11434;
+  };
+
+  networking.firewall.allowedTCPPorts = [ 11434 ];
+
   system.stateVersion = "25.05"; # Did you read the comment?
   nix.settings.experimental-features = [
     "nix-command"
