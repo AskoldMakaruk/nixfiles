@@ -83,6 +83,12 @@ in
       "networkmanager"
       "wheel"
     ];
+
+    openssh = {
+      authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAG+yaR+V4osEzcipG2R2Tdmu7ZWswe4IZNpaXNOkzTu askold@nixos"
+      ];
+    };
   };
 
   services.ollama = {
