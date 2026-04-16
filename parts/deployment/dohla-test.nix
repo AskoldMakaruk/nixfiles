@@ -99,7 +99,7 @@ in
       virtualisation.oci-containers.containers."dohly-api-test" = {
         image = "dohly-api-test";
         environmentFiles = [
-          "/run/agenix/api-prod"
+          "/run/agenix/api"
           # "/home/askold/src/DohlaRusnya/src/server/DohlaRusnya3.4.and.5/DohlaRusnya.Api/.env"
         ];
         dependsOn = [ "dohly-database" ];
@@ -160,7 +160,7 @@ in
           #  "dohly-api-test"
         ];
         ports = [
-          "0.0.0.0:7200:5173/tcp"
+          "0.0.0.0:7200:3000/tcp"
         ];
         log-driver = "journald";
         extraOptions = [
@@ -203,7 +203,8 @@ in
         };
         script = ''
           cd /home/askold/src/tic-tac-toe/tictactoe/
-          docker build -t dohly-front-test:latest -f dev.dockerfile .
+          # docker build -t dohly-front-test:latest -f dev.dockerfile .
+          docker build -t dohly-front-test:latest -f Dockerfile .
         '';
         partOf = [ testRoot ];
         wantedBy = [ testRoot ];
@@ -219,7 +220,7 @@ in
         serviceConfig = {
           Type = "oneshot";
           User = "askold";
-          EnvironmentFile = config.age.secrets.telegram-bot.path;
+          EnvironmentFile = "/run/agenix/telegram-bot";
         };
         script = ''
           trap '${telegramNotify} "[dohly-front] git-pull service failed"' ERR
