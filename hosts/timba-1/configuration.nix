@@ -105,7 +105,6 @@ in
       wg_endpoint = {
         file = mysecrets + "/wireguard_endpoint_ip.age";
       };
-      telegram-bot.file = inputs.mysecrets + "/telegram-bot-dev.age";
     };
   };
 

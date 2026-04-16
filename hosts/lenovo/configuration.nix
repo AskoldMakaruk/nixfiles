@@ -46,7 +46,7 @@ in
       database.enable = true;
       logs.enable = false;
       api.enable = false;
-      front.enable = true;
+      front.enable = false;
     };
   };
 
@@ -190,6 +190,7 @@ in
     openssh = {
       authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKHio8WbNZzw9q6G/GjMvhhsxe93+q9v0P+0ecdDft8c officekiev\\a.makaruk@N-KV-BOR35O-015"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIkglZiLUZqnWjeV4fJy7QSQOkB/oFIn+/E1rntFEYzN u0_a190@localhost"
       ];
     };
   };

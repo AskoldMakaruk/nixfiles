@@ -15,7 +15,7 @@ in
     inputs.nixvim.nixosModules.nixvim
     ../../parts
     ../../nixos/modules
-    ../../parts/wireguard.nix
+    # ../../parts/wireguard.nix
     ../../services/affine.nix
     #   ../../services/espanso.nix
     # ../../services/minio.nix
@@ -90,17 +90,13 @@ in
     identityPaths = [ "/home/askold/.ssh/agenix_key" ];
     secrets = {
       api = {
-        file = mysecrets + "/api-prod.age";
+        file = mysecrets + "/api-test.age";
       };
       postgres = {
         file = mysecrets + "/postgres-prod.age";
       };
-      wg_key = {
-        file = mysecrets + "/nout_wireguard_key.age";
-      };
-      wg_endpoint = {
-        file = mysecrets + "/wireguard_endpoint_ip.age";
-      };
+      telegram-bot.file = inputs.mysecrets + "/telegram-bot.age";
+      telegram-bot.owner = "askold";
     };
   };
 
