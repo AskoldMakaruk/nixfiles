@@ -45,6 +45,7 @@
       pkgs-master.claude-code
       pkgs-master.codex
 
+      lazydocker
     ];
 
     # Set your time zone.
