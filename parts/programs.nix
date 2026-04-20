@@ -4,7 +4,7 @@
   pkgs,
   pkgs-askold,
   pkgs-master,
-  inputs,
+  graphify,
   ...
 }:
 {
@@ -47,6 +47,7 @@
       # written in python by youtuber, weights 2GB
       # inputs.tagstudio.packages.${pkgs.stdenv.hostPlatform.system}.tagstudio
       #
+      graphify.packages.x86_64-linux.graphify
 
       pkgs-master.beets
 

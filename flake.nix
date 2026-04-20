@@ -53,6 +53,8 @@
       };
     };
 
+    graphify.url = "git+file:///home/askold/src/graphify";
+
     # dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
 
     #unused
@@ -73,6 +75,7 @@
       home-manager,
       agenix,
       nixvim,
+      graphify,
       # jbr-overlay,
       # dohla,
       espanso-fix,
@@ -98,6 +101,7 @@
               inherit system;
               config.allowUnfree = true;
             };
+            graphify = graphify;
           };
           modules = [
             ./hosts/lenovo/configuration.nix
