@@ -16,15 +16,15 @@ in
     inputs.nixvim.nixosModules.nixvim
     ../../nixos/modules
     ../../parts
-    ../../parts/wireguard.nix
+    # ../../parts/wireguard.nix
     ../../services/affine.nix
-    ../../services/espanso.nix
-    ../../services/garage.nix
-    ../../services/slskd.nix
+    # ../../services/espanso.nix
+    # ../../services/garage.nix
+    # ../../services/slskd.nix
     ../../parts/keyd.nix
 
     # ../../services/nginx-fora.nix
-    ../../services/rabbitmq.nix
+    # ../../services/rabbitmq.nix
   ];
 
   batat = {
@@ -62,13 +62,13 @@ in
   ];
   #  networking.networkmanager.ethernet.macAddress = "C0:35:32:01:92:27";
 
-  networking.wireguard.interfaces = {
-    wg0 = {
-      ips = [
-        "10.5.5.10/24"
-      ];
-    };
-  };
+  # networking.wireguard.interfaces = {
+  #   wg0 = {
+  #     ips = [
+  #       "10.5.5.10/24"
+  #     ];
+  #   };
+  # };
 
   services.xserver.enable = true;
 
@@ -194,6 +194,8 @@ in
       ];
     };
   };
+
+  environment.systemPackages = with pkgs; [ freetube ];
 
   programs = {
     adb.enable = true;
