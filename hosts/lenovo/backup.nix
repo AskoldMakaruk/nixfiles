@@ -60,7 +60,7 @@ in
   };
   age.secrets.borgSshKey.file = mysecrets + "/ssh/ao-code-key.age";
   age.secrets.borgSshKey.owner = "askold";
-  age.secrets.mediaBorgPass.file = mysecrets + "/borg-passfile.age";
+  age.secrets.mediaBorgPass.file = mysecrets + "/borg/borg-passfile.age";
   age.secrets.mediaBorgPass.owner = "askold";
 }
 # backupFrequency = lib.mkOption {

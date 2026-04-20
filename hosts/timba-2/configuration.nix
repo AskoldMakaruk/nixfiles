@@ -21,6 +21,7 @@ in
     # ../../services/minio.nix
     ../../services/garage.nix
     ./nextcloud.nix
+    ./backup.nix
 
     #    "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-config.nix"
     #inputs.nixos-generators.nixosModules.all-formats
