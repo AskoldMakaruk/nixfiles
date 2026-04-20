@@ -85,86 +85,56 @@
       lib = nixpkgs.lib;
       system = "x86_64-linux";
 
+      pkgs-master = import nixpkgs-master {
+        inherit system;
+        config.allowUnfree = true;
+      };
+      pkgs-askold = import nixpkgs-askold {
+        inherit system;
+        config.allowUnfree = true;
+      };
+
+      mkHost =
+        {
+          host,
+          extraArgs ? { },
+          extraModules ? [ ],
+        }:
+        lib.nixosSystem {
+          inherit system;
+          specialArgs = {
+            inherit inputs system;
+          }
+          // extraArgs;
+          modules = [
+            ./hosts/${host}/configuration.nix
+            agenix.nixosModules.default
+          ]
+          ++ extraModules;
+        };
+
     in
     {
       nixosConfigurations = {
-        # laptop
-        lenovo = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs system;
-            pkgs-master = import nixpkgs-master {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            pkgs-askold = import nixpkgs-askold {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            graphify = graphify;
-          };
-          modules = [
-            ./hosts/lenovo/configuration.nix
-            agenix.nixosModules.default
-            #dohla.nixosModules.dohly-services
-            espanso-fix.nixosModules.espanso-capdacoverride
-          ];
-        };
-        # pc
-        pc = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs system;
-            pkgs-master = import nixpkgs-master {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-          modules = [
-            ./hosts/pc/configuration.nix
-            agenix.nixosModules.default
-            #dohla.nixosModules.dohly-services
-          ];
+        lenovo = mkHost {
+          host = "lenovo";
+          extraArgs = { inherit pkgs-master pkgs-askold graphify; };
+          extraModules = [ espanso-fix.nixosModules.espanso-capdacoverride ];
         };
 
-        timba-1 = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs system nixpkgs;
-
-            pkgs-master = import nixpkgs-master {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            pkgs-askold = import nixpkgs-askold {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-          modules = [
-            ./hosts/timba-1/configuration.nix
-            agenix.nixosModules.default
-          ];
+        pc = mkHost {
+          host = "pc";
+          extraArgs = { inherit pkgs-master; };
         };
 
-        timba-2 = lib.nixosSystem {
-          inherit system;
-          specialArgs = {
-            inherit inputs system nixpkgs;
+        timba-1 = mkHost {
+          host = "timba-1";
+          extraArgs = { inherit pkgs-master pkgs-askold nixpkgs; };
+        };
 
-            pkgs-master = import nixpkgs-master {
-              inherit system;
-              config.allowUnfree = true;
-            };
-            pkgs-askold = import nixpkgs-askold {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-          modules = [
-            ./hosts/timba-2/configuration.nix
-            agenix.nixosModules.default
-          ];
+        timba-2 = mkHost {
+          host = "timba-2";
+          extraArgs = { inherit pkgs-master pkgs-askold nixpkgs; };
         };
       };
     };
