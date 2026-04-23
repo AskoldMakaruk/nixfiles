@@ -20,6 +20,7 @@ in
     #   ../../services/espanso.nix
     # ../../services/minio.nix
     ../../services/garage.nix
+    ../../services/grocy.nix
     ./nextcloud.nix
     ./backup.nix
 
