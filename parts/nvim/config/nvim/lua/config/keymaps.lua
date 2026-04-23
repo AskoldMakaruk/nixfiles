@@ -26,3 +26,11 @@ vim.keymap.set("i", "<Tab>", function()
     return ""
   end
 end, { expr = true, silent = true })
+
+vim.keymap.set("i", "<CR>", function()
+  if vim.fn["coc#pum#visible"]() == 1 then
+    return vim.fn["coc#pum#confirm"]()
+  else
+    return "<CR>"
+  end
+end, { expr = true, silent = true, noremap = true })
