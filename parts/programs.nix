@@ -50,6 +50,11 @@
       graphify.packages.x86_64-linux.graphify
 
       pkgs-master.beets
+      # humanity has fallen
+      pkgs-master.claude-code
+      pkgs-master.codex
+      pkgs-master.ollama
+      pkgs-master.kilocode-cli
 
       # two factor auth
       kdePackages.keysmith
@@ -63,5 +68,28 @@
     ];
 
     programs.firefox.enable = true;
+
+    services.qdrant = {
+      enable = true;
+      package = pkgs-master.qdrant;
+      webUIPackage = pkgs-master.qdrant-web-ui;
+
+      settings = {
+        storage = {
+          storage_path = "/var/lib/qdrant/storage";
+          snapshots_path = "/var/lib/qdrant/snapshots";
+        };
+        hsnw_index = {
+          on_disk = true;
+        };
+        service = {
+          host = "127.0.0.1";
+          http_port = 6333;
+          grpc_port = 6334;
+        };
+        telemetry_disabled = false;
+      };
+    };
+
   };
 }

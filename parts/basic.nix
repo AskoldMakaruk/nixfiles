@@ -41,10 +41,6 @@
 
       ghostty
 
-      # humanity has fallen
-      pkgs-master.claude-code
-      pkgs-master.codex
-
       lazydocker
     ];
 
