@@ -55,6 +55,11 @@
 
     graphify.url = "git+file:///home/askold/src/graphify";
 
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
 
     #unused
@@ -76,6 +81,7 @@
       agenix,
       nixvim,
       graphify,
+      microvm,
       # jbr-overlay,
       # dohla,
       espanso-fix,
@@ -103,7 +109,7 @@
         lib.nixosSystem {
           inherit system;
           specialArgs = {
-            inherit inputs system;
+            inherit inputs system self;
           }
           // extraArgs;
           modules = [
@@ -135,6 +141,11 @@
         timba-2 = mkHost {
           host = "timba-2";
           extraArgs = { inherit pkgs-master pkgs-askold nixpkgs; };
+        };
+
+        ai-sandbox = mkHost {
+          host = "ai-sandbox";
+          extraModules = [ microvm.nixosModules.microvm ];
         };
       };
     };

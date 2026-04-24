@@ -22,6 +22,7 @@ in
     # ../../services/garage.nix
     # ../../services/slskd.nix
     ../../parts/keyd.nix
+    ../../parts/ai-sandbox-host.nix
 
     # ../../services/nginx-fora.nix
     # ../../services/rabbitmq.nix
@@ -40,6 +41,9 @@ in
     affine.enable = false;
     gaming.enable = true;
     programs.enable = true;
+
+    aiSandbox.enable = true;
+    aiSandbox.externalInterface = "wlp2s0";
 
     dohla.enable = true;
     dohla.test = {
