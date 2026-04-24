@@ -17,7 +17,7 @@ in
     ../../nixos/modules
     ../../parts
     # ../../parts/wireguard.nix
-    ../../services/affine.nix
+    # ../../services/affine.nix
     # ../../services/espanso.nix
     # ../../services/garage.nix
     # ../../services/slskd.nix
@@ -38,7 +38,7 @@ in
     vscode.enable = true;
     piracy.enable = false;
     development.enable = true;
-    affine.enable = false;
+    # affine.enable = false;
     gaming.enable = true;
     programs.enable = true;
 
@@ -52,6 +52,15 @@ in
       api.enable = false;
       front.enable = false;
     };
+  };
+
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+    settings.auto-optimise-store = false; # dedup on every build
   };
 
   # boot.initrd.kernelModules = [ "amdgpu" ];
@@ -73,6 +82,8 @@ in
   #     ];
   #   };
   # };
+
+  boot.loader.systemd-boot.configurationLimit = 5;
 
   services.xserver.enable = true;
 
@@ -198,8 +209,6 @@ in
       ];
     };
   };
-
-  environment.systemPackages = with pkgs; [ freetube ];
 
   programs = {
     adb.enable = true;

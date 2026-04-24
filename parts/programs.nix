@@ -5,6 +5,7 @@
   pkgs-askold,
   pkgs-master,
   graphify,
+  kilocode-pkg,
   ...
 }:
 {
@@ -54,7 +55,8 @@
       pkgs-master.claude-code
       pkgs-master.codex
       pkgs-master.ollama
-      pkgs-master.kilocode-cli
+      # AI coding agent (pre-built binary from official releases)
+      kilocode-pkg
 
       # two factor auth
       kdePackages.keysmith

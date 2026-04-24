@@ -70,6 +70,19 @@ in
       "d /var/lib/ai-sandbox 0755 root root"
       "d /var/lib/ai-sandbox/workspace 0755 root root"
       "d /var/lib/ai-sandbox/context 0755 root root"
+      "d /var/lib/ai-sandbox/kilocode 0755 root root"
+    ];
+
+    # Bind-mount dotfiles/.kilocode into virtiofs source dir (read-only)
+    systemd.mounts = [
+      {
+        what = "/home/askold/.dotfiles/.kilocode";
+        where = "/var/lib/ai-sandbox/kilocode";
+        type = "none";
+        options = "bind,ro";
+        wantedBy = [ "multi-user.target" ];
+        before = [ "microvm@ai-sandbox.service" ];
+      }
     ];
 
     # ── start/stop scripts ────────────────────────────────────────────────────
@@ -121,6 +134,7 @@ in
           sudo umount /var/lib/ai-sandbox/workspace 2>/dev/null || true
           sudo umount /var/lib/ai-sandbox/context 2>/dev/null || true
           echo "done."
+          # kilocode mount is managed by systemd, no manual unmount needed
         '';
       in
       [

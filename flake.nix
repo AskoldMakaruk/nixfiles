@@ -100,6 +100,8 @@
         config.allowUnfree = true;
       };
 
+      kilocode-pkg = pkgs-master.callPackage ./pkgs/kilocode { };
+
       mkHost =
         {
           host,
@@ -124,7 +126,14 @@
       nixosConfigurations = {
         lenovo = mkHost {
           host = "lenovo";
-          extraArgs = { inherit pkgs-master pkgs-askold graphify; };
+          extraArgs = {
+            inherit
+              pkgs-master
+              pkgs-askold
+              graphify
+              kilocode-pkg
+              ;
+          };
           extraModules = [ espanso-fix.nixosModules.espanso-capdacoverride ];
         };
 
@@ -145,6 +154,7 @@
 
         ai-sandbox = mkHost {
           host = "ai-sandbox";
+          extraArgs = { inherit kilocode-pkg; };
           extraModules = [ microvm.nixosModules.microvm ];
         };
       };

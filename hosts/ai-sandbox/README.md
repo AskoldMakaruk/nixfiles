@@ -51,6 +51,26 @@ npm install && npm run dev
 
 ---
 
+## `.kilocode` provisioned from dotfiles
+
+The agent's `/home/agent/.kilocode` is assembled at boot from:
+
+| Source | Contents | From |
+|--------|----------|------|
+| `/kilocode/skills/` | Agent skills | `dotfiles/.kilocode/skills` (ro) |
+| `/kilocode/cli/` | CLI config (modes, MCP settings) | `dotfiles/.kilocode/cli` (ro) |
+| `/run/agenix/kilocode-secrets` | API keys (Anthropic, OpenAI, etc.) | `~/secrets/kilocode-api-keys.age` (agenix) |
+
+Mutable dirs (`logs`, `workspaces`, `history`) live on the persistent `/home/agent` volume.
+
+To update configs, edit files in `dotfiles/.kilocode/` and rebuild.
+
+To update API keys:
+1. Edit the plaintext and re-encrypt: `age -e -r $(cat ~/.ssh/agenix_key.pub) -o ~/secrets/kilocode-api-keys.age secrets.json`
+2. Rebuild: `batat-roll && sudo microvm -u ai-sandbox`
+
+---
+
 ## After config changes
 
 ```bash
@@ -64,9 +84,11 @@ sudo microvm -u ai-sandbox   # apply to running VM
 
 | What | Where | Persists? |
 |------|-------|-----------|
-| Agent home, caches, claude config | `/home/agent` (20 GB volume) | yes |
+| Agent home, caches, `.kilocode` mutable state | `/home/agent` (20 GB volume) | yes |
 | Repo | `/workspace` (bind from host) | lives on host |
 | Context | `/context` (bind from host, ro) | lives on host |
+| Configs + skills | `/kilocode` (bind from host, ro) | lives on host |
+| API keys | `/run/agenix/kilocode-secrets` | decrypted at build |
 | OS / packages | Nix store (read-only) | rebuilt on `microvm -u` |
 
 VM state: `/var/lib/microvms/ai-sandbox/`

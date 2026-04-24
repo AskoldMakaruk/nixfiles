@@ -1,0 +1,7 @@
+{
+  "skipProjectSetup": true,
+  "skipUpdateCheck": true,
+  "skipAutoCommit": false,
+  "editorMode": "cli",
+  "mcpEnabled": true
+}
