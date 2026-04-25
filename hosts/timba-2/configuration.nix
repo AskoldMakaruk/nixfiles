@@ -21,6 +21,7 @@ in
     # ../../services/minio.nix
     ../../services/garage.nix
     ../../services/grocy.nix
+    ../../services/forgejo.nix
     ./nextcloud.nix
     ./backup.nix
 
@@ -56,6 +57,8 @@ in
     8080
     5666
     7200
+    7300
+    7400
   ];
   #  networking.hostId = "bd246190";
   networking.hostName = "timba-2";
@@ -78,6 +81,8 @@ in
     affine.enable = false;
 
     tailscale.enable = true;
+
+    forgejo.enable = true;
 
     dohla.enable = true;
     dohla.test = {

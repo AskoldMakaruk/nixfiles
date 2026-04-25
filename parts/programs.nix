@@ -57,6 +57,7 @@
       pkgs-master.ollama
       # AI coding agent (pre-built binary from official releases)
       kilocode-pkg
+      python3 # ai loves little python shitptss
 
       # two factor auth
       kdePackages.keysmith

@@ -21,6 +21,63 @@ let
 
   generalNetwork = "docker-network-dohly-general";
   generalNetworkService = "${generalNetwork}.service";
+
+  frontendRepo = "/home/askold/src/tic-tac-toe/tictactoe";
+
+  githubWebhook = pkgs.writeShellScriptBin "github-webhook" ''
+    exec ${pkgs.python3}/bin/python3 -u ${pkgs.writeText "github-webhook.py" ''
+      import http.server, json, hmac, hashlib, os, subprocess, sys
+      SECRET = os.environ.get("GITHUB_WEBHOOK_SECRET", "")
+      PORT = int(os.environ.get("WEBHOOK_PORT", "7400"))
+      REPO = os.environ.get("REPO_PATH", "/home/askold/src/tic-tac-toe/tictactoe")
+      TOKEN = os.environ.get("BOT_TOKEN", "")
+      CID = os.environ.get("CHAT_ID", "")
+      TID = os.environ.get("TOPIC_ID", "")
+      def notify(msg):
+          if TOKEN and CID:
+              subprocess.run(["curl","-s","-X","POST",
+                  "https://api.telegram.org/bot"+TOKEN+"/sendMessage",
+                  "--data-urlencode","chat_id="+CID,
+                  "--data-urlencode","message_thread_id="+TID,
+                  "--data-urlencode","text="+msg], capture_output=True)
+      class H(http.server.BaseHTTPRequestHandler):
+          def do_POST(self):
+              body = self.rfile.read(int(self.headers.get("Content-Length",0)))
+              sig = self.headers.get("X-Hub-Signature-256","")
+              exp = "sha256="+hmac.new(SECRET.encode(),body,hashlib.sha256).hexdigest()
+              if SECRET and not hmac.compare_digest(sig,exp):
+                  return self.send_error(403)
+              if self.headers.get("X-GitHub-Event","")!="push":
+                  return self.send_response(200)
+              self.send_response(200); self.end_headers(); self.wfile.write(b"ok")
+              try:
+                  p=json.loads(body); br=p.get("ref","").replace("refs/heads/","")
+                  nm=p.get("repository",{}).get("full_name","unknown")
+                  lb=subprocess.run(["git","-C",REPO,"rev-parse","--abbrev-ref","HEAD"],
+                      capture_output=True,text=True).stdout.strip()
+                  if br!=lb: notify("[webhook] "+nm+"/"+br+" != local "+lb+", skip"); return
+                  notify("[webhook] "+nm+"/"+br+" push, pulling...")
+                  r=subprocess.run(["git","-C",REPO,"fetch","origin",br],capture_output=True,text=True)
+                  if r.returncode!=0: notify("[webhook] fetch failed: "+r.stderr); return
+                  loc=subprocess.run(["git","-C",REPO,"rev-parse","HEAD"],capture_output=True,text=True).stdout.strip()
+                  rem=subprocess.run(["git","-C",REPO,"rev-parse","origin/"+br],capture_output=True,text=True).stdout.strip()
+                  if loc==rem: notify("[webhook] already up to date"); return
+                  log=subprocess.run(["git","-C",REPO,"log","--oneline",loc+"..origin/"+br],
+                      capture_output=True,text=True).stdout.strip()
+                  m=subprocess.run(["git","-C",REPO,"merge","--ff-only"],capture_output=True,text=True)
+                  if m.returncode!=0: notify("[webhook] merge failed: "+m.stderr); return
+                  b=subprocess.run(["sudo","systemctl","restart",
+                      "docker-build-dohly-front-test.service"],capture_output=True,text=True).returncode
+                  c=subprocess.run(["sudo","systemctl","restart",
+                      "docker-dohly-front-test.service"],capture_output=True,text=True).returncode
+                  if b==0 and c==0: notify("[webhook] done\n"+log)
+                  else: notify("[webhook] restart failed build="+str(b)+" container="+str(c))
+              except Exception as e: notify("[webhook] error: "+str(e))
+          def log_message(self,f,*a): sys.stderr.write("[webhook] "+(f%a)+"\n")
+      http.server.HTTPServer(("0.0.0.0",PORT),H).serve_forever()
+    ''}
+  '';
+
 in
 {
   config = lib.mkMerge [
@@ -202,7 +259,7 @@ in
           TimeOutSec = 300;
         };
         script = ''
-          cd /home/askold/src/tic-tac-toe/tictactoe/
+          cd ${frontendRepo}
           # docker build -t dohly-front-test:latest -f dev.dockerfile .
           docker build -t dohly-front-test:latest -f Dockerfile .
         '';
@@ -210,54 +267,44 @@ in
         wantedBy = [ testRoot ];
       };
 
-      systemd.services."dohly-front-git-pull" = {
-        description = "Pull dohly frontend repo and rebuild+restart on changes";
+      # Webhook service — replaces timer-based git-pull
+      systemd.services."dohly-front-webhook" = {
+        description = "GitHub webhook listener for frontend auto-deploy";
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network-online.target" ];
+        requires = [ "network-online.target" ];
+
         path = [
           pkgs.git
           pkgs.openssh
           pkgs.curl
+          pkgs.systemd
+          pkgs.sudo
         ];
+
         serviceConfig = {
-          Type = "oneshot";
+          Type = "simple";
           User = "askold";
+          Restart = "always";
+          RestartSec = "5s";
           EnvironmentFile = "/run/agenix/telegram-bot";
+          Environment = [
+            "REPO_PATH=${frontendRepo}"
+            "WEBHOOK_PORT=7400"
+          ];
+          # GITHUB_WEBHOOK_SECRET comes from /run/agenix/github-webhook (see below)
         };
+
         script = ''
-          trap '${telegramNotify} "[dohly-front] git-pull service failed"' ERR
-          set -e
-
-          cd /home/askold/src/tic-tac-toe/tictactoe/
-
-          branch=$(git rev-parse --abbrev-ref HEAD)
-          git fetch origin "$branch"
-
-          local=$(git rev-parse HEAD)
-          remote=$(git rev-parse "origin/$branch")
-
-          if [ "$local" != "$remote" ]; then
-            changes=$(git log --oneline "$local".."origin/$branch")
-            ${telegramNotify} "[dohly-front] new commits, rebuilding:
-            $changes"
-            git merge --ff-only
-            if /run/wrappers/bin/sudo /run/current-system/sw/bin/systemctl restart docker-build-dohly-front-test.service && \
-               /run/wrappers/bin/sudo /run/current-system/sw/bin/systemctl restart docker-dohly-front-test.service; then
-              ${telegramNotify} "[dohly-front] rebuild and restart done"
-            else
-              ${telegramNotify} "[dohly-front] restart failed after pull"
-              exit 1
-            fi
-          fi
+          export GITHUB_WEBHOOK_SECRET=$(cat /run/agenix/github-webhook 2>/dev/null || echo "")
+          exec ${githubWebhook}/bin/github-webhook
         '';
       };
 
-      systemd.timers."dohly-front-git-pull" = {
-        description = "Check dohly frontend git repo every minute";
-        wantedBy = [ "timers.target" ];
-        timerConfig = {
-          OnBootSec = "1min";
-          OnUnitActiveSec = "1min";
-          Unit = "dohly-front-git-pull.service";
-        };
+      # Add webhook secret to agenix
+      age.secrets.github-webhook = {
+        file = inputs.mysecrets + "/github-webhook.age";
+        owner = "askold";
       };
 
       security.sudo.extraRules = [
