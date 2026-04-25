@@ -103,6 +103,20 @@ in
       };
     };
 
+    virtualHosts."git.askold.dev" = {
+      forceSSL = true;
+      useACMEHost = "askold.dev";
+      locations."/" = {
+        proxyPass = "http://100.118.231.37:7300";
+        proxyWebsockets = true;
+        extraConfig = ''
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Host $host;
+        '';
+      };
+    };
+
     virtualHosts."grocy.askold.dev" = {
       forceSSL = true;
       useACMEHost = "askold.dev";
@@ -141,6 +155,16 @@ in
       ];
     };
   };
+
+  # TCP stream proxy for Forgejo SSH (git.askold.dev:2222 -> timba-2:2222)
+  services.nginx.streamConfig = ''
+    server {
+      listen 2222;
+      proxy_pass 100.118.231.37:2222;
+      proxy_timeout 600s;
+      proxy_connect_timeout 5s;
+    }
+  '';
 
   users.users.nginx.extraGroups = [ "acme" ];
 

@@ -56,7 +56,7 @@
     graphify.url = "git+file:///home/askold/src/graphify";
 
     microvm = {
-      url = "github:astro/microvm.nix";
+      url = "github:microvm-nix/microvm.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

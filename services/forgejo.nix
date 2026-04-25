@@ -52,8 +52,8 @@ in
 
       settings = {
         server = {
-          DOMAIN = "timba-2.tail5c913c.ts.net";
-          ROOT_URL = "http://timba-2.tail5c913c.ts.net:7300";
+          DOMAIN = "git.askold.dev";
+          ROOT_URL = "https://git.askold.dev";
           HTTP_ADDR = "0.0.0.0";
           HTTP_PORT = 7300;
           PROTOCOL = "http";
@@ -61,7 +61,7 @@ in
           SSH_PORT = 2222;
           START_SSH_SERVER = true;
           SSH_LISTEN_PORT = 2222;
-          SSH_DOMAIN = "timba-2.tail5c913c.ts.net";
+          SSH_DOMAIN = "git.askold.dev";
         };
         service = {
           DISABLE_REGISTRATION = false;
@@ -106,24 +106,10 @@ in
       after = [ "forgejo-setup.service" ];
       path = [ pkgs.openssh ];
     };
-    script = ''
-      PASSWORD=$(cat /run/agenix/forgejo-db)
-      sudo -u postgres psql -c "ALTER USER forgejo PASSWORD '"$PASSWORD"';"
-    '';
-  };
 
-  systemd.services.forgejo = {
-    after = [ "forgejo-set-db-password.service" ];
-    preStart = lib.mkAfter ''
-      ${pkgs.coreutils}/bin/mkdir -p /var/lib/forgejo/custom/conf
-      ${pkgs.coreutils}/bin/cp /run/agenix/forgejo-secret-key /var/lib/forgejo/custom/conf/secret-key
-      ${pkgs.coreutils}/bin/chown -R forgejo:forgejo /var/lib/forgejo
-    '';
-    path = [ pkgs.openssh ];
+    networking.firewall.allowedTCPPorts = [
+      7300
+      2222
+    ];
   };
-
-  networking.firewall.allowedTCPPorts = [
-    7300
-    2222
-  ];
 }

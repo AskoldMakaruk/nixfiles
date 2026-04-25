@@ -52,6 +52,7 @@ in
     8080
     5666
     7200
+    2222
   ];
   networking.hostId = "bd246190";
   networking.hostName = "timba-1";
