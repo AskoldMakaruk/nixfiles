@@ -48,12 +48,10 @@
       # written in python by youtuber, weights 2GB
       # inputs.tagstudio.packages.${pkgs.stdenv.hostPlatform.system}.tagstudio
       #
-      graphify.packages.x86_64-linux.graphify
 
       pkgs-master.beets
       # humanity has fallen
       pkgs-master.claude-code
-      pkgs-master.codex
       pkgs-master.ollama
       # AI coding agent (pre-built binary from official releases)
       kilocode-pkg

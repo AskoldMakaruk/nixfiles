@@ -39,11 +39,11 @@ in
 
     # /workspace — rw, the active repo (bind-mounted by start-ai-sandbox script)
     # /context   — ro, docs/notes passed as context
-    # /kilocode — ro, agent configs + secrets + skills from dotfiles repo
+    # /home/agent/.local/share/kilo — rw, host's kilodata dir mounted directly
     shares = [
       {
         tag = "workspace";
-        mountPoint = "/workspace";
+        mountPoint = "/home/agent/workspace";
         proto = "virtiofs";
         source = "/var/lib/ai-sandbox/workspace";
       }
@@ -54,10 +54,10 @@ in
         source = "/var/lib/ai-sandbox/context";
       }
       {
-        tag = "kilocode";
-        mountPoint = "/kilocode";
+        tag = "kilo";
+        mountPoint = "/home/agent/.local/share/kilo";
         proto = "virtiofs";
-        source = "/var/lib/ai-sandbox/kilocode";
+        source = "/home/askold/.local/share/kilo";
       }
     ];
 
@@ -70,30 +70,17 @@ in
     ];
   };
 
-  # ── Networking ──────────────────────────────────────────────────────────────
-
   networking = {
     hostName = "ai-sandbox";
+    useDHCP = false;
+    useNetworkd = true;
     usePredictableInterfaceNames = false;
-
-    interfaces.eth0.ipv4.addresses = [
-      {
-        address = "10.100.0.2";
-        prefixLength = 24;
-      }
-    ];
-    defaultGateway = {
-      address = "10.100.0.1";
-      interface = "eth0";
-    };
     nameservers = [
-      "1.1.1.1"
       "8.8.8.8"
+      "1.1.1.1"
     ];
 
     # Whitelist outbound: DNS + HTTPS/HTTP + SSH (git over ssh)
-    # Blocks everything else — no lateral movement, no arbitrary exfil
-    # For stricter control, replace tcp dport {80,443} with explicit IP sets
     nftables.enable = true;
     nftables.ruleset = ''
       table inet filter {
@@ -105,9 +92,6 @@ in
 
           # SSH only from host LAN
           ip saddr 10.100.0.0/24 tcp dport 22 accept
-
-          icmp type echo-request accept
-          icmpv6 type echo-request accept
         }
 
         chain forward {
@@ -115,29 +99,28 @@ in
         }
 
         chain output {
-          type filter hook output priority 0; policy drop;
-
-          ct state { established, related } accept
-          oif "lo" accept
-
-          # DNS
-          udp dport 53 accept
-          tcp dport 53 accept
-
-          # HTTPS — NuGet, npm, GitHub, Anthropic API, Nix cache
-          tcp dport { 80, 443 } accept
-
-          # SSH out — git over SSH (github, etc.)
-          tcp dport 22 accept
-
-          icmp type echo-request accept
-          icmpv6 type echo-request accept
+          type filter hook output priority 0; policy accept;
         }
       }
     '';
   };
 
-  # ── Packages ─────────────────────────────────────────────────────────────────
+  systemd.network.enable = true;
+  systemd.network.networks."10-e" = {
+    matchConfig.Name = "e*";
+    addresses = [ { Address = "10.100.0.2/24"; } ];
+    routes = [ { Gateway = "10.100.0.1"; } ];
+  };
+
+  programs = {
+    nix-ld.enable = true;
+  };
+
+  # Ensure parent dirs exist for the kilo virtiofs mount
+  systemd.tmpfiles.rules = [
+    "d /home/agent/.local 0755 agent users"
+    "d /home/agent/.local/share 0755 agent users"
+  ];
 
   environment.systemPackages =
     (with pkgs; [
@@ -149,16 +132,41 @@ in
       jq
       tree
       unzip
-      # JS/Svelte toolchain
       nodejs
       nodePackages.npm
+
+      yazi
+      fzf
+      zoxide
+      dblab
+      comma # , to call bins from nixpkgs
+
+      # websocket cli client
+      claws
+
+      ghostty
+
+      systemctl-tui
+
     ])
     ++ (with pkgs-master; [
-      # C# toolchain
       dotnetCorePackages.sdk_10_0
+
+      # Cloudflare challenge bypass
+      curl-impersonate
+      curl-impersonate-chrome
+      chromium
+      undetected-chromedriver
+      flaresolverr
     ])
     ++ [
-      # AI agent (pre-built binary from official releases)
+      (pkgs.python3.withPackages (ps: [
+        ps.cloudscraper
+        ps.cfscrape
+        ps.undetected-chromedriver
+        ps.playwright
+        ps.playwright-stealth
+      ]))
       kilocode-pkg
     ];
 
@@ -168,65 +176,7 @@ in
     "flakes"
   ];
 
-  # ── Age secrets ────────────────────────────────────────────────────────────────
-  # API keys for Kilo Code agent (Anthropic, OpenAI, etc.)
-  # Encrypted file lives in ~/secrets/kilocode-api-keys.age (private repo)
-  # Create with:
-  #   age -e -r $(cat ~/.ssh/agenix_key.pub) -o ~/secrets/kilocode-api-keys.age secrets.json
-  age = {
-    identityPaths = [ "/home/agent/.ssh/agenix_key" ];
-    secrets = {
-      kilocode-secrets = {
-        file = inputs.mysecrets + "/kilocode-api-keys.age";
-        owner = "agent";
-        group = "users";
-        mode = "0400";
-      };
-    };
-  };
-
-  # ── KiloCode dir assembly ────────────────────────────────────────────────────
-  # Assemble /home/agent/.kilocode from:
-  #   - /kilocode           (virtiofs ro from dotfiles — cli configs, skills)
-  #   - /run/agenix/kilocode-secrets  (agenix — API keys)
-  #
-  # Mutable parts (history, logs, workspaces) are created in agent's home.
-
-  systemd.services.agent-kilocode-setup = {
-    description = "Assemble agent .kilocode directory from dotfiles + secrets";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "local-fs.target" ];
-    requires = [ "agenix.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-    script = ''
-      KC=/home/agent/.kilocode
-      mkdir -p "$KC"
-
-      # ── CLI configs (ro) ─────────────────────────────────────────────────
-      mkdir -p "$KC/cli/global/settings"
-      cp -rn /kilocode/cli/config.json "$KC/cli/config.json" 2>/dev/null || true
-      cp -rn /kilocode/cli/global/settings/custom_modes.yaml "$KC/cli/global/settings/" 2>/dev/null || true
-      cp -rn /kilocode/cli/global/settings/mcp_settings.json "$KC/cli/global/settings/" 2>/dev/null || true
-
-      # ── Secrets (from agenix) ────────────────────────────────────────────
-      if [ -f /run/agenix/kilocode-secrets ]; then
-        cp /run/agenix/kilocode-secrets "$KC/secrets.json"
-      fi
-
-      # ── Skills (ro symlink) ──────────────────────────────────────────────
-      ln -sfn /kilocode/skills "$KC/skills"
-
-      # ── Mutable dirs ─────────────────────────────────────────────────────
-      mkdir -p "$KC/cli/logs"
-      mkdir -p "$KC/cli/workspaces"
-
-      # ── Ownership ────────────────────────────────────────────────────────
-      chown -R agent:users "$KC"
-    '';
-  };
+  # Kilodata is mounted directly from host at /home/agent/.local/share/kilo
 
   # ── SSH ──────────────────────────────────────────────────────────────────────
 

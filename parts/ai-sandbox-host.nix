@@ -35,6 +35,10 @@ in
 
   config = lib.mkIf cfg.enable {
 
+    # Disable host firewall — the machine is behind a router NAT anyway,
+    # and it interferes with forwarding traffic from the microvm.
+    networking.firewall.enable = false;
+
     # ── microvm host ──────────────────────────────────────────────────────────
 
     microvm.vms.ai-sandbox = {
@@ -42,15 +46,30 @@ in
     };
 
     # ── Bridge + NAT ──────────────────────────────────────────────────────────
+    # Refactored to systemd-networkd + networking.nat (blog post pattern)
 
-    networking.bridges.br-ai.interfaces = [ ]; # tap added dynamically via udev
+    systemd.network.enable = true;
 
-    networking.interfaces.br-ai.ipv4.addresses = [
-      {
-        address = "10.100.0.1";
-        prefixLength = 24;
-      }
-    ];
+    systemd.network.netdevs."20-br-ai" = {
+      netdevConfig = {
+        Kind = "bridge";
+        Name = "br-ai";
+      };
+    };
+
+    systemd.network.networks."20-br-ai" = {
+      matchConfig.Name = "br-ai";
+      addresses = [ { Address = "10.100.0.1/24"; } ];
+      networkConfig.ConfigureWithoutCarrier = true;
+    };
+
+    # Auto-attach any ai-tap* interface to the bridge
+    systemd.network.networks."21-ai-tap" = {
+      matchConfig.Name = "ai-tap*";
+      networkConfig.Bridge = "br-ai";
+    };
+
+    boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
     networking.nat = {
       enable = true;
@@ -58,31 +77,12 @@ in
       externalInterface = cfg.externalInterface;
     };
 
-    # Add tap to bridge when microvm creates it
-    services.udev.extraRules = ''
-      ACTION=="add", SUBSYSTEM=="net", KERNEL=="ai-tap0", \
-        RUN+="${pkgs.iproute2}/bin/ip link set %k master br-ai up"
-    '';
-
     # ── Bind-mount dirs ───────────────────────────────────────────────────────
 
     systemd.tmpfiles.rules = [
       "d /var/lib/ai-sandbox 0755 root root"
       "d /var/lib/ai-sandbox/workspace 0755 root root"
       "d /var/lib/ai-sandbox/context 0755 root root"
-      "d /var/lib/ai-sandbox/kilocode 0755 root root"
-    ];
-
-    # Bind-mount dotfiles/.kilocode into virtiofs source dir (read-only)
-    systemd.mounts = [
-      {
-        what = "/home/askold/.dotfiles/.kilocode";
-        where = "/var/lib/ai-sandbox/kilocode";
-        type = "none";
-        options = "bind,ro";
-        wantedBy = [ "multi-user.target" ];
-        before = [ "microvm@ai-sandbox.service" ];
-      }
     ];
 
     # ── start/stop scripts ────────────────────────────────────────────────────
@@ -100,22 +100,32 @@ in
             exit 1
           fi
 
-          echo "→ mounting workspace: $WORKSPACE"
-          sudo mount --bind "$WORKSPACE" /var/lib/ai-sandbox/workspace
+          if mountpoint -q /var/lib/ai-sandbox/workspace; then
+            echo "→ workspace already mounted, skipping"
+          else
+            echo "→ mounting workspace: $WORKSPACE"
+            sudo mount --bind "$WORKSPACE" /var/lib/ai-sandbox/workspace
+          fi
 
           if [ -n "$CONTEXT" ]; then
-            echo "→ mounting context: $CONTEXT"
-            sudo mount --bind -o ro "$CONTEXT" /var/lib/ai-sandbox/context
+            if mountpoint -q /var/lib/ai-sandbox/context; then
+              echo "→ context already mounted, skipping"
+            else
+              echo "→ mounting context: $CONTEXT"
+              sudo mount --bind -o ro "$CONTEXT" /var/lib/ai-sandbox/context
+            fi
           fi
 
           trap '
+            echo "→ stopping VM..."
+            sudo systemctl stop microvm@ai-sandbox 2>/dev/null || true
             echo "→ unmounting..."
             sudo umount /var/lib/ai-sandbox/workspace 2>/dev/null || true
             sudo umount /var/lib/ai-sandbox/context 2>/dev/null || true
           ' EXIT
 
-          echo "→ starting VM..."
-          sudo systemctl start microvm@ai-sandbox
+          echo "→ (re)starting VM..."
+          sudo systemctl restart microvm@ai-sandbox
 
           echo ""
           echo "VM running. SSH in:"
