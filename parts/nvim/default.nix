@@ -50,6 +50,9 @@
         # nix language server
         nil
 
+        # json formatter
+        fixjson
+
         # nix formatter
         nixfmt-rfc-style
 

@@ -12,6 +12,7 @@ in
   imports = [
     ./hardware-configuration.nix
     ./backup.nix
+    ./nginx-kilo.nix
     inputs.home-manager.nixosModules.home-manager
     inputs.nixvim.nixosModules.nixvim
     ../../nixos/modules

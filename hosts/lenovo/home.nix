@@ -43,7 +43,7 @@
   #   };
 
   home.file.".ideavimrc".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/ideavimrc";
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/config/rider/ideavimrc";
 
   programs = {
     git = {

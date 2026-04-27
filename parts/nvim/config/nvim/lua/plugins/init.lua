@@ -111,6 +111,7 @@ return {
       formatters_by_ft = {
         cs = { "csharpier" },
         nix = { "nixfmt" },
+        json = { "fixjson" },
       },
       formatters = {
         csharpier = {
