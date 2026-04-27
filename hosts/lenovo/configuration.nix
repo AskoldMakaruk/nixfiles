@@ -43,7 +43,6 @@ in
     programs.enable = true;
 
     aiSandbox.enable = true;
-    aiSandbox.externalInterface = "wlp2s0";
 
     dohla.enable = true;
     dohla.test = {
@@ -216,7 +215,40 @@ in
     ssh.enableAskPassword = true;
     ssh.askPassword = "${pkgs.kdePackages.ksshaskpass}/bin/ksshaskpass";
 
-    nix-ld.enable = true;
+    nix-ld = {
+      enable = true;
+      libraries = with pkgs; [
+        glib
+        gtk3
+        libdrm
+        libxshmfence
+        nss
+        nspr
+        atk
+        at-spi2-atk
+        at-spi2-core
+        cairo
+        pango
+        expat
+        libgbm
+        libxkbcommon
+        xorg.libX11
+        xorg.libXcomposite
+        xorg.libXcursor
+        xorg.libXdamage
+        xorg.libXext
+        xorg.libXfixes
+        xorg.libXi
+        xorg.libXrandr
+        xorg.libXrender
+        xorg.libXScrnSaver
+        xorg.libxcb
+        alsa-lib
+        cups
+        dbus
+        libcap
+      ];
+    };
     nh = {
       enable = true;
       flake = "/home/askold/.dotfiles";

@@ -101,6 +101,10 @@
       };
 
       kilocode-pkg = pkgs-master.callPackage ./pkgs/kilocode { };
+      another-redis-desktop-manager-pkg =
+        pkgs-master.callPackage ./pkgs/another-redis-desktop-manager
+          { };
+      mssql-mcp-server-pkg = pkgs-master.callPackage ./pkgs/mssql-mcp-server { };
 
       mkHost =
         {
@@ -132,6 +136,8 @@
               pkgs-askold
               graphify
               kilocode-pkg
+              another-redis-desktop-manager-pkg
+              mssql-mcp-server-pkg
               ;
           };
           extraModules = [ espanso-fix.nixosModules.espanso-capdacoverride ];

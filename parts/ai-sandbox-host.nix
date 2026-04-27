@@ -1,9 +1,6 @@
 # Host-side config for the ai-sandbox microvm.
 # Import this in hosts/lenovo/configuration.nix (or pc) to enable.
 #
-# After importing, set your external network interface:
-#   batat.aiSandbox.externalInterface = "wlp3s0";  # or "enp2s0", etc.
-#
 # Usage:
 #   start-ai-sandbox /path/to/repo [/path/to/context]
 #   ssh agent@10.100.0.2
@@ -25,12 +22,6 @@ in
 
   options.batat.aiSandbox = {
     enable = lib.mkEnableOption "ai-sandbox microvm";
-
-    externalInterface = lib.mkOption {
-      type = lib.types.str;
-      description = "Host network interface for NAT (e.g. wlp3s0, enp2s0)";
-      example = "wlp3s0";
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -46,36 +37,36 @@ in
     };
 
     # ── Bridge + NAT ──────────────────────────────────────────────────────────
-    # Refactored to systemd-networkd + networking.nat (blog post pattern)
+    # Uses scripted networking (networking.bridges + udev) so it doesn't conflict
+    # with the host's existing dhcpcd-managed wifi/ethernet interfaces.
 
-    systemd.network.enable = true;
+    networking.bridges.br-ai.interfaces = [ ];
 
-    systemd.network.netdevs."20-br-ai" = {
-      netdevConfig = {
-        Kind = "bridge";
-        Name = "br-ai";
-      };
-    };
+    networking.interfaces.br-ai.ipv4.addresses = [
+      {
+        address = "10.100.0.1";
+        prefixLength = 24;
+      }
+    ];
 
-    systemd.network.networks."20-br-ai" = {
-      matchConfig.Name = "br-ai";
-      addresses = [ { Address = "10.100.0.1/24"; } ];
-      networkConfig.ConfigureWithoutCarrier = true;
-    };
-
-    # Auto-attach any ai-tap* interface to the bridge
-    systemd.network.networks."21-ai-tap" = {
-      matchConfig.Name = "ai-tap*";
-      networkConfig.Bridge = "br-ai";
-    };
+    # Auto-attach tap interface to bridge when microvm creates it
+    services.udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="net", KERNEL=="ai-tap0", \
+        RUN+="${pkgs.iproute2}/bin/ip link set %k master br-ai up"
+    '';
 
     boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
-    networking.nat = {
-      enable = true;
-      internalInterfaces = [ "br-ai" ];
-      externalInterface = cfg.externalInterface;
-    };
+    # Masquerade all traffic from the microvm bridge
+    networking.nftables.enable = true;
+    networking.nftables.ruleset = ''
+      table ip batat-nat {
+        chain postrouting {
+          type nat hook postrouting priority srcnat; policy accept;
+          ip saddr 10.100.0.0/24 oifname != "br-ai" masquerade
+        }
+      }
+    '';
 
     # ── Bind-mount dirs ───────────────────────────────────────────────────────
 

@@ -6,6 +6,8 @@
   pkgs-master,
   graphify,
   kilocode-pkg,
+  another-redis-desktop-manager-pkg,
+  mssql-mcp-server-pkg,
   ...
 }:
 {
@@ -55,6 +57,8 @@
       pkgs-master.ollama
       # AI coding agent (pre-built binary from official releases)
       kilocode-pkg
+      another-redis-desktop-manager-pkg
+      mssql-mcp-server-pkg
       python3 # ai loves little python shitptss
 
       # two factor auth
@@ -66,6 +70,7 @@
 
       # work browser
       ungoogled-chromium
+      chromium
     ];
 
     programs.firefox.enable = true;
