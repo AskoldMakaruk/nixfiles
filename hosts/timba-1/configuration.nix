@@ -20,6 +20,7 @@ in
     # ../../services/minio.nix
     ../../services/garage.nix
     ./nginx.nix
+    ./authelia.nix
 
     "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-config.nix"
     inputs.nixos-generators.nixosModules.all-formats
@@ -105,6 +106,26 @@ in
       };
       wg_endpoint = {
         file = mysecrets + "/wireguard_endpoint_ip.age";
+      };
+      autheliaJwtSecret = {
+        file = mysecrets + "/authelia/jwt.age";
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      autheliaStorageEncryptionKey = {
+        file = mysecrets + "/authelia/storage.age";
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      autheliaSessionSecret = {
+        file = mysecrets + "/authelia/session.age";
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      autheliaUsers = {
+        file = mysecrets + "/authelia/users.age";
+        owner = "authelia-main";
+        group = "authelia-main";
       };
     };
   };

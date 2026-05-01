@@ -14,6 +14,7 @@
     ./development/default.nix
     ./deployment/default.nix
     ./programs.nix
+    ./kilo.nix
   ];
 
   batat.audio.enable = lib.mkDefault true;
@@ -28,4 +29,5 @@
   batat.mscode.enable = lib.mkDefault false;
   batat.development.enable = lib.mkDefault false;
   batat.programs.enable = lib.mkDefault false;
+  batat.kilo.enable = lib.mkDefault true;
 }

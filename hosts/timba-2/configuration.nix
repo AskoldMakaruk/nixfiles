@@ -15,18 +15,13 @@ in
     inputs.nixvim.nixosModules.nixvim
     ../../parts
     ../../nixos/modules
-    # ../../parts/wireguard.nix
     ../../services/affine.nix
-    #   ../../services/espanso.nix
-    # ../../services/minio.nix
     ../../services/garage.nix
     ../../services/grocy.nix
     ../../services/forgejo.nix
     ./nextcloud.nix
     ./backup.nix
-
-    #    "${inputs.nixpkgs}/nixos/modules/virtualisation/digital-ocean-config.nix"
-    #inputs.nixos-generators.nixosModules.all-formats
+    ../../services/suwayomi.nix
   ];
 
   nix = {
@@ -65,14 +60,6 @@ in
 
   system.stateVersion = "25.11";
 
-  # networking.wireguard.interfaces = {
-  #  wg0 = {
-  #   ips = [
-  #    "10.5.5.30/24"
-  #  ];
-  #  };
-  # };
-
   batat = {
     shell.enable = true;
     fluent-bit.enable = true;
@@ -83,6 +70,8 @@ in
     tailscale.enable = true;
 
     forgejo.enable = true;
+
+    suwayomi.enable = true;
 
     dohla.enable = true;
     dohla.test = {
