@@ -5,7 +5,7 @@
 }:
 
 let
-  version = "7.2.25";
+  version = "7.2.34";
   targets = {
     "x86_64-linux" = "linux-x64";
     "aarch64-linux" = "linux-arm64";
@@ -22,7 +22,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://github.com/Kilo-Org/kilocode/releases/download/v${version}/kilo-${target}.tar.gz";
-    hash = "sha256-hP0Pcf8mgNZHfFu3aNwQl6/s/rEpjBtDkqNtwtNcFgI=";
+    hash = "sha256-418b14Vq4PIhCO0q1uDtWVJnrjNdVcUzzTyewyZ/ovs=";
   };
 
   sourceRoot = ".";
