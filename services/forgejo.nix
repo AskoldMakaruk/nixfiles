@@ -73,6 +73,10 @@ in
         session = {
           COOKIE_SECURE = false;
         };
+        actions = {
+          ENABLED = true;
+          DEFAULT_ACTIONS_URL = "https://github.com";
+        };
         "repository.pull-request" = {
           WORK_IN_PROGRESS_PREFIXES = "WIP:,[WIP]";
         };

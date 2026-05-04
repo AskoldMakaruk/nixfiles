@@ -19,6 +19,7 @@ in
     ../../services/garage.nix
     ../../services/grocy.nix
     ../../services/forgejo.nix
+    ../../services/forgejo-runner.nix
     ./nextcloud.nix
     ./backup.nix
     ../../services/suwayomi.nix
@@ -82,6 +83,11 @@ in
     };
   };
 
+  services.forgejo-runner = {
+    enable = true;
+    tokenFile = config.age.secrets.forgejoRunnerToken.path;
+  };
+
   age = {
     identityPaths = [ "/home/askold/.ssh/agenix_key" ];
     secrets = {
@@ -93,6 +99,11 @@ in
       };
       telegram-bot.file = inputs.mysecrets + "/telegram-bot.age";
       telegram-bot.owner = "askold";
+      forgejoRunnerToken = {
+        file = mysecrets + "/forgejo/runner-token.age";
+        owner = "forgejo-runner";
+        group = "forgejo-runner";
+      };
     };
   };
 
