@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   inherit (lib) mkIf;
@@ -33,11 +38,11 @@ in
         default_policy = "deny";
         rules = [
           {
-            domain = "auth.askold.dev";
-            policy = "bypass";
+            domain = "git.askold.dev";
+            policy = "one_factor";
           }
           {
-            domain = "auth.dead-idiots.rip";
+            domain = "auth.askold.dev";
             policy = "bypass";
           }
           {
@@ -46,10 +51,14 @@ in
           }
           {
             domain = "dead-idiots.rip";
-            policy = "one_factor";
+            policy = "bypass";
           }
           {
             domain = "grocy.askold.dev";
+            policy = "one_factor";
+          }
+          {
+            domain = "manga.askold.dev";
             policy = "one_factor";
           }
         ];
@@ -58,19 +67,23 @@ in
       session = {
         name = "authelia_session";
         same_site = "lax";
-        inactivity = {
-          seconds = 300;
-        };
-        expiration = {
-          seconds = 86400;
-        };
-        remember_me = {
-          seconds = 2592000;
-        };
+        inactivity = "5m";
+        expiration = "24h";
+        remember_me = "1M";
         redis = {
           host = "127.0.0.1";
           port = 6379;
         };
+        cookies = [
+          {
+            domain = "askold.dev";
+            authelia_url = "https://auth.askold.dev";
+          }
+          {
+            domain = "dead-idiots.rip";
+            authelia_url = "https://auth.dead-idiots.rip";
+          }
+        ];
       };
 
       storage.local.path = "/var/lib/authelia-main/db.sqlite3";

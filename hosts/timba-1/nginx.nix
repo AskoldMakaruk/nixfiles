@@ -7,18 +7,20 @@
 let
   inherit (inputs) mysecrets;
 
-  autheliaLocation = {
-    extraConfig = ''
-      internal;
-      proxy_pass http://127.0.0.1:9091;
-      proxy_pass_request_body off;
-      proxy_set_header Content-Length "";
-      proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
-      proxy_set_header X-Forwarded-Method $request_method;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header X-Forwarded-Host $http_host;
-      proxy_set_header X-Forwarded-Uri $request_uri;
-    '';
+  autheliaLocations = {
+    "/authelia/" = {
+      extraConfig = ''
+        internal;
+        proxy_pass http://127.0.0.1:9091/;
+        proxy_pass_request_body off;
+        proxy_set_header Content-Length "";
+        proxy_set_header X-Original-URL $scheme://$http_host$request_uri;
+        proxy_set_header X-Forwarded-Method $request_method;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+        proxy_set_header X-Forwarded-Uri $request_uri;
+      '';
+    };
   };
 
   withAuth = authDomain: extraConfig: ''
@@ -35,6 +37,12 @@ in
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
+
+    commonHttpConfig = ''
+      error_log stderr info;
+      proxy_headers_hash_max_size 1024;
+      proxy_headers_hash_bucket_size 128;
+    '';
 
     # Authelia portal — users log in here
     virtualHosts."auth.askold.dev" = {
@@ -69,8 +77,7 @@ in
     virtualHosts."logs.dead-idiots.rip" = {
       forceSSL = true;
       useACMEHost = "dead-idiots.rip";
-      locations = {
-        "/authelia" = autheliaLocation;
+      locations = autheliaLocations // {
         "/" = {
           proxyPass = "http://100.118.231.37:5800";
           extraConfig = withAuth "auth.dead-idiots.rip" "";
@@ -81,8 +88,7 @@ in
     virtualHosts."dead-idiots.rip" = {
       forceSSL = true;
       useACMEHost = "dead-idiots.rip";
-      locations = {
-        "/authelia" = autheliaLocation;
+      locations = autheliaLocations // {
         "/" = {
           proxyPass = "http://100.118.231.37:7200";
           proxyWebsockets = true;
@@ -104,8 +110,7 @@ in
     virtualHosts."grocy.askold.dev" = {
       forceSSL = true;
       useACMEHost = "askold.dev";
-      locations = {
-        "/authelia" = autheliaLocation;
+      locations = autheliaLocations // {
         "/" = {
           proxyPass = "http://100.118.231.37";
           proxyWebsockets = true;
@@ -176,12 +181,6 @@ in
       useACMEHost = "askold.dev";
       locations."/" = {
         proxyPass = "http://100.118.231.37:7300";
-        proxyWebsockets = true;
-        extraConfig = ''
-          proxy_set_header X-Forwarded-Proto $scheme;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header Host $host;
-        '';
       };
     };
 
