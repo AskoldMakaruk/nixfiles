@@ -54,7 +54,6 @@ in
     5666
     7200
     7300
-    7400
   ];
   #  networking.hostId = "bd246190";
   networking.hostName = "timba-2";

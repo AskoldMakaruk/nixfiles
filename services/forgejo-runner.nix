@@ -7,6 +7,24 @@
 
 let
   cfg = config.services.forgejo-runner;
+
+  yamlFormat = pkgs.formats.yaml { };
+  runnerConfig = yamlFormat.generate "runner-config.yml" {
+    log = {
+      level = "info";
+    };
+    runner = {
+      file = ".runner";
+    };
+    cache = {
+      enabled = true;
+      dir = "/tmp/cache";
+    };
+    container = {
+      docker_host = "unix:///var/run/docker.sock";
+      options = "--volume /var/run/docker.sock:/var/run/docker.sock";
+    };
+  };
 in
 {
   options.services.forgejo-runner = {
@@ -31,8 +49,8 @@ in
 
     labels = lib.mkOption {
       type = lib.types.str;
-      default = "ubuntu-latest:docker://catthehacker/ubuntu:runner-latest";
-      description = "Runner labels and Docker image mappings";
+      default = "ubuntu-latest:host";
+      description = "Runner labels. Use ':host' to run workflows directly on the host (needed for Docker access).";
     };
   };
 
@@ -49,9 +67,14 @@ in
       ];
       wantedBy = [ "multi-user.target" ];
 
+      path = [ pkgs.docker pkgs.nodejs pkgs.git ];
+
       preStart = ''
+        export HOME=/var/lib/forgejo-runner
+        install -d -o forgejo-runner -g forgejo-runner /var/lib/forgejo-runner
+        install -o forgejo-runner -g forgejo-runner -m 0644 ${runnerConfig} /var/lib/forgejo-runner/config.yml
         if [ ! -f /var/lib/forgejo-runner/.runner ]; then
-          install -d -o forgejo-runner -g forgejo-runner /var/lib/forgejo-runner
+          export HOME=/var/lib/forgejo-runner
           ${pkgs.forgejo-runner}/bin/forgejo-runner register \
             --name "${cfg.name}" \
             --token "$(cat ${cfg.tokenFile})" \
@@ -66,7 +89,11 @@ in
         User = "forgejo-runner";
         Group = "forgejo-runner";
         WorkingDirectory = "/var/lib/forgejo-runner";
-        ExecStart = "${pkgs.forgejo-runner}/bin/forgejo-runner daemon";
+        Environment = [
+          "HOME=/var/lib/forgejo-runner"
+          "PATH=/run/wrappers/bin:/run/current-system/sw/bin:/nix/var/nix/profiles/default/bin:/bin:${pkgs.git}/bin"
+        ];
+        ExecStart = "${pkgs.forgejo-runner}/bin/forgejo-runner daemon --config /var/lib/forgejo-runner/config.yml";
         Restart = "always";
         RestartSec = "5s";
         StateDirectory = "forgejo-runner";
@@ -75,8 +102,6 @@ in
         SupplementaryGroups = [ "docker" ];
 
         # Hardening
-        CapabilityBoundingSet = "";
-        DeviceAllow = "";
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
         NoNewPrivileges = true;
@@ -101,8 +126,6 @@ in
           "~@keyring"
           "~@memlock"
           "~@obsolete"
-          "~@privileged"
-          "~@setuid"
         ];
       };
     };
@@ -114,5 +137,21 @@ in
     };
 
     users.groups.forgejo-runner = { };
+
+    security.sudo.extraRules = [
+      {
+        users = [ "forgejo-runner" ];
+        commands = [
+          {
+            command = "/run/current-system/sw/bin/systemctl restart docker-dohly-front-test.service";
+            options = [ "NOPASSWD" ];
+          }
+          {
+            command = "/run/current-system/sw/bin/systemctl restart docker-build-dohly-front-test.service";
+            options = [ "NOPASSWD" ];
+          }
+        ];
+      }
+    ];
   };
 }
