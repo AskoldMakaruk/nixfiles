@@ -175,35 +175,14 @@
         "type": "github"
       }
     },
-    "microvm": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ],
-        "spectrum": "spectrum"
-      },
-      "locked": {
-        "lastModified": 1776340739,
-        "narHash": "sha256-s4FDictJlPtY6Shd6scG5hgrDMiHth09+svtvTA5NLA=",
-        "owner": "microvm-nix",
-        "repo": "microvm.nix",
-        "rev": "2f2f62fdfdca2750e3399f66bd03986ab967e5ca",
-        "type": "github"
-      },
-      "original": {
-        "owner": "microvm-nix",
-        "repo": "microvm.nix",
-        "type": "github"
-      }
-    },
     "mysecrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1777885350,
-        "narHash": "sha256-iDfIyfSbeAjr36qqMhGzuzh9sFjseHtgkyL1r74CYA0=",
+        "lastModified": 1777908997,
+        "narHash": "sha256-GYfXB1GhwpDL7Tk6bV9qBkxSZXCkQr7plWI5WBaVjDY=",
         "ref": "refs/heads/master",
-        "rev": "aa6bc8fed9a84ad7a2be2707585110063a346350",
-        "revCount": 46,
+        "rev": "1959f1373c66a54f66c2db04a8e457664e0b0a4e",
+        "revCount": 49,
         "type": "git",
         "url": "file:///home/askold/secrets/"
       },
@@ -383,7 +362,6 @@
         "espanso-fix": "espanso-fix",
         "graphify": "graphify",
         "home-manager": "home-manager_2",
-        "microvm": "microvm",
         "mysecrets": "mysecrets",
         "nixos-generators": "nixos-generators",
         "nixpkgs": "nixpkgs_4",
@@ -392,22 +370,6 @@
         "nixvim": "nixvim",
         "telegram-cli": "telegram-cli",
         "zen-browser": "zen-browser"
-      }
-    },
-    "spectrum": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772189877,
-        "narHash": "sha256-i1p90Rgssb//aNiTDFq46ZG/fk3LmyRLChtp/9lddyA=",
-        "ref": "refs/heads/main",
-        "rev": "fe39e122d898f66e89ffa17d4f4209989ccb5358",
-        "revCount": 1255,
-        "type": "git",
-        "url": "https://spectrum-os.org/git/spectrum"
-      },
-      "original": {
-        "type": "git",
-        "url": "https://spectrum-os.org/git/spectrum"
       }
     },
     "systems": {

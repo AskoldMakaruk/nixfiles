@@ -55,11 +55,6 @@
 
     graphify.url = "git+file:///home/askold/src/graphify";
 
-    microvm = {
-      url = "github:microvm-nix/microvm.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # dohla.url = "git+file:///home/askold/src/DohlaRusnya/";
 
     #unused
@@ -81,7 +76,6 @@
       agenix,
       nixvim,
       graphify,
-      microvm,
       # jbr-overlay,
       # dohla,
       espanso-fix,
@@ -158,11 +152,6 @@
           extraArgs = { inherit pkgs-master pkgs-askold nixpkgs; };
         };
 
-        ai-sandbox = mkHost {
-          host = "ai-sandbox";
-          extraArgs = { inherit kilocode-pkg; };
-          extraModules = [ microvm.nixosModules.microvm ];
-        };
       };
     };
 }

@@ -67,7 +67,11 @@ in
       ];
       wantedBy = [ "multi-user.target" ];
 
-      path = [ pkgs.docker pkgs.nodejs pkgs.git ];
+      path = [
+        pkgs.docker
+        pkgs.nodejs
+        pkgs.git
+      ];
 
       preStart = ''
         export HOME=/var/lib/forgejo-runner
